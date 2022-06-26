@@ -7,3 +7,8 @@ export const addCanister = async (canisterId: string) =>
   update(IDB_KEY_CANISTER_IDS, (canisters: string[] | undefined) => [
     ...new Set([...(canisters ?? []), canisterId])
   ]);
+
+export const removeCanister = async (canisterId: string) =>
+    update(IDB_KEY_CANISTER_IDS, (canisters: string[] | undefined) => [
+        ...(canisters ?? []).filter((id: string) => canisterId !== id)
+    ]);

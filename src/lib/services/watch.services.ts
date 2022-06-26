@@ -8,7 +8,7 @@ import type {
 } from '../types/post-message';
 import {emit} from '../utils/events.utils';
 import {internetIdentityAuth} from '../utils/identity.utils';
-import {addCanister as addCanisterIDB} from './idb.services';
+import {addCanister as addCanisterIDB, removeCanister as removeCanisterIDB} from './idb.services';
 import {notify} from './notification.services';
 
 export const addCanister = async (canisterId: string) => {
@@ -19,10 +19,18 @@ export const addCanister = async (canisterId: string) => {
   emit<PostMessageDataRequest>({message: 'addCanister', detail: {canisterId, internetIdentity}});
 };
 
-const updateCanistersStore = (canister: Canister) =>
+export const removeCanister = async (canister: Canister) => {
+  const {id} = canister;
+
+  await removeCanisterIDB(id);
+
+  updateCanistersStore({canister, method: 'remove'});
+};
+
+const updateCanistersStore = ({canister, method}: {canister: Canister; method: 'add' | 'remove'}) =>
   canistersStore.update((canisters: Canister[] | undefined) => [
     ...(canisters ?? []).filter(({id}: Canister) => id !== canister.id),
-    canister
+    ...(method === 'add' ? [canister] : [])
   ]);
 
 const setCanistersStore = ({canisters}: PostMessageDataResponse) => canistersStore.set(canisters);
@@ -59,7 +67,7 @@ const syncCanister = async ({canister}: PostMessageDataResponse) => {
     throw new Error('Canister not provided.');
   }
 
-  updateCanistersStore(canister);
+  updateCanistersStore({canister, method: 'add'});
 
   await notifyCanisterCycles(canister);
 };

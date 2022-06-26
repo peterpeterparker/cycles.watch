@@ -1,6 +1,5 @@
 <script lang="ts">
   import {authStore} from '../lib/stores/auth.store';
-  import Nav from '../lib/components/core/Nav.svelte';
   import {browser} from '$app/env';
 
   import '$lib/themes/font-faces.scss';
@@ -31,7 +30,5 @@
 {#await syncAuthStore()}
   <!-- TODO spinner -->
 {:then}
-  <Nav />
-
   <slot />
 {/await}

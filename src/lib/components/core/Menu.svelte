@@ -4,9 +4,9 @@
   import IconSignOut from '../icons/IconSignOut.svelte';
   import IconSignIn from '../icons/IconSignIn.svelte';
   import {authSignedInStore, authStore} from '../../stores/auth.store';
-  import IconPlus from '../icons/IconPlus.svelte';
   import {emit} from '../../utils/events.utils';
   import IconGitHub from '../icons/IconGitHub.svelte';
+  import IconSettings from '../icons/IconSettings.svelte';
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -21,25 +21,23 @@
 
   const signIn = async () => await authStore.signIn();
   const signOut = async () => await authStore.signOut();
-  const add = async () => emit<void>({message: 'openAddCanister'});
 </script>
 
-<button class="toolbar" on:click={() => (visible = true)} bind:this={button}>
+<button
+  class="toolbar"
+  on:click={() => (visible = true)}
+  bind:this={button}
+  title="Open to access more features">
   <IconMenu slot="icon" />
   <span class="visually-hidden">Menu</span>
 </button>
 
 <Popover bind:visible anchor={button}>
   {#if $authSignedInStore}
-    <button
-      type="button"
-      role="menuitem"
-      aria-haspopup="menu"
-      class="menu"
-      on:click={async () => await onAction(add)}>
-      <IconPlus />
-      <span>Add canister</span>
-    </button>
+    <a aria-label="Settings" href="/settings" class="menu" aria-haspopup="menu">
+      <IconSettings />
+      <span>Settings</span>
+    </a>
 
     <button
       type="button"

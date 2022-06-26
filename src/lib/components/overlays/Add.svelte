@@ -18,7 +18,7 @@
 
 {#if open}
   <Modal on:papyClose={close}>
-    <h3>Add canister</h3>
+    <h3>Add a canister</h3>
 
     {#if step === 'controller'}
       <div in:fly={{x: 200, duration: 200}}>
