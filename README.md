@@ -7,6 +7,8 @@
 
   <br/>
 
+[![GitHub release](https://img.shields.io/github/release/papyrs/papyrs/all?logo=GitHub&style=flat-square)](https://github.com/papyrs/cycles.watch/releases/latest)
+
 </div>
 
 ## Cycles.watch
