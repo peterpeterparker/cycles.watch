@@ -32,7 +32,7 @@
   onDestroy(() => syncWorker?.postMessage({msg: 'stopCyclesTimer'}));
 
   const addCanister = ({detail}: CustomEvent<string>) =>
-      syncWorker?.postMessage({msg: 'addCanister', data: detail});
+    syncWorker?.postMessage({msg: 'addCanister', data: detail});
 </script>
 
 <svelte:window on:addCanister={addCanister} />

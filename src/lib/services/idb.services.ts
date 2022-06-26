@@ -9,6 +9,6 @@ export const addCanister = async (canisterId: string) =>
   ]);
 
 export const removeCanister = async (canisterId: string) =>
-    update(IDB_KEY_CANISTER_IDS, (canisters: string[] | undefined) => [
-        ...(canisters ?? []).filter((id: string) => canisterId !== id)
-    ]);
+  update(IDB_KEY_CANISTER_IDS, (canisters: string[] | undefined) => [
+    ...(canisters ?? []).filter((id: string) => canisterId !== id)
+  ]);
