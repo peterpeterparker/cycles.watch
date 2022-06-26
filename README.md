@@ -11,7 +11,7 @@
 
 ## Cycles.watch
 
-[Cycles.watch] tracks the cycles' consumption of your canisters (on the [Internet Computer](https://internetcomputer.org/)). It refreshes their state (every 5 minutes) and notifies when they are about to get out of resources.
+[Cycles.watch] tracks the cycles' consumption of your canisters (on the [Internet Computer](https://internetcomputer.org/)). It refreshes periodically their state and notifies you when they are about to get out of resources.
 
 Its usage is anonymous and settings are saved offline - i.e. in your browser ([IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)).
 
