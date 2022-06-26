@@ -5,11 +5,11 @@
   import {authSignedInStore} from '../../stores/auth.store';
   import {canistersStore} from '../../stores/canisters.store';
   import Canister from './Canister.svelte';
-  import {emit} from '../../utils/events.utils';
   import Spinner from '../ui/Spinner.svelte';
   import {onWorkerMessage} from '../../services/watch.services';
   import {requestNotificationPermission} from '../../services/notification.services';
   import AddCanister from "./AddCanister.svelte";
+  import NoCanister from "./NoCanister.svelte";
 
   let syncWorker: Worker | undefined = undefined;
 
@@ -36,8 +36,6 @@
 
   onDestroy(() => syncWorker?.postMessage({msg: 'stopCyclesTimer'}));
 
-  const watch = async () => emit<void>({message: 'openAddCanister'});
-
   const addCanister = ({detail}: CustomEvent<string>) =>
     syncWorker?.postMessage({msg: 'addCanister', data: detail});
 </script>
@@ -48,10 +46,7 @@
   <Spinner />
 {:else if $canistersStore.length === 0}
   <section>
-    <p>
-      No canisters to watch for. <button class="text" on:click={watch}>Add one</button> to your watchlist
-      to get started!
-    </p>
+    <NoCanister />
   </section>
 {:else}
   <section class="grid">
