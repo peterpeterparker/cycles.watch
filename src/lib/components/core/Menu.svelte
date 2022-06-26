@@ -7,6 +7,7 @@
   import {emit} from '../../utils/events.utils';
   import IconGitHub from '../icons/IconGitHub.svelte';
   import IconSettings from '../icons/IconSettings.svelte';
+  import {goto} from '$app/navigation';
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -34,10 +35,15 @@
 
 <Popover bind:visible anchor={button}>
   {#if $authSignedInStore}
-    <a aria-label="Settings" href="/settings" class="menu" aria-haspopup="menu">
+    <button
+      type="button"
+      role="menuitem"
+      aria-haspopup="menu"
+      class="menu"
+      on:click={async () => await goto('/settings')}>
       <IconSettings />
       <span>Settings</span>
-    </a>
+    </button>
 
     <button
       type="button"

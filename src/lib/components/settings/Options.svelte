@@ -26,7 +26,7 @@
   };
 </script>
 
-{#if timer !== undefined}
+{#if timer !== undefined && warn !== undefined}
   <section>
     <h2>Options</h2>
 

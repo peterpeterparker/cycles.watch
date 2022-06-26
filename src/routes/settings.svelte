@@ -15,7 +15,7 @@
     <section>
       <h1>Settings</h1>
 
-      <p>Your local settings on <a href="/">Cycles.watch</a>.</p>
+      <p>Your local settings on <strong>Cycles.watch</strong>.</p>
     </section>
 
     <Settings />
