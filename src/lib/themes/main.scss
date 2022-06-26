@@ -1,0 +1,38 @@
+@use "./mixins/section";
+
+main {
+  padding: var(--nav-height) 0 1.45rem;
+  height: 100vh;
+  overflow-y: auto;
+
+  @media (min-width: 768px) {
+    margin: 0;
+  }
+}
+
+section,
+header {
+  margin: 1.45rem auto;
+  @include section.width;
+}
+
+nav {
+  padding: 0 0.45rem;
+  margin: 0;
+
+  position: fixed;
+
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: calc(var(--z-index) + 996);
+
+  @media (min-width: 768px) {
+    padding: 0 0.25rem;
+    margin: 0;
+  }
+
+  @media (min-width: 1140px) {
+    margin: 0.75rem;
+  }
+}

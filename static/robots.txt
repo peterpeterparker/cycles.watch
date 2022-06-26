@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://cycles.watch/sitemap/sitemap-index.xml
+Host: https://cycles.watch
