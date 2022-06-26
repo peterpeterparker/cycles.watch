@@ -24,7 +24,7 @@
   const add = async () => emit<void>({message: 'openAddCanister'});
 </script>
 
-<button class="toolbar" on:click={() => (visible = true)} bind:this={button}>
+<button class="toolbar" on:click={() => (visible = true)} bind:this={button} title="Open to access features">
   <IconMenu slot="icon" />
   <span class="visually-hidden">Menu</span>
 </button>

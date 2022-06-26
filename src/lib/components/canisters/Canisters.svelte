@@ -9,6 +9,7 @@
   import Spinner from '../ui/Spinner.svelte';
   import {onWorkerMessage} from '../../services/watch.services';
   import {requestNotificationPermission} from '../../services/notification.services';
+  import AddCanister from "./AddCanister.svelte";
 
   let syncWorker: Worker | undefined = undefined;
 
@@ -57,6 +58,7 @@
     {#each $canistersStore as canister (canister.id)}
       <Canister {canister} />
     {/each}
+    <AddCanister />
   </section>
 {/if}
 
