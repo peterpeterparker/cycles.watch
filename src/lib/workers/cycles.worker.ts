@@ -1,11 +1,11 @@
 import type {Identity} from '@dfinity/agent';
-import {TIMER_INTERVAL, WARN_TCYCLES} from '../constants/settings';
 import {icpXdrConversionRate} from '../services/cmc.services';
 import {canisterStatus} from '../services/ic.services';
-import {listCanisters} from '../services/idb.services';
+import {getSettings, listCanisters} from '../services/idb.services';
 import type {Canister} from '../types/canister';
 import type {InternetIdentityAuth} from '../types/identity';
 import type {PostMessageDataRequest, PostMessageSync} from '../types/post-message';
+import type {Settings} from '../types/settings';
 import {cyclesToICP, formatTCycles} from '../utils/cycles.utils';
 import {initIdentity} from '../utils/identity.utils';
 
@@ -19,12 +19,14 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
 
   const {internetIdentity, canisterId} = data;
 
+  const settings: Settings = await getSettings();
+
   switch (msg) {
     case 'startCyclesTimer':
-      await startCyclesTimer(internetIdentity);
+      await startCyclesTimer({internetIdentity, settings});
       return;
     case 'addCanister':
-      await addCanister({canisterId, internetIdentity});
+      await addCanister({canisterId, internetIdentity, settings});
       return;
   }
 };
@@ -47,15 +49,23 @@ const parseIdentity = (internetIdentity?: InternetIdentityAuth): Identity => {
   return initIdentity({identityKey, delegationChain});
 };
 
-const startCyclesTimer = async (internetIdentity?: InternetIdentityAuth) => {
+const startCyclesTimer = async ({
+  internetIdentity,
+  settings
+}: {
+  internetIdentity?: InternetIdentityAuth;
+  settings: Settings;
+}) => {
   const identity: Identity = parseIdentity(internetIdentity);
 
-  const sync = async () => await syncCanisters(identity);
+  const sync = async () => await syncCanisters({identity, settings});
 
   // We sync the cycles now but also schedule the update afterwards
   await sync();
 
-  timer = setInterval(sync, TIMER_INTERVAL);
+  const {timerInterval}: Settings = settings;
+
+  timer = setInterval(sync, timerInterval);
 };
 
 const stopCyclesTimer = async () => {
@@ -67,7 +77,7 @@ const stopCyclesTimer = async () => {
   timer = undefined;
 };
 
-const syncCanisters = async (identity: Identity) => {
+const syncCanisters = async ({identity, settings}: {identity: Identity; settings: Settings}) => {
   const canisterIds: string[] = await listCanisters();
 
   // Update ui with the list of canisters about to be synced
@@ -78,15 +88,19 @@ const syncCanisters = async (identity: Identity) => {
     }
   });
 
-  await Promise.all(canisterIds.map((canisterId: string) => syncCanister({identity, canisterId})));
+  await Promise.all(
+    canisterIds.map((canisterId: string) => syncCanister({identity, canisterId, settings}))
+  );
 };
 
 const addCanister = async ({
   canisterId,
-  internetIdentity
+  internetIdentity,
+  settings
 }: {
   canisterId: string | undefined;
   internetIdentity?: InternetIdentityAuth;
+  settings: Settings;
 }) => {
   if (!canisterId) {
     throw new Error('Canister id unknown');
@@ -105,7 +119,7 @@ const addCanister = async ({
     }
   });
 
-  await syncCanister({identity, canisterId});
+  await syncCanister({identity, canisterId, settings});
 };
 
 // Update ui with one canister information
@@ -117,7 +131,15 @@ const emitCanister = (canister: Canister) =>
     }
   });
 
-const syncCanister = async ({identity, canisterId}: {identity: Identity; canisterId: string}) => {
+const syncCanister = async ({
+  identity,
+  canisterId,
+  settings: {warnTCycles}
+}: {
+  identity: Identity;
+  canisterId: string;
+  settings: Settings;
+}) => {
   try {
     const [canisterInfo, trillionRatio] = await Promise.all([
       canisterStatus({canisterId, identity}),
@@ -136,7 +158,7 @@ const syncCanister = async ({identity, canisterId}: {identity: Identity; caniste
         memory_size,
         cycles,
         icp: cyclesToICP({cycles, trillionRatio}),
-        cyclesStatus: tCycles < 0 ? 'error' : tCycles < WARN_TCYCLES ? 'warn' : 'ok'
+        cyclesStatus: tCycles < 0 ? 'error' : tCycles < warnTCycles ? 'warn' : 'ok'
       }
     };
 
