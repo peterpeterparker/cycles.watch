@@ -11,6 +11,8 @@
 
   @include shadow.strong;
 
+  border-color: transparent;
+
   @if $tappable {
     @include interaction.tappable;
 
