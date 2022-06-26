@@ -55,6 +55,10 @@
   }
 
   p {
-    margin-bottom: 0.45rem;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    margin-top: 2.75rem;
   }
 </style>

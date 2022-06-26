@@ -60,7 +60,7 @@
   }
 
   h2 {
-    margin-top: 1.75rem;
+    margin-top: 2.75rem;
   }
 
   p {

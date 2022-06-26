@@ -56,4 +56,8 @@
   .actions {
     margin-top: 0.75rem;
   }
+
+  input {
+    margin: 0 0 0.45rem;
+  }
 </style>
