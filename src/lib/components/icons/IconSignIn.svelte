@@ -1,20 +1,12 @@
-<!-- CC BY-NC-SA - Didier Renaud - https://www.customfuture.com/ -->
-<svg width="30px" height="20px" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
-  <g id="b">
-    <g id="c">
-      <g>
-        <rect id="d" x="0" y="0" width="30" height="20" style="fill:none;" />
-        <g>
-          <path
-            d="M20.32,10L13.5,3.18L12.09,4.6L16.49,9L2,9L2,11L16.49,11L12.09,15.4L13.5,16.82L20.32,10Z"
-            style="fill-rule:nonzero;" />
-        </g>
-      </g>
-    </g>
-  </g>
-  <g id="e" transform="matrix(1,0,0,1,-0.965,0)">
-    <path
-      d="M25.95,20L5.98,20L5.98,14.48L7.98,14.48L7.98,18L23.95,18L23.95,2.02L7.98,2.02L7.98,5.55L5.98,5.55L5.98,0.02L25.95,0.02L25.95,20Z"
-      style="fill-rule:nonzero;" />
-  </g>
-</svg>
+<!-- https://fonts.google.com/icons?selected=Material%20Icons%20Sharp%3Alogin%3A -->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  enable-background="new 0 0 24 24"
+  height="24px"
+  viewBox="0 0 24 24"
+  width="24px"
+  fill="currentColor"
+  ><g><rect fill="none" height="24" width="24" /></g><g
+    ><path
+      d="M11,7L9.6,8.4l2.6,2.6H2v2h10.2l-2.6,2.6L11,17l5-5L11,7z M20,19h-8v2h10V3H12v2h8V19z" /></g
+  ></svg>
