@@ -119,9 +119,12 @@ const emitCanister = (canister: Canister) =>
 
 const syncCanister = async ({identity, canisterId}: {identity: Identity; canisterId: string}) => {
   try {
-    const {cycles, status, memory_size} = await canisterStatus({canisterId, identity});
+    const [canisterInfo, trillionRatio] = await Promise.all([
+      canisterStatus({canisterId, identity}),
+      icpXdrConversionRate()
+    ]);
 
-    const trillionRatio = await icpXdrConversionRate();
+    const {cycles, status, memory_size} = canisterInfo;
 
     const tCycles = Number(formatTCycles(cycles));
 
