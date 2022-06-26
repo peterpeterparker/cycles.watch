@@ -8,7 +8,11 @@
   let button: HTMLButtonElement | undefined;
 </script>
 
-<button class="toolbar" on:click={() => (visible = true)} bind:this={button} title="Open for some information">
+<button
+  class="toolbar"
+  on:click={() => (visible = true)}
+  bind:this={button}
+  title="Open for some information">
   <IconInfo slot="icon" />
   <span class="visually-hidden">Information</span>
 </button>

@@ -2,8 +2,8 @@
   import {authSignedInStore} from '../lib/stores/auth.store';
   import SignIn from '../lib/components/core/SignIn.svelte';
   import Add from '../lib/components/overlays/Add.svelte';
-  import Settings from "../lib/components/core/Settings.svelte";
-  import Back from "../lib/components/core/Back.svelte";
+  import Settings from '../lib/components/core/Settings.svelte';
+  import Back from '../lib/components/core/Back.svelte';
 </script>
 
 <Back />
