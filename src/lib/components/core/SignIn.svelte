@@ -14,7 +14,8 @@
       <a href="https://internetcomputer.org/" rel="external noopener norefferer"
         >Internet Computer</a
       >)</small
-    >. It refreshes periodically their state and notifies you when they are about to get out of resources.
+    >. It refreshes periodically their state and notifies you when they are about to get out of
+    resources.
   </p>
 
   <p>

@@ -2,11 +2,12 @@
   import NoCanister from '../canisters/NoCanister.svelte';
   import IconClose from '../icons/IconClose.svelte';
   import AddCanister from '../canisters/AddCanister.svelte';
-  import Worker from './Worker.svelte';
+  import Worker from '../core/Worker.svelte';
   import {canistersStore} from '../../stores/canisters.store';
   import type {Canister} from '../../types/canister';
   import {removeCanister} from '../../services/watch.services';
   import Spinner from '../ui/Spinner.svelte';
+  import Options from './Options.svelte';
 
   const remove = (canister: Canister) => removeCanister(canister);
 </script>
@@ -19,6 +20,8 @@
       <h2>Canisters</h2>
 
       <NoCanister />
+
+      <Options />
     </section>
   {:else}
     <section>
@@ -41,6 +44,8 @@
 
       <AddCanister display="inline" />
     </section>
+
+    <Options />
   {/if}
 </Worker>
 
