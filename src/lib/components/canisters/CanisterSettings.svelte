@@ -5,9 +5,15 @@
   import AddCanister from './AddCanister.svelte';
   import Worker from '../core/Worker.svelte';
   import {canistersStore} from '../../stores/canisters.store';
+  import type {Canister} from '../../types/canister';
+  import {removeCanister} from '../../services/watch.services';
+
+  const remove = (canister: Canister) => removeCanister(canister);
 </script>
 
 <h2>Canisters</h2>
+
+<p>The list of canisters which should be observed.</p>
 
 <Worker>
   {#if $canistersStore === undefined}
@@ -21,7 +27,11 @@
   {:else}
     {#each $canistersStore as canister (canister.id)}
       <div class="canister">
-        <button class="icon" aria-label="Remove canister">
+        <button
+          type="button"
+          class="icon"
+          aria-label="Remove canister"
+          on:click={() => remove(canister)}>
           <IconClose />
         </button>
         {canister.id}
@@ -44,5 +54,9 @@
 
   h2 {
     margin-top: 1.75rem;
+  }
+
+  p {
+    margin-bottom: 0.75rem;
   }
 </style>
