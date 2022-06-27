@@ -11,6 +11,13 @@ export interface AuthStore {
 // e.g. BigInt(7 * 24 * 60 * 60 * 1000 * 1000 * 1000) = 7 days in nanoseconds
 const maxTimeToLive = BigInt(7 * 24 * 60 * 60 * 1000 * 1000 * 1000);
 
+const createAuthClient = (): Promise<AuthClient> => AuthClient.create({
+  idleOptions: {
+    disableIdle: true,
+    disableDefaultIdleCallback: true
+  }
+})
+
 const initAuthStore = () => {
   const {subscribe, set, update} = writable<AuthStore>({
     identity: undefined
@@ -20,7 +27,7 @@ const initAuthStore = () => {
     subscribe,
 
     sync: async () => {
-      const authClient: AuthClient = await AuthClient.create();
+      const authClient: AuthClient = await createAuthClient();
       const isAuthenticated: boolean = await authClient.isAuthenticated();
 
       set({
@@ -29,34 +36,29 @@ const initAuthStore = () => {
     },
 
     signIn: () =>
-      new Promise<void>((resolve, reject) => {
-        AuthClient.create({
-          idleOptions: {
-            disableIdle: true,
-            disableDefaultIdleCallback: true
-          }
-        }).then((authClient: AuthClient) => {
-          authClient.login({
-            maxTimeToLive,
-            onSuccess: () => {
-              update((state: AuthStore) => ({
-                ...state,
-                identity: authClient.getIdentity()
-              }));
+      new Promise<void>(async (resolve, reject) => {
+        const authClient: AuthClient = await createAuthClient();
 
-              resolve();
-            },
-            onError: reject,
-            ...(localIdentityCanisterId !== null &&
+        await authClient.login({
+          maxTimeToLive,
+          onSuccess: () => {
+            update((state: AuthStore) => ({
+              ...state,
+              identity: authClient.getIdentity()
+            }));
+
+            resolve();
+          },
+          onError: reject,
+          ...(localIdentityCanisterId !== null &&
               localIdentityCanisterId !== undefined && {
                 identityProvider: `http://${localIdentityCanisterId}.localhost:8000?#authorize`
               })
-          });
         });
       }),
 
     signOut: async () => {
-      const authClient: AuthClient = await AuthClient.create();
+      const authClient: AuthClient = await createAuthClient();
 
       await authClient.logout();
 
