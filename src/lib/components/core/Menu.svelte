@@ -4,7 +4,6 @@
   import IconSignOut from '../icons/IconSignOut.svelte';
   import IconSignIn from '../icons/IconSignIn.svelte';
   import {authSignedInStore, authStore} from '../../stores/auth.store';
-  import {emit} from '../../utils/events.utils';
   import IconGitHub from '../icons/IconGitHub.svelte';
   import IconSettings from '../icons/IconSettings.svelte';
   import {goto} from '$app/navigation';

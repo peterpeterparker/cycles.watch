@@ -14,7 +14,7 @@
   const handleSubmit = async ($event: MouseEvent | TouchEvent) => {
     $event.preventDefault();
 
-    if (!validConfirm) {
+    if (!validConfirm || canisterId === undefined) {
       return;
     }
 
