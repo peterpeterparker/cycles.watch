@@ -16,7 +16,9 @@ export const notify = async ({title, options}: {title: string; options?: Notific
   }
 
   try {
-    new Notification(title, options);
+    const notification = new Notification(title, options);
+
+    notification.onclick = () => window.focus();
   } catch (err) {
     console.error('Notification cannot be displayed', err);
   }
