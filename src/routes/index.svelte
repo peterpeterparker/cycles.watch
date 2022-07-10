@@ -1,19 +1,19 @@
 <script lang="ts">
-  import {authSignedInStore} from '../lib/stores/auth.store';
-  import SignIn from '../lib/components/core/SignIn.svelte';
   import Canisters from '../lib/components/canisters/Canisters.svelte';
   import Add from '../lib/components/overlays/Add.svelte';
   import Toolbar from '../lib/components/core/Toolbar.svelte';
+  import Welcome from "../lib/components/core/Welcome.svelte";
+  import {canistersInitialized} from "../lib/stores/canisters.store";
 </script>
 
 <Toolbar />
 
 <main>
-  {#if !$authSignedInStore}
-    <SignIn />
+  {#if !$canistersInitialized}
+    <Welcome />
   {:else}
     <Canisters />
-
-    <Add />
   {/if}
+
+  <Add />
 </main>

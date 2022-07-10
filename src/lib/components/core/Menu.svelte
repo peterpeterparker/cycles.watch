@@ -4,7 +4,6 @@
   import IconSignOut from '../icons/IconSignOut.svelte';
   import IconSignIn from '../icons/IconSignIn.svelte';
   import {authSignedInStore, authStore} from '../../stores/auth.store';
-  import IconGitHub from '../icons/IconGitHub.svelte';
   import IconSettings from '../icons/IconSettings.svelte';
   import {goto} from '$app/navigation';
 
@@ -64,18 +63,6 @@
       <span>Sign in</span>
     </button>
   {/if}
-
-  <hr />
-
-  <a
-    aria-label="Cycles.watch in open source - Repo on GitHub"
-    href="https://github.com/papyrs/cycles.watch"
-    class="menu"
-    aria-haspopup="menu"
-    rel="external noopener norefferer">
-    <IconGitHub />
-    <span>GitHub</span>
-  </a>
 </Popover>
 
 <style lang="scss">
