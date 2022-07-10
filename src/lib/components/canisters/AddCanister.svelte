@@ -1,7 +1,7 @@
 <script lang="ts">
   import IconPlus from '../icons/IconPlus.svelte';
   import {emitAddCanister} from '../../utils/events.utils';
-  import Button from "../ui/Button.svelte";
+  import Button from '../ui/Button.svelte';
 
   export let display: 'inline' | 'card' = 'card';
 </script>

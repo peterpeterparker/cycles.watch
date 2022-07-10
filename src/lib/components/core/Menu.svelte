@@ -6,7 +6,7 @@
   import {authSignedInStore, authStore} from '../../stores/auth.store';
   import IconSettings from '../icons/IconSettings.svelte';
   import {goto} from '$app/navigation';
-  import {canistersEmpty} from "../../stores/canisters.store";
+  import {canistersEmpty} from '../../stores/canisters.store';
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -34,11 +34,11 @@
 
 <Popover bind:visible anchor={button}>
   <button
-          type="button"
-          role="menuitem"
-          aria-haspopup="menu"
-          class="menu"
-          on:click={async () => await goto('/settings')}>
+    type="button"
+    role="menuitem"
+    aria-haspopup="menu"
+    class="menu"
+    on:click={async () => await goto('/settings')}>
     <IconSettings />
     <span>Settings</span>
   </button>

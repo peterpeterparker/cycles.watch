@@ -11,8 +11,8 @@
   import '$lib/themes/link.scss';
   import '$lib/themes/main.scss';
   import '$lib/themes/input.scss';
-  import Worker from "../lib/components/core/Worker.svelte";
-  import Add from "../lib/components/overlays/Add.svelte";
+  import Worker from '../lib/components/core/Worker.svelte';
+  import Add from '../lib/components/overlays/Add.svelte';
 
   const syncAuthStore = async () => {
     if (!browser) {

@@ -30,10 +30,10 @@
     {#each $canistersStore.canisters as canister (canister.id)}
       <div class="canister">
         <button
-                type="button"
-                class="icon"
-                aria-label="Remove canister"
-                on:click={() => remove(canister)}>
+          type="button"
+          class="icon"
+          aria-label="Remove canister"
+          on:click={() => remove(canister)}>
           <IconClose />
         </button>
         {canister.id}

@@ -1,4 +1,4 @@
-import {type CanistersStore, canistersStore} from '../stores/canisters.store';
+import {canistersStore, type CanistersStore} from '../stores/canisters.store';
 import type {Canister} from '../types/canister';
 import type {InternetIdentityAuth} from '../types/identity';
 import type {

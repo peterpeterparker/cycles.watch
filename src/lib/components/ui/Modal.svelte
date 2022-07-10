@@ -39,7 +39,8 @@
             ><IconBack /></button>
         {/if}
         <h3 id="modalTitle"><slot name="title" /></h3>
-        <button on:click|stopPropagation={close} aria-label="Close" class="close"><IconClose /></button>
+        <button on:click|stopPropagation={close} aria-label="Close" class="close"
+          ><IconClose /></button>
       </div>
 
       <div class="content" id="modalContent">

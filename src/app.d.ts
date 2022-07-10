@@ -13,11 +13,11 @@ declare const VITE_APP_VERSION: string;
 
 // eslint window checks for custom events
 declare namespace svelte.JSX {
-    interface HTMLAttributes<T> {
-        onsubmit?: (event: any) => any;
-        onopenAddCanister?: (event: any) => any;
-        onaddCanister?: (event: any) => any;
-    }
+  interface HTMLAttributes<T> {
+    onsubmit?: (event: any) => any;
+    onopenAddCanister?: (event: any) => any;
+    onaddCanister?: (event: any) => any;
+  }
 }
 
 /* eslint-enable */

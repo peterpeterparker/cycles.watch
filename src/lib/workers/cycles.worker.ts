@@ -84,7 +84,13 @@ const stopCyclesTimer = async () => {
   timer = undefined;
 };
 
-const syncCanisters = async ({identity, settings}: {identity: Identity | undefined; settings: Settings}) => {
+const syncCanisters = async ({
+  identity,
+  settings
+}: {
+  identity: Identity | undefined;
+  settings: Settings;
+}) => {
   const canisterIds: string[] = await listCanisters();
 
   // Update ui with the list of canisters about to be synced
