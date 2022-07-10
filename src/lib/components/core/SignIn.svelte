@@ -8,7 +8,7 @@
 
 <section>
   <p>
-    <strong>Cycles.watch</strong> tracks the cycles' consumption of your canisters
+    <strong>Cycles.watch</strong> tracks the cycles' consumption of canister smart contracts
     <small
       >(on the
       <a href="https://internetcomputer.org/" rel="external noopener norefferer"
