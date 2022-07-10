@@ -1,7 +1,8 @@
 <script lang="ts">
-  import {authStore} from '../../stores/auth.store';
+  import {authSignedInStore, authStore} from '../../stores/auth.store';
   import {createEventDispatcher} from 'svelte';
   import Copy from '../ui/Copy.svelte';
+  import SignIn from "../core/SignIn.svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -13,6 +14,12 @@
   To add a canister to your watchlist, your principal ID on <strong>Cycles.watch</strong> must be one
   its controller because querying the state of smart contracts is not public on the Internet Computer.
 </p>
+
+{#if !$authSignedInStore}
+  <p>That is why, to get started, you first need to sign-in.</p>
+
+  <SignIn />
+{:else}
 
 <p>
   Add following principal ID to the controllers with <a
@@ -37,6 +44,8 @@
 <button type="button" on:click|stopPropagation={() => dispatch('papyCancel')}> Cancel </button>
 
 <button type="button" on:click|stopPropagation={() => dispatch('papyNext')}> Next </button>
+
+  {/if}
 
 <style lang="scss">
   p:first-of-type {

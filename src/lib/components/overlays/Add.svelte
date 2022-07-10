@@ -3,14 +3,15 @@
   import CanisterId from '../canisters/CanisterId.svelte';
   import {fly} from 'svelte/transition';
   import Modal from '../ui/Modal.svelte';
+  import CanisterType from '../canisters/CanisterType.svelte';
 
   let open = false;
 
-  let step: 'controller' | 'canister_id' = 'controller';
+  let step: 'type' | 'controller' | 'canister_id' | 'canister_root_id' = 'type';
 
   const close = () => {
     open = false;
-    step = 'controller';
+    step = 'type';
   };
 </script>
 
@@ -20,7 +21,14 @@
   <Modal on:papyClose={close}>
     <h3>Add a canister</h3>
 
-    {#if step === 'controller'}
+    {#if step === 'type'}
+      <div in:fly={{x: 200, duration: 200}}>
+        <CanisterType
+          on:papyCancel={close}
+          on:papyAddCanister={() => (step = 'controller')}
+          on:papyAddSns={() => (step = 'canister_root_id')} />
+      </div>
+    {:else if step === 'controller'}
       <div in:fly={{x: 200, duration: 200}}>
         <Controller on:papyCancel={close} on:papyNext={() => (step = 'canister_id')} />
       </div>
