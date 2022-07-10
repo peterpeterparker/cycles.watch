@@ -4,6 +4,7 @@
   import {onWorkerMessage} from '../../services/watch.services';
   import {onDestroy, onMount} from 'svelte';
   import {requestNotificationPermission} from '../../services/notification.services';
+  import {authSignedInStore} from '../../stores/auth.store';
 
   export let syncWorker: Worker | undefined = undefined;
 
@@ -18,16 +19,27 @@
     syncWorker.postMessage({msg: 'startCyclesTimer', data: {internetIdentity}});
   };
 
+  const stopTimer = () => syncWorker?.postMessage({msg: 'stopCyclesTimer'});
+
   onMount(async () => {
     await requestNotificationPermission();
 
     await startTimer();
   });
 
-  onDestroy(() => syncWorker?.postMessage({msg: 'stopCyclesTimer'}));
+  onDestroy(stopTimer);
 
   const addCanister = ({detail}: CustomEvent<string>) =>
     syncWorker?.postMessage({msg: 'addCanister', data: detail});
+
+  $: $authSignedInStore, (() => {
+      if (!$authSignedInStore) {
+          return;
+      }
+
+      stopTimer();
+      startTimer();
+  })()
 </script>
 
 <svelte:window on:addCanister={addCanister} />

@@ -103,6 +103,12 @@ const syncCanisters = async ({
 
   if (!identity) {
     // not signed in, therefore cannot sync canisters
+    postMessage({
+      msg: 'initCanisters',
+      data: {
+        canisters: canisterIds.map((canisterId: string) => ({id: canisterId, status: 'auth'}))
+      }
+    });
     return;
   }
 
@@ -139,6 +145,15 @@ const addCanister = async ({
 
   if (!identity) {
     // not signed in, therefore cannot sync canisters
+    postMessage({
+      msg: 'syncCanister',
+      data: {
+        canister: {
+          id: canisterId,
+          status: 'auth'
+        }
+      }
+    });
     return;
   }
 

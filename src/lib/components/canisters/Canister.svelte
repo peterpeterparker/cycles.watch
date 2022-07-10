@@ -47,6 +47,10 @@
     <CanisterInfo canisterId={id}>
       <svelte:fragment slot="title">Sync error❗️</svelte:fragment>
     </CanisterInfo>
+  {:else if syncStatus === 'auth'}
+    <CanisterInfo canisterId={id}>
+      <svelte:fragment slot="title">Sign-in required 🔐️</svelte:fragment>
+    </CanisterInfo>
   {:else}
     <CanisterSkeleton />
   {/if}
