@@ -1,9 +1,17 @@
 import {derived, writable} from 'svelte/store';
 import type {Canister} from '../types/canister';
 
-export const canistersStore = writable<Canister[] | undefined>(undefined);
+export interface CanistersStore {
+    initialized: boolean;
+    canisters: Canister[]
+}
 
-export const canistersInitialized = derived(
+export const canistersStore = writable<CanistersStore>({
+    initialized: false,
+    canisters: []
+});
+
+export const canistersEmpty = derived(
   canistersStore,
-  ($canisters) => $canisters !== undefined
+  ($canisters) => $canisters.canisters.length === 0 && $canisters.initialized
 );

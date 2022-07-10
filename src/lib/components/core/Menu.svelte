@@ -6,7 +6,7 @@
   import {authSignedInStore, authStore} from '../../stores/auth.store';
   import IconSettings from '../icons/IconSettings.svelte';
   import {goto} from '$app/navigation';
-  import {canistersInitialized} from "../../stores/canisters.store";
+  import {canistersEmpty} from "../../stores/canisters.store";
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -53,7 +53,7 @@
       <IconSignOut />
       <span>Sign out</span>
     </button>
-  {:else if $canistersInitialized}
+  {:else if $canistersEmpty}
     <button
       type="button"
       role="menuitem"

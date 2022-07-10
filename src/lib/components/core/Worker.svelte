@@ -4,7 +4,6 @@
   import {onWorkerMessage} from '../../services/watch.services';
   import {onDestroy, onMount} from 'svelte';
   import {requestNotificationPermission} from '../../services/notification.services';
-  import {authSignedInStore} from '../../stores/auth.store';
 
   export let syncWorker: Worker | undefined = undefined;
 
@@ -21,10 +20,6 @@
 
   onMount(async () => {
     await requestNotificationPermission();
-
-    if (!$authSignedInStore) {
-      return;
-    }
 
     await startTimer();
   });

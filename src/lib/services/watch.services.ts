@@ -1,4 +1,4 @@
-import {canistersStore} from '../stores/canisters.store';
+import {type CanistersStore, canistersStore} from '../stores/canisters.store';
 import type {Canister} from '../types/canister';
 import type {InternetIdentityAuth} from '../types/identity';
 import type {
@@ -28,12 +28,19 @@ export const removeCanister = async (canister: Canister) => {
 };
 
 const updateCanistersStore = ({canister, method}: {canister: Canister; method: 'add' | 'remove'}) =>
-  canistersStore.update((canisters: Canister[] | undefined) => [
-    ...(canisters ?? []).filter(({id}: Canister) => id !== canister.id),
-    ...(method === 'add' ? [canister] : [])
-  ]);
+  canistersStore.update(({canisters}: CanistersStore) => ({
+    initialized: true,
+    canisters: [
+      ...(canisters ?? []).filter(({id}: Canister) => id !== canister.id),
+      ...(method === 'add' ? [canister] : [])
+    ]
+  }));
 
-const setCanistersStore = ({canisters}: PostMessageDataResponse) => canistersStore.set(canisters);
+const setCanistersStore = ({canisters}: PostMessageDataResponse) =>
+  canistersStore.set({
+    initialized: true,
+    canisters: canisters ?? []
+  });
 
 const notifyCanisterCycles = async (canister: Canister) => {
   const {data, id, status} = canister;

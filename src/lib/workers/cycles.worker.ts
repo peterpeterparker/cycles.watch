@@ -1,4 +1,6 @@
 import type {Identity} from '@dfinity/agent';
+import {isDelegationValid} from '@dfinity/authentication';
+import {DelegationChain} from '@dfinity/identity';
 import {icpXdrConversionRate} from '../services/cmc.services';
 import {canisterStatus} from '../services/ic.services';
 import {getSettings, listCanisters} from '../services/idb.services';
@@ -33,17 +35,22 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
 
 let timer: NodeJS.Timeout | undefined = undefined;
 
-const parseIdentity = (internetIdentity?: InternetIdentityAuth): Identity => {
+const parseIdentity = (internetIdentity?: InternetIdentityAuth): Identity | undefined => {
+  // No internet identity for the worker to fetch the canister' cycles
   if (!internetIdentity) {
-    console.error('No internet identity for the worker to fetch the cycles');
-    throw new Error('No internet identity for the worker to fetch the cycles');
+    return undefined;
   }
 
   const {identityKey, delegationChain} = internetIdentity;
 
+  // No identity key or delegation key for the worker to fetch the cycles
   if (!identityKey || !delegationChain) {
-    console.error('No identity key or delegation key for the worker to fetch the cycles');
-    throw new Error('No identity key or delegation key for the worker to fetch the cycles');
+    return undefined;
+  }
+
+  if (!isDelegationValid(DelegationChain.fromJSON(delegationChain))) {
+    console.error('Internet identity has expired. Please login again.');
+    throw new Error('Internet identity has expired. Please login again.');
   }
 
   return initIdentity({identityKey, delegationChain});
@@ -56,7 +63,7 @@ const startCyclesTimer = async ({
   internetIdentity?: InternetIdentityAuth;
   settings: Settings;
 }) => {
-  const identity: Identity = parseIdentity(internetIdentity);
+  const identity: Identity | undefined = parseIdentity(internetIdentity);
 
   const sync = async () => await syncCanisters({identity, settings});
 
@@ -77,7 +84,7 @@ const stopCyclesTimer = async () => {
   timer = undefined;
 };
 
-const syncCanisters = async ({identity, settings}: {identity: Identity; settings: Settings}) => {
+const syncCanisters = async ({identity, settings}: {identity: Identity | undefined; settings: Settings}) => {
   const canisterIds: string[] = await listCanisters();
 
   // Update ui with the list of canisters about to be synced
@@ -87,6 +94,11 @@ const syncCanisters = async ({identity, settings}: {identity: Identity; settings
       canisters: canisterIds.map((canisterId: string) => ({id: canisterId, status: 'syncing'}))
     }
   });
+
+  if (!identity) {
+    // not signed in, therefore cannot sync canisters
+    return;
+  }
 
   await Promise.all(
     canisterIds.map((canisterId: string) => syncCanister({identity, canisterId, settings}))
@@ -106,8 +118,6 @@ const addCanister = async ({
     throw new Error('Canister id unknown');
   }
 
-  const identity: Identity = parseIdentity(internetIdentity);
-
   // Update ui with the canister information as syncing
   postMessage({
     msg: 'syncCanister',
@@ -118,6 +128,13 @@ const addCanister = async ({
       }
     }
   });
+
+  const identity: Identity | undefined = parseIdentity(internetIdentity);
+
+  if (!identity) {
+    // not signed in, therefore cannot sync canisters
+    return;
+  }
 
   await syncCanister({identity, canisterId, settings});
 };
