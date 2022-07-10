@@ -4,29 +4,43 @@
   import {fly} from 'svelte/transition';
   import Modal from '../ui/Modal.svelte';
   import CanisterType from '../canisters/CanisterType.svelte';
-  import {authSignedInStore} from "../../stores/auth.store";
-  import CanisterSignIn from "../canisters/CanisterSignIn.svelte";
+  import {authSignedInStore} from '../../stores/auth.store';
+  import CanisterSignIn from '../canisters/CanisterSignIn.svelte';
 
   let open = false;
 
   let step: 'type' | 'auth' | 'controller' | 'canister_id' | 'canister_root_id' = 'type';
 
-  const close = () => {
+  const onClose = () => {
     open = false;
     step = 'type';
   };
+
+  const onBack = () => {
+    switch (step) {
+      case 'canister_id':
+        step = 'controller';
+        break;
+      default:
+        step = 'type';
+        break;
+    }
+  };
+
+  let back = false;
+  $: back = step !== 'type';
 </script>
 
 <svelte:window on:openAddCanister={() => (open = true)} />
 
 {#if open}
-  <Modal on:papyClose={close}>
+  <Modal on:papyClose={onClose} on:papyBack={onBack} {back}>
     <h3>Add a canister</h3>
 
     {#if step === 'type'}
       <div in:fly={{x: 200, duration: 200}}>
         <CanisterType
-          on:papyCancel={close}
+          on:papyCancel={onClose}
           on:papyAddCanister={() => (step = $authSignedInStore ? 'controller' : 'auth')}
           on:papyAddSns={() => (step = 'canister_root_id')} />
       </div>
@@ -36,11 +50,11 @@
       </div>
     {:else if step === 'controller'}
       <div in:fly={{x: 200, duration: 200}}>
-        <Controller on:papyCancel={close} on:papyNext={() => (step = 'canister_id')} />
+        <Controller on:papyCancel={onClose} on:papyNext={() => (step = 'canister_id')} />
       </div>
     {:else if step === 'canister_id'}
       <div in:fly={{x: 200, duration: 200}}>
-        <CanisterId on:papyBack={() => (step = 'controller')} on:papyDone={close} />
+        <CanisterId on:papyBack={() => (step = 'controller')} on:papyDone={onClose} />
       </div>
     {/if}
   </Modal>

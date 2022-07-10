@@ -3,6 +3,9 @@
   import {quintOut} from 'svelte/easing';
   import IconClose from '$lib/components/icons/IconClose.svelte';
   import {createEventDispatcher} from 'svelte';
+  import IconBack from '../icons/IconBack.svelte';
+
+  export let back: boolean = false;
 
   let visible = true;
 
@@ -30,9 +33,13 @@
       transition:scale={{delay: 25, duration: 150, easing: quintOut}}
       class="wrapper"
       class:flex={!stickyFooter}>
-      <div class="toolbar">
+      <div class="toolbar" class:back>
+        {#if back}
+          <button on:click|stopPropagation={() => dispatch('papyBack')} aria-label="Back"
+            ><IconBack /></button>
+        {/if}
         <h3 id="modalTitle"><slot name="title" /></h3>
-        <button on:click|stopPropagation={close} aria-label="Close"><IconClose /></button>
+        <button on:click|stopPropagation={close} aria-label="Close" class="close"><IconClose /></button>
       </div>
 
       <div class="content" id="modalContent">
@@ -93,7 +100,7 @@
 
   .toolbar {
     display: grid;
-    grid-template-columns: 65px 1fr 65px;
+    grid-template-columns: 3.45rem 1fr 3.45rem;
     align-items: center;
 
     h3 {
@@ -103,8 +110,17 @@
     }
 
     button {
-      grid-column-start: 3;
       margin: 0.45rem;
+
+      border: none;
+      box-shadow: none;
+
+      justify-self: flex-start;
+
+      &.close {
+        grid-column-start: 3;
+        justify-self: flex-end;
+      }
     }
   }
 
