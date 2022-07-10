@@ -4,10 +4,12 @@
   import {fly} from 'svelte/transition';
   import Modal from '../ui/Modal.svelte';
   import CanisterType from '../canisters/CanisterType.svelte';
+  import {authSignedInStore} from "../../stores/auth.store";
+  import CanisterSignIn from "../canisters/CanisterSignIn.svelte";
 
   let open = false;
 
-  let step: 'type' | 'controller' | 'canister_id' | 'canister_root_id' = 'type';
+  let step: 'type' | 'auth' | 'controller' | 'canister_id' | 'canister_root_id' = 'type';
 
   const close = () => {
     open = false;
@@ -25,8 +27,12 @@
       <div in:fly={{x: 200, duration: 200}}>
         <CanisterType
           on:papyCancel={close}
-          on:papyAddCanister={() => (step = 'controller')}
+          on:papyAddCanister={() => (step = $authSignedInStore ? 'controller' : 'auth')}
           on:papyAddSns={() => (step = 'canister_root_id')} />
+      </div>
+    {:else if step === 'auth'}
+      <div in:fly={{x: 200, duration: 200}}>
+        <CanisterSignIn on:papyCanisterSignedIn={() => (step = 'controller')} />
       </div>
     {:else if step === 'controller'}
       <div in:fly={{x: 200, duration: 200}}>
