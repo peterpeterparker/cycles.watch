@@ -9,7 +9,8 @@
 
   let open = false;
 
-  let step: 'type' | 'auth' | 'controller' | 'canister_id' | 'canister_root_id' = 'type';
+  let step: 'type' | 'auth' | 'whats-ii' | 'controller' | 'canister_id' | 'canister_root_id' =
+    'type';
 
   const onClose = () => {
     open = false;
@@ -21,6 +22,9 @@
       case 'canister_id':
         step = 'controller';
         break;
+      case 'whats-ii':
+        step = 'auth';
+        break;
       default:
         step = 'type';
         break;
@@ -29,13 +33,18 @@
 
   let back = false;
   $: back = step !== 'type';
+
+  let title = true;
+  $: title = step !== 'whats-ii';
 </script>
 
 <svelte:window on:openAddCanister={() => (open = true)} />
 
 {#if open}
   <Modal on:papyClose={onClose} on:papyBack={onBack} {back}>
-    <h3>Add a canister</h3>
+    {#if title}
+      <h3>Add a canister</h3>
+    {/if}
 
     {#if step === 'type'}
       <div in:fly={{x: 200, duration: 200}}>
@@ -46,7 +55,13 @@
       </div>
     {:else if step === 'auth'}
       <div in:fly={{x: 200, duration: 200}}>
-        <CanisterSignIn on:papyCanisterSignedIn={() => (step = 'controller')} />
+        <CanisterSignIn
+          on:papyCanisterSignedIn={() => (step = 'controller')}
+          on:papyOpenWhatsII={() => (step = 'whats-ii')} />
+      </div>
+    {:else if step === 'whats-ii'}
+      <div in:fly={{x: 200, duration: 200}}>
+        <what-is-ii />
       </div>
     {:else if step === 'controller'}
       <div in:fly={{x: 200, duration: 200}}>

@@ -22,7 +22,7 @@
 
 <p>That is why, to get started, you first need to sign-in anonymously.</p>
 
-<SignIn />
+<SignIn on:click={() => dispatch('papyOpenWhatsII')} />
 
 <style lang="scss">
   p:first-of-type {

@@ -12,7 +12,6 @@
   import '$lib/themes/main.scss';
   import '$lib/themes/input.scss';
   import Worker from "../lib/components/core/Worker.svelte";
-  import WhatsII from "../lib/components/overlays/WhatsII.svelte";
   import Add from "../lib/components/overlays/Add.svelte";
 
   const syncAuthStore = async () => {
@@ -38,6 +37,4 @@
   </Worker>
 
   <Add />
-
-  <WhatsII />
 {/await}

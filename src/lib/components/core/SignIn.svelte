@@ -1,8 +1,6 @@
 <script lang="ts">
   import {authStore} from '../../stores/auth.store';
   import IconInternetComputer from '../icons/IconInternetComputer.svelte';
-  import WhatsII from '../overlays/WhatsII.svelte';
-  import {emitOpenWhatsII} from "../../utils/events.utils";
 
   const signIn = async () => await authStore.signIn();
 </script>
@@ -13,7 +11,7 @@
     Sign in with Internet Identity
   </button>
 
-  <button type="button" class="text" on:click={emitOpenWhatsII}>What's Internet Identity?</button>
+  <button type="button" class="text" on:click>What's Internet Identity?</button>
 </div>
 
 <style lang="scss">
