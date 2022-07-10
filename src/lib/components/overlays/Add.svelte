@@ -50,11 +50,11 @@
       </div>
     {:else if step === 'controller'}
       <div in:fly={{x: 200, duration: 200}}>
-        <Controller on:papyCancel={onClose} on:papyNext={() => (step = 'canister_id')} />
+        <Controller on:papyNext={() => (step = 'canister_id')} />
       </div>
     {:else if step === 'canister_id'}
       <div in:fly={{x: 200, duration: 200}}>
-        <CanisterId on:papyBack={() => (step = 'controller')} on:papyDone={onClose} />
+        <CanisterId on:papyDone={onClose} />
       </div>
     {/if}
   </Modal>

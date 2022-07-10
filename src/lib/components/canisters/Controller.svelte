@@ -29,12 +29,12 @@
   <Copy value={principalId} ariaLabel="Copy principal ID to clipboard" />
 </p>
 
-<button type="button" on:click|stopPropagation={() => dispatch('papyCancel')}> Cancel </button>
-
-<button type="button" on:click|stopPropagation={() => dispatch('papyNext')}> Next </button>
+<div class="actions">
+  <button type="button" on:click|stopPropagation={() => dispatch('papyNext')}> Done </button>
+</div>
 
 <style lang="scss">
-  p:first-of-type {
-    margin-top: 1.25rem;
-  }
+  @use '../../themes/mixins/canister';
+
+  @include canister.overlay;
 </style>

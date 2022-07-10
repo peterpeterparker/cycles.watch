@@ -36,28 +36,20 @@
     disabled={saving} />
 
   <div class="actions">
-    <button type="button" on:click|stopPropagation={() => dispatch('papyBack')} disabled={saving}>
-      Back
-    </button>
-
     <button type="submit" disabled={saving || !validConfirm}> Add </button>
   </div>
 </form>
 
 <style lang="scss">
-  p:first-of-type {
-    margin-top: 1.25rem;
-  }
+  @use '../../themes/mixins/canister';
+
+  @include canister.overlay;
 
   form {
     margin: 0;
   }
 
-  .actions {
-    margin-top: 0.75rem;
-  }
-
   input {
-    margin: 0 0 0.45rem;
+    margin: 0 0 1.25rem;
   }
 </style>

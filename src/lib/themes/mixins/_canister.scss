@@ -1,0 +1,12 @@
+@mixin overlay {
+  p:first-of-type {
+    margin-top: 1.25rem;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: calc(2 * var(--padding));
+  }
+}

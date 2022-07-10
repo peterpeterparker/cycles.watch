@@ -12,7 +12,7 @@
   What type to add?
 </p>
 
-<div class="type">
+<div class="actions">
   <Button
     icon={IconCube}
     display="inline"
@@ -27,14 +27,7 @@
 </div>
 
 <style lang="scss">
-  p:first-of-type {
-    margin-top: 1.25rem;
-  }
+  @use '../../themes/mixins/canister';
 
-  .type {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: calc(2 * var(--padding));
-  }
+  @include canister.overlay;
 </style>
