@@ -34,7 +34,7 @@
         rel="external noopener norefferer">Notifications API</a
       >)</small
     >. Please note that on the contrary to "Push Notifications", these are emitted only if the dapp
-    is opened on your device (regardless if active, idle or in the background).
+    is opened on your device <small>(regardless if active, idle or in the background)</small>.
   </p>
 
   <div class="actions">
