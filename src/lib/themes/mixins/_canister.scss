@@ -1,8 +1,16 @@
 @mixin overlay {
+  @include paragraph;
+
+  @include actions;
+}
+
+@mixin paragraph {
   p:first-of-type {
     margin-top: 1.25rem;
   }
+}
 
+@mixin actions {
   .actions {
     display: flex;
     justify-content: center;

@@ -32,6 +32,9 @@
   const addCanister = ({detail}: CustomEvent<string>) =>
     syncWorker?.postMessage({msg: 'addCanister', data: detail});
 
+  const addSnsCanister = ({detail}: CustomEvent<string>) =>
+      syncWorker?.postMessage({msg: 'addSnsCanister', data: detail});
+
   $: $authSignedInStore, (() => {
       if (!$authSignedInStore) {
           return;
@@ -42,6 +45,6 @@
   })()
 </script>
 
-<svelte:window on:addCanister={addCanister} />
+<svelte:window on:addCanister={addCanister} on:addSnsCanister={addSnsCanister} />
 
 <slot />

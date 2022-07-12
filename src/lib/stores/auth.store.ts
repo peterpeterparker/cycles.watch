@@ -1,7 +1,7 @@
 import type {Identity} from '@dfinity/agent';
 import {AuthClient} from '@dfinity/auth-client';
 import {derived, writable, type Readable} from 'svelte/store';
-import {localIdentityCanisterId} from '../constants/constants';
+import {localIdentityCanisterId, localIdentityServiceUrl} from '../constants/constants';
 
 export interface AuthStore {
   identity: Identity | undefined | null;
@@ -54,6 +54,10 @@ const initAuthStore = () => {
           ...(localIdentityCanisterId !== null &&
             localIdentityCanisterId !== undefined && {
               identityProvider: `http://${localIdentityCanisterId}.localhost:8000?#authorize`
+            }),
+          ...(localIdentityServiceUrl !== null &&
+            localIdentityServiceUrl !== undefined && {
+              identityProvider: localIdentityServiceUrl
             })
         });
       }),

@@ -1,11 +1,12 @@
 <script lang="ts">
   import Controller from '../canisters/Controller.svelte';
-  import CanisterId from '../canisters/CanisterId.svelte';
   import {fly} from 'svelte/transition';
   import Modal from '../ui/Modal.svelte';
   import CanisterType from '../canisters/CanisterType.svelte';
   import {authSignedInStore} from '../../stores/auth.store';
   import CanisterSignIn from '../canisters/CanisterSignIn.svelte';
+  import NnsCanisterId from "../canisters/NnsCanisterId.svelte";
+  import SnsCanisterId from "../canisters/SnsCanisterId.svelte";
 
   let open = false;
 
@@ -67,9 +68,13 @@
       <div in:fly={{x: 200, duration: 200}}>
         <Controller on:papyNext={() => (step = 'canister_id')} />
       </div>
+    {:else if step === 'canister_root_id'}
+      <div in:fly={{x: 200, duration: 200}}>
+        <SnsCanisterId on:papyDone={onClose} />
+      </div>
     {:else if step === 'canister_id'}
       <div in:fly={{x: 200, duration: 200}}>
-        <CanisterId on:papyDone={onClose} />
+        <NnsCanisterId on:papyDone={onClose} />
       </div>
     {/if}
   </Modal>

@@ -2,15 +2,15 @@ import {get, update} from 'idb-keyval';
 import {DEFAULT_SETTINGS, IDB_KEY_CANISTER_IDS, IDB_KEY_SETTINGS} from '../constants/constants';
 import type {Settings} from '../types/settings';
 
-export const listCanisters = async (): Promise<string[]> => (await get(IDB_KEY_CANISTER_IDS)) ?? [];
+export const listCanisters = async (key: string): Promise<string[]> => (await get(key)) ?? [];
 
-export const addCanister = async (canisterId: string) =>
-  update(IDB_KEY_CANISTER_IDS, (canisters: string[] | undefined) => [
+export const addCanister = async ({key, canisterId}: {key: string, canisterId: string}) =>
+  update(key, (canisters: string[] | undefined) => [
     ...new Set([...(canisters ?? []), canisterId])
   ]);
 
-export const removeCanister = async (canisterId: string) =>
-  update(IDB_KEY_CANISTER_IDS, (canisters: string[] | undefined) => [
+export const removeCanister = async ({key, canisterId}: {key: string, canisterId: string}) =>
+  update(key, (canisters: string[] | undefined) => [
     ...(canisters ?? []).filter((id: string) => canisterId !== id)
   ]);
 

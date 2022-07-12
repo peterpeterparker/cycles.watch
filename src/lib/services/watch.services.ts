@@ -10,19 +10,28 @@ import {emit} from '../utils/events.utils';
 import {internetIdentityAuth} from '../utils/identity.utils';
 import {addCanister as addCanisterIDB, removeCanister as removeCanisterIDB} from './idb.services';
 import {notify} from './notification.services';
+import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 
 export const addCanister = async (canisterId: string) => {
-  await addCanisterIDB(canisterId);
+  await addCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId});
 
   const internetIdentity: InternetIdentityAuth = await internetIdentityAuth();
 
   emit<PostMessageDataRequest>({message: 'addCanister', detail: {canisterId, internetIdentity}});
 };
 
-export const removeCanister = async (canister: Canister) => {
-  const {id} = canister;
+export const addSnsCanister = async (canisterId: string) => {
+  await addCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId});
 
-  await removeCanisterIDB(id);
+  const internetIdentity: InternetIdentityAuth = await internetIdentityAuth();
+
+  emit<PostMessageDataRequest>({message: 'addSnsCanister', detail: {canisterId, internetIdentity}});
+};
+
+export const removeCanister = async (canister: Canister) => {
+  const {id: canisterId} = canister;
+
+  await removeCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId});
 
   updateCanistersStore({canister, method: 'remove'});
 };

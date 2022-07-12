@@ -1,6 +1,8 @@
 <script lang="ts">
   import {createEventDispatcher} from 'svelte';
-  import {addCanister} from '../../services/watch.services';
+
+  export let add: (canisterId: string) => Promise<void>;
+  export let placeholder: string;
 
   const dispatch = createEventDispatcher();
 
@@ -18,20 +20,20 @@
       return;
     }
 
-    await addCanister(canisterId);
+    await add(canisterId);
 
     dispatch('papyDone');
   };
 </script>
 
-<p>Almost there, insert the canister ID you wish to observe and hit "Add".</p>
+<slot />
 
 <form on:submit={async ($event) => await handleSubmit($event)}>
   <input
     bind:value={canisterId}
     type="text"
-    aria-label="Canister ID"
-    placeholder="Canister ID"
+    aria-label={placeholder}
+    placeholder={placeholder}
     maxlength={64}
     disabled={saving} />
 
@@ -43,7 +45,7 @@
 <style lang="scss">
   @use '../../themes/mixins/canister';
 
-  @include canister.overlay;
+  @include canister.actions;
 
   form {
     margin: 0;
