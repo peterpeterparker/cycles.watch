@@ -6,11 +6,10 @@ import {icpXdrConversionRate} from '../services/cmc.services';
 import {canisterStatus} from '../services/ic.services';
 import {getSettings, listCanisters} from '../services/idb.services';
 import {snsCanisters} from '../services/sns.services';
-import type {Canister, CanisterStatus} from '../types/canister';
+import type {Canister, CanisterGroup} from '../types/canister';
 import type {InternetIdentityAuth} from '../types/identity';
 import type {PostMessageDataRequest, PostMessageSync} from '../types/post-message';
-import type {SnsCanisterInfo} from '../types/services';
-import type {NnsCanisterInfo} from '../types/services';
+import type {CanisterInfo, SnsCanisterInfo} from '../types/services';
 import type {Settings} from '../types/settings';
 import {cyclesToICP, formatTCycles} from '../utils/cycles.utils';
 import {initIdentity} from '../utils/identity.utils';
@@ -32,10 +31,10 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
       await startCyclesTimer({internetIdentity, settings});
       return;
     case 'addCanister':
-      await addCanister({canisterId, internetIdentity, settings});
+      await addNnsCanister({canisterId, internetIdentity, settings});
       return;
     case 'addSnsCanister':
-      await addSnsCanister({canisterId, internetIdentity, settings});
+      await addSnsCanister({canisterId, settings});
       return;
   }
 };
@@ -139,20 +138,22 @@ const syncNnsCanisters = async ({
   await Promise.allSettled(
     canisterIds.map(async (canisterId: string) => {
       try {
-        const canisterInfo: NnsCanisterInfo = await canisterStatus({canisterId, identity});
+        const canisterInfo: CanisterInfo = await canisterStatus({canisterId, identity});
 
         await syncCanister({
           canisterInfo,
           trillionRatio,
           canisterId: canisterInfo.canisterId,
-          settings
+          settings,
+          group: {type: 'nns', id: canisterInfo.canisterId}
         });
       } catch (err: unknown) {
         console.error(err);
 
         emitCanister({
           id: canisterId,
-          status: 'error'
+          status: 'error',
+          group: {type: 'nns', id: canisterId}
         });
 
         throw err;
@@ -188,7 +189,8 @@ const syncSnsCanisters = async ({
             canisterInfo,
             trillionRatio,
             canisterId: canisterInfo.canisterId,
-            settings
+            settings,
+            group: {type: 'sns', id: rootCanisterId, description: canisterInfo.type}
           })
         );
 
@@ -198,7 +200,8 @@ const syncSnsCanisters = async ({
 
         emitCanister({
           id: rootCanisterId,
-          status: 'error'
+          status: 'error',
+          group: {type: 'sns', id: rootCanisterId, description: 'root'}
         });
 
         throw err;
@@ -207,7 +210,7 @@ const syncSnsCanisters = async ({
   );
 };
 
-const addCanister = async ({
+const addNnsCanister = async ({
   canisterId,
   internetIdentity,
   settings
@@ -253,9 +256,15 @@ const addCanister = async ({
       icpXdrConversionRate()
     ]);
 
-    await syncCanister({canisterInfo, trillionRatio, canisterId, settings});
+    await syncCanister({
+      canisterInfo,
+      trillionRatio,
+      canisterId,
+      settings,
+      group: {type: 'nns', id: canisterId}
+    });
   } catch (err) {
-    catchErr({err, canisterId});
+    catchErr({err, canisterId, group: {type: 'nns', id: canisterId}});
   }
 };
 
@@ -272,12 +281,14 @@ const syncCanister = async ({
   canisterId,
   settings: {warnTCycles},
   trillionRatio,
-  canisterInfo: {cycles, status, memory_size}
+  canisterInfo: {cycles, status, memory_size},
+  group
 }: {
   canisterId: string;
   settings: Settings;
   trillionRatio: bigint;
-  canisterInfo: {cycles: bigint; memory_size: bigint; status: CanisterStatus};
+  canisterInfo: CanisterInfo;
+  group: CanisterGroup;
 }) => {
   const tCycles = Number(formatTCycles(cycles));
 
@@ -290,7 +301,8 @@ const syncCanister = async ({
       cycles,
       icp: cyclesToICP({cycles, trillionRatio}),
       cyclesStatus: tCycles < 0 ? 'error' : tCycles < warnTCycles ? 'warn' : 'ok'
-    }
+    },
+    group
   };
 
   emitCanister(canister);
@@ -298,11 +310,9 @@ const syncCanister = async ({
 
 const addSnsCanister = async ({
   canisterId,
-  internetIdentity,
   settings
 }: {
   canisterId: string | undefined;
-  internetIdentity?: InternetIdentityAuth;
   settings: Settings;
 }) => {
   if (!canisterId) {
@@ -327,26 +337,36 @@ const addSnsCanister = async ({
     ]);
 
     await Promise.all(
-      canisterInfos.map(({cycles, canisterId, status, memory_size}: SnsCanisterInfo) =>
+      canisterInfos.map((canisterInfo: SnsCanisterInfo) =>
         syncCanister({
-          canisterInfo: {cycles, status, memory_size},
+          canisterInfo,
           trillionRatio,
           canisterId,
-          settings
+          settings,
+          group: {type: 'sns', id: canisterId, description: canisterInfo.type}
         })
       )
     );
   } catch (err) {
-    catchErr({err, canisterId});
+    catchErr({err, canisterId, group: {type: 'sns', id: canisterId, description: 'root'}});
   }
 };
 
-const catchErr = ({err, canisterId}: {err: unknown; canisterId: string}) => {
+const catchErr = ({
+  err,
+  canisterId,
+  group
+}: {
+  err: unknown;
+  canisterId: string;
+  group: CanisterGroup;
+}) => {
   console.error(err);
 
   emitCanister({
     id: canisterId,
-    status: 'error'
+    status: 'error',
+    group
   });
 };
 
