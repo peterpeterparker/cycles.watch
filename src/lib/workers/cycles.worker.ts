@@ -129,7 +129,11 @@ const syncNnsCanisters = async ({
     postMessage({
       msg: 'initCanisters',
       data: {
-        canisters: canisterIds.map((canisterId: string) => ({id: canisterId, status: 'auth'}))
+        canisters: canisterIds.map((canisterId: string) => ({
+          id: canisterId,
+          status: 'auth',
+          group: {type: 'nns', id: canisterId}
+        }))
       }
     });
     return [];
@@ -243,7 +247,8 @@ const addNnsCanister = async ({
       data: {
         canister: {
           id: canisterId,
-          status: 'auth'
+          status: 'auth',
+          group: {type: 'nns', id: canisterId}
         }
       }
     });
