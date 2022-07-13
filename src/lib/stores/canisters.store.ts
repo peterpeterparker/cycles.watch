@@ -16,7 +16,7 @@ export const canistersEmpty = derived(
   ($canisters) => $canisters.canisters.length === 0 && $canisters.initialized
 );
 
-export const canistersSettings = derived(canistersStore, ($canisters) =>
+export const canistersUniqueGroups = derived(canistersStore, ($canisters) =>
   $canisters.canisters.filter(
     ({group}: Canister) => group?.type === 'nns' || group?.description === 'root'
   )

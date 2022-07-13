@@ -4,6 +4,7 @@
   import IconFlashlightOff from '../icons/IconFlashlightOff.svelte';
   import type {CanisterGroup} from '../../types/canister';
   import {highlightStore} from '../../stores/highlight.store';
+  import {canistersUniqueGroups} from '../../stores/canisters.store';
 
   export let group: CanisterGroup;
 
@@ -15,9 +16,11 @@
   onDestroy(() => setTimeout(() => highlightStore.set(undefined), 500));
 </script>
 
-<button
-  on:click|stopPropagation={highlight}
-  aria-label={$highlightStore !== undefined ? 'Show all canister' : 'Highlight'}
-  class="icon">
-  <svelte:component this={icon} size="small" />
-</button>
+{#if $canistersUniqueGroups.length > 0}
+  <button
+    on:click|stopPropagation={highlight}
+    aria-label={$highlightStore !== undefined ? 'Show all canister' : 'Highlight'}
+    class="icon">
+    <svelte:component this={icon} size="small" />
+  </button>
+{/if}

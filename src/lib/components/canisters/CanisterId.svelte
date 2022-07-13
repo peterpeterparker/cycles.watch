@@ -1,6 +1,6 @@
 <script lang="ts">
   import {createEventDispatcher} from 'svelte';
-  import {canistersSettings} from '../../stores/canisters.store';
+  import {canistersUniqueGroups} from '../../stores/canisters.store';
   import type {Canister} from '../../types/canister';
 
   export let add: (canisterId: string) => Promise<void>;
@@ -16,7 +16,7 @@
   $: validConfirm =
     canisterId !== undefined &&
     canisterId !== '' &&
-    $canistersSettings.find(({id}: Canister) => id === canisterId) === undefined;
+    $canistersUniqueGroups.find(({id}: Canister) => id === canisterId) === undefined;
 
   const handleSubmit = async ($event: MouseEvent | TouchEvent) => {
     $event.preventDefault();

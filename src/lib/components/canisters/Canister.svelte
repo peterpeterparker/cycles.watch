@@ -59,7 +59,7 @@
   class:hidden
   transition:fade>
   {#if syncStatus === 'synced'}
-    <CanisterInfo canisterId={id}>
+    <CanisterInfo canisterId={id} {group}>
       <svelte:fragment slot="title">{formatTCycles(cycles)} TCycles{emoji}</svelte:fragment>
       <svelte:fragment slot="icp">{formatICP(icp)} ICP</svelte:fragment>
       <svelte:fragment slot="status">{status ?? ''}</svelte:fragment>
@@ -71,15 +71,13 @@
           {description} ({type})
         {/if}
       </svelte:fragment>
-
-      <svelte:fragment slot="highlight"><CanisterHighlight {group} /></svelte:fragment>
     </CanisterInfo>
   {:else if syncStatus === 'error'}
-    <CanisterInfo canisterId={id}>
+    <CanisterInfo canisterId={id} {group}>
       <svelte:fragment slot="title">Sync error❗️</svelte:fragment>
     </CanisterInfo>
   {:else if syncStatus === 'auth'}
-    <CanisterInfo canisterId={id}>
+    <CanisterInfo canisterId={id} {group}>
       <svelte:fragment slot="title">Sign-in required 🔐️</svelte:fragment>
     </CanisterInfo>
   {:else}

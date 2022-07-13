@@ -1,7 +1,10 @@
 <script lang="ts">
   import Copy from '../ui/Copy.svelte';
+  import CanisterHighlight from "./CanisterHighlight.svelte";
+  import type {CanisterGroup} from '../../types/canister';
 
   export let canisterId: string;
+  export let group: CanisterGroup;
 </script>
 
 <h3><slot name="title" /></h3>
@@ -17,7 +20,9 @@
   <Copy value={canisterId} ariaLabel="Copy canister ID to clipboard" />
 </p>
 
-<div class="highlight"><slot name="highlight" /></div>
+<div class="highlight">
+  <CanisterHighlight {group} />
+</div>
 
 <style lang="scss">
   p {
