@@ -18,6 +18,6 @@ export const canistersEmpty = derived(
 
 export const canistersSettings = derived(canistersStore, ($canisters) =>
   $canisters.canisters.filter(
-    ({group: {type, description}}: Canister) => type === 'nns' || description === 'root'
+    ({group}: Canister) => group?.type === 'nns' || group?.description === 'root'
   )
 );

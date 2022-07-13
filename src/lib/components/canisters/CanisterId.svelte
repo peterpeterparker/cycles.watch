@@ -1,5 +1,7 @@
 <script lang="ts">
   import {createEventDispatcher} from 'svelte';
+  import {canistersSettings} from '../../stores/canisters.store';
+  import type {Canister} from '../../types/canister';
 
   export let add: (canisterId: string) => Promise<void>;
   export let placeholder: string;
@@ -11,7 +13,10 @@
   let canisterId: string | undefined;
   let validConfirm = false;
 
-  $: validConfirm = canisterId !== undefined && canisterId !== '';
+  $: validConfirm =
+    canisterId !== undefined &&
+    canisterId !== '' &&
+    $canistersSettings.find(({id}: Canister) => id === canisterId) === undefined;
 
   const handleSubmit = async ($event: MouseEvent | TouchEvent) => {
     $event.preventDefault();
@@ -33,7 +38,7 @@
     bind:value={canisterId}
     type="text"
     aria-label={placeholder}
-    placeholder={placeholder}
+    {placeholder}
     maxlength={64}
     disabled={saving} />
 

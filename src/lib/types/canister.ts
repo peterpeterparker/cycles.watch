@@ -21,5 +21,5 @@ export interface Canister {
   id: string;
   status: CanisterSyncStatus;
   data?: CanisterData;
-  group: CanisterGroup;
+  group?: CanisterGroup;
 }
