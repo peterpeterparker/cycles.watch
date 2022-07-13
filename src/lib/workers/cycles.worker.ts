@@ -9,7 +9,8 @@ import {snsCanisters} from '../services/sns.services';
 import type {Canister, CanisterStatus} from '../types/canister';
 import type {InternetIdentityAuth} from '../types/identity';
 import type {PostMessageDataRequest, PostMessageSync} from '../types/post-message';
-import type {NnsCanisterInfo, SnsCanisterInfo} from '../types/services';
+import type {SnsCanisterInfo} from '../types/services';
+import type {NnsCanisterInfo} from '../types/services';
 import type {Settings} from '../types/settings';
 import {cyclesToICP, formatTCycles} from '../utils/cycles.utils';
 import {initIdentity} from '../utils/identity.utils';
@@ -99,22 +100,10 @@ const syncCanisters = async ({
 }) => {
   const trillionRatio: bigint = await icpXdrConversionRate();
 
-  const [nnsCanisterInfos, snsCanisterInfos] = await Promise.all([
+  await Promise.all([
     syncNnsCanisters({identity, settings, trillionRatio}),
     syncSnsCanisters({settings, trillionRatio})
   ]);
-
-  await Promise.all(
-    [...nnsCanisterInfos, ...snsCanisterInfos].map(
-      (canisterInfo: {
-        cycles: bigint;
-        memory_size: bigint;
-        status: CanisterStatus;
-        canisterId: string;
-      }) =>
-        syncCanister({canisterInfo, trillionRatio, canisterId: canisterInfo.canisterId, settings})
-    )
-  );
 };
 
 const syncNnsCanisters = async ({
@@ -125,7 +114,7 @@ const syncNnsCanisters = async ({
   identity: Identity | undefined;
   settings: Settings;
   trillionRatio: bigint;
-}): Promise<NnsCanisterInfo[]> => {
+}) => {
   const canisterIds: string[] = await listCanisters(IDB_KEY_CANISTER_IDS);
 
   // Update ui with the list of canisters about to be synced
@@ -147,10 +136,17 @@ const syncNnsCanisters = async ({
     return [];
   }
 
-  const results: PromiseSettledResult<NnsCanisterInfo>[] = await Promise.allSettled(
-    canisterIds.map((canisterId: string): Promise<NnsCanisterInfo> => {
+  await Promise.allSettled(
+    canisterIds.map(async (canisterId: string) => {
       try {
-        return canisterStatus({canisterId, identity});
+        const canisterInfo: NnsCanisterInfo = await canisterStatus({canisterId, identity});
+
+        await syncCanister({
+          canisterInfo,
+          trillionRatio,
+          canisterId: canisterInfo.canisterId,
+          settings
+        });
       } catch (err: unknown) {
         console.error(err);
 
@@ -163,12 +159,6 @@ const syncNnsCanisters = async ({
       }
     })
   );
-
-  return (
-    results.filter(
-      ({status}) => status === 'fulfilled'
-    ) as PromiseFulfilledResult<NnsCanisterInfo>[]
-  ).map(({value: canisterInfo}: PromiseFulfilledResult<NnsCanisterInfo>) => canisterInfo);
 };
 
 const syncSnsCanisters = async ({
@@ -177,7 +167,7 @@ const syncSnsCanisters = async ({
 }: {
   settings: Settings;
   trillionRatio: bigint;
-}): Promise<SnsCanisterInfo[]> => {
+}) => {
   const canisterRootIds: string[] = await listCanisters(IDB_KEY_SNS_ROOT_CANISTER_IDS);
 
   // Update ui with the list of canisters about to be synced
@@ -188,10 +178,21 @@ const syncSnsCanisters = async ({
     }
   });
 
-  const results: PromiseSettledResult<SnsCanisterInfo[]>[] = await Promise.allSettled(
-    canisterRootIds.map((rootCanisterId: string): Promise<SnsCanisterInfo[]> => {
+  await Promise.allSettled(
+    canisterRootIds.map(async (rootCanisterId: string) => {
       try {
-        return snsCanisters({rootCanisterId});
+        const canisterInfos: SnsCanisterInfo[] = await snsCanisters({rootCanisterId});
+
+        const syncCanisters: Promise<void>[] = canisterInfos.map((canisterInfo: SnsCanisterInfo) =>
+          syncCanister({
+            canisterInfo,
+            trillionRatio,
+            canisterId: canisterInfo.canisterId,
+            settings
+          })
+        );
+
+        await Promise.all(syncCanisters);
       } catch (err: unknown) {
         console.error(err);
 
@@ -204,14 +205,6 @@ const syncSnsCanisters = async ({
       }
     })
   );
-
-  return (
-    results.filter(({status}) => status === 'fulfilled') as PromiseFulfilledResult<
-      SnsCanisterInfo[]
-    >[]
-  )
-    .map(({value: canisterInfo}: PromiseFulfilledResult<SnsCanisterInfo[]>) => canisterInfo)
-    .reduce((acc: SnsCanisterInfo[], infos: SnsCanisterInfo[]) => [...acc, ...infos], []);
 };
 
 const addCanister = async ({
