@@ -341,7 +341,7 @@ const addSnsCanister = async ({
         syncCanister({
           canisterInfo,
           trillionRatio,
-          canisterId,
+          canisterId: canisterInfo.canisterId,
           settings,
           group: {type: 'sns', id: canisterId, description: canisterInfo.type}
         })
