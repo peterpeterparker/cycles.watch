@@ -22,10 +22,6 @@ export const snsCanisters = async ({
     canisterId: rootCanisterId
   });
 
-  // Example of root canisters on testnet
-  // o6ght-diaaa-aaaaa-aacka-cai
-  // occ5c-uiaaa-aaaaa-aacia-cai
-
   // TODO: this will be soon modified to variants, see canistersSummary details
   const canisters: Array<[string, Principal, CanisterStatusResultV2]> =
     await get_sns_canisters_summary([]);
