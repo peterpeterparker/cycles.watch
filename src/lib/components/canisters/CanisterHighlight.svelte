@@ -16,7 +16,7 @@
   onDestroy(() => setTimeout(() => highlightStore.set(undefined), 500));
 </script>
 
-{#if $canistersUniqueGroups.length > 0}
+{#if $canistersUniqueGroups.length > 1}
   <button
     on:click|stopPropagation={highlight}
     aria-label={$highlightStore !== undefined ? 'Show all canister' : 'Highlight'}
