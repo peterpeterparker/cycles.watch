@@ -2,7 +2,7 @@
   import NoCanister from '../canisters/NoCanister.svelte';
   import IconClose from '../icons/IconClose.svelte';
   import AddCanister from '../canisters/AddCanister.svelte';
-  import {canistersStore} from '../../stores/canisters.store';
+  import {canistersSettings, canistersStore} from '../../stores/canisters.store';
   import type {Canister} from '../../types/canister';
   import {removeCanister} from '../../services/watch.services';
   import Spinner from '../ui/Spinner.svelte';
@@ -27,7 +27,7 @@
 
     <p>The list of canisters to be observed.</p>
 
-    {#each $canistersStore.canisters as canister (canister.id)}
+    {#each $canistersSettings as canister (canister.id)}
       <div class="canister">
         <button
           type="button"
@@ -36,7 +36,7 @@
           on:click={() => remove(canister)}>
           <IconClose />
         </button>
-        {canister.id}
+        {canister.id}{canister.group.type === 'sns' ? ' (sns)' : ''}
       </div>
     {/each}
 

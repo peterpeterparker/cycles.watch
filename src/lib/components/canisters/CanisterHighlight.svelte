@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {SvelteComponent} from 'svelte';
+  import {onDestroy, SvelteComponent} from 'svelte';
   import IconHighlight from '../icons/IconHighlight.svelte';
   import IconFlashlightOff from '../icons/IconFlashlightOff.svelte';
   import type {CanisterGroup} from '../../types/canister';
@@ -11,6 +11,8 @@
   $: icon = $highlightStore !== undefined ? IconFlashlightOff : IconHighlight;
 
   const highlight = () => highlightStore.set($highlightStore !== undefined ? undefined : group);
+
+  onDestroy(() => setTimeout(() => highlightStore.set(undefined), 500));
 </script>
 
 <button

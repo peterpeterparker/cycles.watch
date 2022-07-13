@@ -29,12 +29,26 @@ export const addSnsCanister = async (canisterId: string) => {
 };
 
 export const removeCanister = async (canister: Canister) => {
-  const {id: canisterId} = canister;
+  const {
+    id: canisterId,
+    group: {type}
+  } = canister;
+
+  if (type === 'sns') {
+    await removeCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId});
+    removeGroupCanistersStore({groupId: canisterId});
+    return;
+  }
 
   await removeCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId});
-
   updateCanistersStore({canister, method: 'remove'});
 };
+
+const removeGroupCanistersStore = ({groupId}: {groupId: string}) =>
+  canistersStore.update(({canisters}: CanistersStore) => ({
+    initialized: true,
+    canisters: [...(canisters ?? []).filter(({group: {id}}: Canister) => id !== groupId)]
+  }));
 
 const updateCanistersStore = ({canister, method}: {canister: Canister; method: 'add' | 'remove'}) =>
   canistersStore.update(({canisters}: CanistersStore) => ({
