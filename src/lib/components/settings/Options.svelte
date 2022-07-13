@@ -2,7 +2,7 @@
   import {onMount} from 'svelte';
   import type {Settings} from '../../types/settings';
   import {getSettings, updateTimerInterval, updateWarnTCycles} from '../../services/idb.services';
-  import {DEFAULT_SETTINGS} from "../../constants/constants";
+  import {DEFAULT_SETTINGS} from '../../constants/constants';
 
   let timer: number | undefined;
   let warn: number | undefined;
@@ -34,7 +34,9 @@
     <p>
       Timer:
 
-      <select bind:value={timer} on:change={async () => await updateTimerInterval(timer ?? DEFAULT_SETTINGS.timerInterval)}>
+      <select
+        bind:value={timer}
+        on:change={async () => await updateTimerInterval(timer ?? DEFAULT_SETTINGS.timerInterval)}>
         <option value={five_min}> Every 5 minutes </option>
         <option value={ten_min}> Every 10 minutes </option>
         <option value={thirty_min}> Every 30 minutes </option>

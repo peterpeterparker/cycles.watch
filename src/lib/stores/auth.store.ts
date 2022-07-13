@@ -1,7 +1,7 @@
 import type {Identity} from '@dfinity/agent';
 import {AuthClient} from '@dfinity/auth-client';
 import {derived, writable, type Readable} from 'svelte/store';
-import {localIdentityCanisterId} from '../constants/constants';
+import {localIdentityCanisterId, localIdentityServiceUrl} from '../constants/constants';
 
 export interface AuthStore {
   identity: Identity | undefined | null;
@@ -11,12 +11,13 @@ export interface AuthStore {
 // e.g. BigInt(7 * 24 * 60 * 60 * 1000 * 1000 * 1000) = 7 days in nanoseconds
 const maxTimeToLive = BigInt(7 * 24 * 60 * 60 * 1000 * 1000 * 1000);
 
-const createAuthClient = (): Promise<AuthClient> => AuthClient.create({
-  idleOptions: {
-    disableIdle: true,
-    disableDefaultIdleCallback: true
-  }
-})
+const createAuthClient = (): Promise<AuthClient> =>
+  AuthClient.create({
+    idleOptions: {
+      disableIdle: true,
+      disableDefaultIdleCallback: true
+    }
+  });
 
 const initAuthStore = () => {
   const {subscribe, set, update} = writable<AuthStore>({
@@ -51,9 +52,13 @@ const initAuthStore = () => {
           },
           onError: reject,
           ...(localIdentityCanisterId !== null &&
-              localIdentityCanisterId !== undefined && {
-                identityProvider: `http://${localIdentityCanisterId}.localhost:8000?#authorize`
-              })
+            localIdentityCanisterId !== undefined && {
+              identityProvider: `http://${localIdentityCanisterId}.localhost:8000?#authorize`
+            }),
+          ...(localIdentityServiceUrl !== null &&
+            localIdentityServiceUrl !== undefined && {
+              identityProvider: localIdentityServiceUrl
+            })
         });
       }),
 

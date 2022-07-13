@@ -1,4 +1,5 @@
-import {canistersStore} from '../stores/canisters.store';
+import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
+import {canistersStore, type CanistersStore} from '../stores/canisters.store';
 import type {Canister} from '../types/canister';
 import type {InternetIdentityAuth} from '../types/identity';
 import type {
@@ -12,28 +13,65 @@ import {addCanister as addCanisterIDB, removeCanister as removeCanisterIDB} from
 import {notify} from './notification.services';
 
 export const addCanister = async (canisterId: string) => {
-  await addCanisterIDB(canisterId);
+  await addCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId});
 
   const internetIdentity: InternetIdentityAuth = await internetIdentityAuth();
 
   emit<PostMessageDataRequest>({message: 'addCanister', detail: {canisterId, internetIdentity}});
 };
 
+export const addSnsCanister = async (canisterId: string) => {
+  await addCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId});
+
+  const internetIdentity: InternetIdentityAuth = await internetIdentityAuth();
+
+  emit<PostMessageDataRequest>({message: 'addSnsCanister', detail: {canisterId, internetIdentity}});
+};
+
 export const removeCanister = async (canister: Canister) => {
-  const {id} = canister;
+  const {
+    id: canisterId,
+    group
+  } = canister;
 
-  await removeCanisterIDB(id);
+  if (group?.type === 'sns') {
+    await removeCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId});
+    removeGroupCanistersStore({groupId: canisterId});
+    return;
+  }
 
+  await removeCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId});
   updateCanistersStore({canister, method: 'remove'});
 };
 
-const updateCanistersStore = ({canister, method}: {canister: Canister; method: 'add' | 'remove'}) =>
-  canistersStore.update((canisters: Canister[] | undefined) => [
-    ...(canisters ?? []).filter(({id}: Canister) => id !== canister.id),
-    ...(method === 'add' ? [canister] : [])
-  ]);
+const removeGroupCanistersStore = ({groupId}: {groupId: string}) =>
+  canistersStore.update(({canisters}: CanistersStore) => ({
+    initialized: true,
+    canisters: [...(canisters ?? []).filter(({group}: Canister) => group?.id !== groupId)]
+  }));
 
-const setCanistersStore = ({canisters}: PostMessageDataResponse) => canistersStore.set(canisters);
+const updateCanistersStore = ({canister, method}: {canister: Canister; method: 'add' | 'remove'}) =>
+  canistersStore.update(({canisters}: CanistersStore) => ({
+    initialized: true,
+    canisters: [
+      ...(canisters ?? []).filter(({id}: Canister) => id !== canister.id),
+      ...(method === 'add' ? [canister] : [])
+    ]
+  }));
+
+const setCanistersStore = ({canisters: newCanisters}: PostMessageDataResponse) => {
+  const newCanisterIds: string[] = (newCanisters ?? []).map(({id}: Canister) => id);
+
+  canistersStore.update(({canisters}: CanistersStore) => ({
+    initialized: true,
+    canisters: [
+      ...new Set([
+        ...(canisters ?? []).filter(({id}: Canister) => !newCanisterIds.includes(id)),
+        ...(newCanisters ?? [])
+      ])
+    ]
+  }));
+};
 
 const notifyCanisterCycles = async (canister: Canister) => {
   const {data, id, status} = canister;

@@ -19,22 +19,32 @@
     syncWorker.postMessage({msg: 'startCyclesTimer', data: {internetIdentity}});
   };
 
+  const stopTimer = () => syncWorker?.postMessage({msg: 'stopCyclesTimer'});
+
   onMount(async () => {
     await requestNotificationPermission();
-
-    if (!$authSignedInStore) {
-      return;
-    }
 
     await startTimer();
   });
 
-  onDestroy(() => syncWorker?.postMessage({msg: 'stopCyclesTimer'}));
+  onDestroy(stopTimer);
 
   const addCanister = ({detail}: CustomEvent<string>) =>
     syncWorker?.postMessage({msg: 'addCanister', data: detail});
+
+  const addSnsCanister = ({detail}: CustomEvent<string>) =>
+      syncWorker?.postMessage({msg: 'addSnsCanister', data: detail});
+
+  $: $authSignedInStore, (() => {
+      if (!$authSignedInStore) {
+          return;
+      }
+
+      stopTimer();
+      startTimer();
+  })()
 </script>
 
-<svelte:window on:addCanister={addCanister} />
+<svelte:window on:addCanister={addCanister} on:addSnsCanister={addSnsCanister} />
 
 <slot />

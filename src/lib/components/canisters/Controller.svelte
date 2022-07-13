@@ -10,12 +10,7 @@
 </script>
 
 <p>
-  To add a canister to your watchlist, your principal ID on <strong>Cycles.watch</strong> must be one
-  its controller because querying the state of smart contracts is not public on the Internet Computer.
-</p>
-
-<p>
-  Add following principal ID to the controllers with <a
+  Add following principal ID to the controllers of the canister with <a
     href="https://internetcomputer.org/docs/current/references/cli-reference/dfx-parent/"
     rel="external noopener norefferer"
     target="_blank"
@@ -34,12 +29,12 @@
   <Copy value={principalId} ariaLabel="Copy principal ID to clipboard" />
 </p>
 
-<button type="button" on:click|stopPropagation={() => dispatch('papyCancel')}> Cancel </button>
-
-<button type="button" on:click|stopPropagation={() => dispatch('papyNext')}> Next </button>
+<div class="actions">
+  <button type="button" on:click|stopPropagation={() => dispatch('papyNext')}> Done </button>
+</div>
 
 <style lang="scss">
-  p:first-of-type {
-    margin-top: 1.25rem;
-  }
+  @use '../../themes/mixins/canister';
+
+  @include canister.overlay;
 </style>

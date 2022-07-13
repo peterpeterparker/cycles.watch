@@ -3,6 +3,7 @@
   import IconPapyrs from '../icons/IconPapyrs.svelte';
   import IconEmoji from '../icons/IconEmoji.svelte';
   import IconInfo from '../icons/IconInfo.svelte';
+  import IconGitHub from '../icons/IconGitHub.svelte';
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -18,6 +19,16 @@
 </button>
 
 <Popover bind:visible anchor={button} direction="rtl">
+  <a
+    aria-label="Cycles.watch in open source - Repo on GitHub"
+    href="https://github.com/papyrs/cycles.watch"
+    class="menu"
+    aria-haspopup="menu"
+    rel="external noopener norefferer">
+    <IconGitHub />
+    <span>GitHub</span>
+  </a>
+
   <a
     aria-label="Blog on web3 with Papyrs"
     href="https://papy.rs"

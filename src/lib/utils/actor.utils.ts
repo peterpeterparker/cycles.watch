@@ -23,7 +23,7 @@ export const createActor = async <T = Record<string, ActorMethod>>({
 
   const local = (): boolean => {
     const {hostname}: URL = new URL(host);
-    return ['127.0.0.1', 'localhost'].includes(hostname);
+    return ['127.0.0.1', 'localhost', 'nnsdapp.dfinity.network'].includes(hostname);
   };
 
   if (local()) {

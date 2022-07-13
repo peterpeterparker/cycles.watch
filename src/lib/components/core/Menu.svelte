@@ -4,9 +4,9 @@
   import IconSignOut from '../icons/IconSignOut.svelte';
   import IconSignIn from '../icons/IconSignIn.svelte';
   import {authSignedInStore, authStore} from '../../stores/auth.store';
-  import IconGitHub from '../icons/IconGitHub.svelte';
   import IconSettings from '../icons/IconSettings.svelte';
   import {goto} from '$app/navigation';
+  import {canistersEmpty, canistersStore} from '../../stores/canisters.store';
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -33,17 +33,17 @@
 </button>
 
 <Popover bind:visible anchor={button}>
-  {#if $authSignedInStore}
-    <button
-      type="button"
-      role="menuitem"
-      aria-haspopup="menu"
-      class="menu"
-      on:click={async () => await goto('/settings')}>
-      <IconSettings />
-      <span>Settings</span>
-    </button>
+  <button
+    type="button"
+    role="menuitem"
+    aria-haspopup="menu"
+    class="menu"
+    on:click={async () => await goto('/settings')}>
+    <IconSettings />
+    <span>Settings</span>
+  </button>
 
+  {#if $authSignedInStore}
     <button
       type="button"
       role="menuitem"
@@ -53,7 +53,7 @@
       <IconSignOut />
       <span>Sign out</span>
     </button>
-  {:else}
+  {:else if $canistersStore.initialized}
     <button
       type="button"
       role="menuitem"
@@ -64,18 +64,6 @@
       <span>Sign in</span>
     </button>
   {/if}
-
-  <hr />
-
-  <a
-    aria-label="Cycles.watch in open source - Repo on GitHub"
-    href="https://github.com/papyrs/cycles.watch"
-    class="menu"
-    aria-haspopup="menu"
-    rel="external noopener norefferer">
-    <IconGitHub />
-    <span>GitHub</span>
-  </a>
 </Popover>
 
 <style lang="scss">

@@ -2,8 +2,9 @@ import type {CallConfig, Identity} from '@dfinity/agent';
 import {Principal} from '@dfinity/principal';
 import type {_SERVICE as ICActor} from '../canisters/ic/ic.did';
 import {idlFactory} from '../canisters/ic/ic.utils.did';
-import type {CanisterStatus} from '../types/canister';
 import {createActor} from '../utils/actor.utils';
+import {toStatus} from '../utils/canister.utils';
+import type {CanisterInfo} from '../types/services';
 
 const MANAGEMENT_CANISTER_ID = Principal.fromText('aaaaa-aa');
 
@@ -35,19 +36,12 @@ export const canisterStatus = async ({
 }: {
   canisterId: string;
   identity: Identity;
-}): Promise<{cycles: bigint; memory_size: bigint; status: CanisterStatus}> => {
+}): Promise<CanisterInfo> => {
   const actor: ICActor = await createICActor(identity);
 
   const {cycles, status, memory_size} = await actor.canister_status({
     canister_id: Principal.fromText(canisterId)
   });
 
-  const toStatus = (status: {stopped: null} | {stopping: null} | {running: null}): CanisterStatus =>
-    'stopped' in status && status.stopped === null
-      ? 'stopped'
-      : 'stopping' in status && status.stopping === null
-      ? 'stopping'
-      : 'running';
-
-  return {cycles, status: toStatus(status), memory_size};
+  return {cycles, status: toStatus(status), memory_size, canisterId};
 };
