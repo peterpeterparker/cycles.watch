@@ -1,14 +1,15 @@
 import type {Identity} from '@dfinity/agent';
 import {isDelegationValid} from '@dfinity/authentication';
 import {DelegationChain} from '@dfinity/identity';
-import {IDB_KEY_CANISTER_IDS} from '../constants/constants';
+import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 import {icpXdrConversionRate} from '../services/cmc.services';
 import {canisterStatus} from '../services/ic.services';
 import {getSettings, listCanisters} from '../services/idb.services';
-import {type SnsCanisterInfo, snsCanisters} from '../services/sns.services';
+import {snsCanisters} from '../services/sns.services';
 import type {Canister, CanisterStatus} from '../types/canister';
 import type {InternetIdentityAuth} from '../types/identity';
 import type {PostMessageDataRequest, PostMessageSync} from '../types/post-message';
+import type {NnsCanisterInfo, SnsCanisterInfo} from '../types/services';
 import type {Settings} from '../types/settings';
 import {cyclesToICP, formatTCycles} from '../utils/cycles.utils';
 import {initIdentity} from '../utils/identity.utils';
@@ -96,6 +97,35 @@ const syncCanisters = async ({
   identity: Identity | undefined;
   settings: Settings;
 }) => {
+  const trillionRatio: bigint = await icpXdrConversionRate();
+
+  const [nnsCanisterInfos, snsCanisterInfos] = await Promise.all([
+    syncNnsCanisters({identity, settings, trillionRatio}),
+    syncSnsCanisters({settings, trillionRatio})
+  ]);
+
+  await Promise.all(
+    [...nnsCanisterInfos, ...snsCanisterInfos].map(
+      (canisterInfo: {
+        cycles: bigint;
+        memory_size: bigint;
+        status: CanisterStatus;
+        canisterId: string;
+      }) =>
+        syncCanister({canisterInfo, trillionRatio, canisterId: canisterInfo.canisterId, settings})
+    )
+  );
+};
+
+const syncNnsCanisters = async ({
+  identity,
+  settings,
+  trillionRatio
+}: {
+  identity: Identity | undefined;
+  settings: Settings;
+  trillionRatio: bigint;
+}): Promise<NnsCanisterInfo[]> => {
   const canisterIds: string[] = await listCanisters(IDB_KEY_CANISTER_IDS);
 
   // Update ui with the list of canisters about to be synced
@@ -114,41 +144,74 @@ const syncCanisters = async ({
         canisters: canisterIds.map((canisterId: string) => ({id: canisterId, status: 'auth'}))
       }
     });
-    return;
+    return [];
   }
 
-  try {
-    const [canisterInfos, trillionRatio]: [
-      {cycles: bigint; memory_size: bigint; status: CanisterStatus; canisterId: string}[],
-      bigint
-    ] = await Promise.all([
-      await Promise.all(
-        canisterIds.map((canisterId: string) => canisterStatus({canisterId, identity}))
-      ),
-      icpXdrConversionRate()
-    ]);
+  const results: PromiseSettledResult<NnsCanisterInfo>[] = await Promise.allSettled(
+    canisterIds.map((canisterId: string): Promise<NnsCanisterInfo> => {
+      try {
+        return canisterStatus({canisterId, identity});
+      } catch (err: unknown) {
+        console.error(err);
 
-    await Promise.all(
-      canisterInfos.map(
-        (canisterInfo: {
-          cycles: bigint;
-          memory_size: bigint;
-          status: CanisterStatus;
-          canisterId: string;
-        }) =>
-          syncCanister({canisterInfo, trillionRatio, canisterId: canisterInfo.canisterId, settings})
-      )
-    );
-  } catch (err) {
-    console.error(err);
+        emitCanister({
+          id: canisterId,
+          status: 'error'
+        });
 
-    for (const canisterId of canisterIds) {
-      emitCanister({
-        id: canisterId,
-        status: 'error'
-      });
+        throw err;
+      }
+    })
+  );
+
+  return (
+    results.filter(
+      ({status}) => status === 'fulfilled'
+    ) as PromiseFulfilledResult<NnsCanisterInfo>[]
+  ).map(({value: canisterInfo}: PromiseFulfilledResult<NnsCanisterInfo>) => canisterInfo);
+};
+
+const syncSnsCanisters = async ({
+  settings,
+  trillionRatio
+}: {
+  settings: Settings;
+  trillionRatio: bigint;
+}): Promise<SnsCanisterInfo[]> => {
+  const canisterRootIds: string[] = await listCanisters(IDB_KEY_SNS_ROOT_CANISTER_IDS);
+
+  // Update ui with the list of canisters about to be synced
+  postMessage({
+    msg: 'initCanisters',
+    data: {
+      canisters: canisterRootIds.map((canisterId: string) => ({id: canisterId, status: 'syncing'}))
     }
-  }
+  });
+
+  const results: PromiseSettledResult<SnsCanisterInfo[]>[] = await Promise.allSettled(
+    canisterRootIds.map((rootCanisterId: string): Promise<SnsCanisterInfo[]> => {
+      try {
+        return snsCanisters({rootCanisterId});
+      } catch (err: unknown) {
+        console.error(err);
+
+        emitCanister({
+          id: rootCanisterId,
+          status: 'error'
+        });
+
+        throw err;
+      }
+    })
+  );
+
+  return (
+    results.filter(({status}) => status === 'fulfilled') as PromiseFulfilledResult<
+      SnsCanisterInfo[]
+    >[]
+  )
+    .map(({value: canisterInfo}: PromiseFulfilledResult<SnsCanisterInfo[]>) => canisterInfo)
+    .reduce((acc: SnsCanisterInfo[], infos: SnsCanisterInfo[]) => [...acc, ...infos], []);
 };
 
 const addCanister = async ({
@@ -199,12 +262,7 @@ const addCanister = async ({
 
     await syncCanister({canisterInfo, trillionRatio, canisterId, settings});
   } catch (err) {
-    console.error(err);
-
-    emitCanister({
-      id: canisterId,
-      status: 'error'
-    });
+    catchErr({err, canisterId});
   }
 };
 
@@ -286,13 +344,17 @@ const addSnsCanister = async ({
       )
     );
   } catch (err) {
-    console.error(err);
-
-    emitCanister({
-      id: canisterId,
-      status: 'error'
-    });
+    catchErr({err, canisterId});
   }
+};
+
+const catchErr = ({err, canisterId}: {err: unknown; canisterId: string}) => {
+  console.error(err);
+
+  emitCanister({
+    id: canisterId,
+    status: 'error'
+  });
 };
 
 export {};

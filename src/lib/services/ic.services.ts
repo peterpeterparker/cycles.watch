@@ -2,9 +2,9 @@ import type {CallConfig, Identity} from '@dfinity/agent';
 import {Principal} from '@dfinity/principal';
 import type {_SERVICE as ICActor} from '../canisters/ic/ic.did';
 import {idlFactory} from '../canisters/ic/ic.utils.did';
-import type {CanisterStatus} from '../types/canister';
 import {createActor} from '../utils/actor.utils';
 import {toStatus} from '../utils/canister.utils';
+import type {NnsCanisterInfo} from '../types/services';
 
 const MANAGEMENT_CANISTER_ID = Principal.fromText('aaaaa-aa');
 
@@ -36,7 +36,7 @@ export const canisterStatus = async ({
 }: {
   canisterId: string;
   identity: Identity;
-}): Promise<{cycles: bigint; memory_size: bigint; status: CanisterStatus; canisterId: string}> => {
+}): Promise<NnsCanisterInfo> => {
   const actor: ICActor = await createICActor(identity);
 
   const {cycles, status, memory_size} = await actor.canister_status({

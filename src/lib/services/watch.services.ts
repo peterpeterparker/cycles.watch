@@ -1,3 +1,4 @@
+import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 import {canistersStore, type CanistersStore} from '../stores/canisters.store';
 import type {Canister} from '../types/canister';
 import type {InternetIdentityAuth} from '../types/identity';
@@ -10,7 +11,6 @@ import {emit} from '../utils/events.utils';
 import {internetIdentityAuth} from '../utils/identity.utils';
 import {addCanister as addCanisterIDB, removeCanister as removeCanisterIDB} from './idb.services';
 import {notify} from './notification.services';
-import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 
 export const addCanister = async (canisterId: string) => {
   await addCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId});
@@ -45,11 +45,19 @@ const updateCanistersStore = ({canister, method}: {canister: Canister; method: '
     ]
   }));
 
-const setCanistersStore = ({canisters}: PostMessageDataResponse) =>
-  canistersStore.set({
+const setCanistersStore = ({canisters: newCanisters}: PostMessageDataResponse) => {
+  const newCanisterIds: string[] = (newCanisters ?? []).map(({id}: Canister) => id);
+
+  canistersStore.update(({canisters}: CanistersStore) => ({
     initialized: true,
-    canisters: canisters ?? []
-  });
+    canisters: [
+      ...new Set([
+        ...(canisters ?? []).filter(({id}: Canister) => !newCanisterIds.includes(id)),
+        ...(newCanisters ?? [])
+      ])
+    ]
+  }));
+};
 
 const notifyCanisterCycles = async (canister: Canister) => {
   const {data, id, status} = canister;
