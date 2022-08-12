@@ -1,13 +1,13 @@
 import type {Identity} from '@dfinity/agent';
 import {isDelegationValid} from '@dfinity/authentication';
 import {DelegationChain} from '@dfinity/identity';
+import {createStore, getMany} from 'idb-keyval';
 import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 import {icpXdrConversionRate} from '../services/cmc.services';
 import {canisterStatus} from '../services/ic.services';
 import {getSettings, listCanisters} from '../services/idb.services';
 import {snsCanisters} from '../services/sns.services';
 import type {Canister, CanisterGroup} from '../types/canister';
-import type {InternetIdentityAuth} from '../types/identity';
 import type {PostMessageDataRequest, PostMessageSync} from '../types/post-message';
 import type {CanisterInfo, SnsCanisterInfo} from '../types/services';
 import type {Settings} from '../types/settings';
@@ -22,16 +22,16 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
     return;
   }
 
-  const {internetIdentity, canisterId} = data;
+  const {canisterId} = data;
 
   const settings: Settings = await getSettings();
 
   switch (msg) {
     case 'startCyclesTimer':
-      await startCyclesTimer({internetIdentity, settings});
+      await startCyclesTimer({settings});
       return;
     case 'addCanister':
-      await addNnsCanister({canisterId, internetIdentity, settings});
+      await addNnsCanister({canisterId, settings});
       return;
     case 'addSnsCanister':
       await addSnsCanister({canisterId, settings});
@@ -41,13 +41,10 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
 
 let timer: NodeJS.Timeout | undefined = undefined;
 
-const parseIdentity = (internetIdentity?: InternetIdentityAuth): Identity | undefined => {
-  // No internet identity for the worker to fetch the canister' cycles
-  if (!internetIdentity) {
-    return undefined;
-  }
+const loadIdentity = async (): Promise<Identity | undefined> => {
+  const customStore = createStore('auth-client-db', 'ic-keyval');
 
-  const {identityKey, delegationChain} = internetIdentity;
+  const [identityKey, delegationChain] = await getMany(['identity', 'delegation'], customStore);
 
   // No identity key or delegation key for the worker to fetch the cycles
   if (!identityKey || !delegationChain) {
@@ -62,14 +59,8 @@ const parseIdentity = (internetIdentity?: InternetIdentityAuth): Identity | unde
   return initIdentity({identityKey, delegationChain});
 };
 
-const startCyclesTimer = async ({
-  internetIdentity,
-  settings
-}: {
-  internetIdentity?: InternetIdentityAuth;
-  settings: Settings;
-}) => {
-  const identity: Identity | undefined = parseIdentity(internetIdentity);
+const startCyclesTimer = async ({settings}: {settings: Settings}) => {
+  const identity: Identity | undefined = await loadIdentity();
 
   const sync = async () => await syncCanisters({identity, settings});
 
@@ -216,11 +207,9 @@ const syncSnsCanisters = async ({
 
 const addNnsCanister = async ({
   canisterId,
-  internetIdentity,
   settings
 }: {
   canisterId: string | undefined;
-  internetIdentity?: InternetIdentityAuth;
   settings: Settings;
 }) => {
   if (!canisterId) {
@@ -238,7 +227,7 @@ const addNnsCanister = async ({
     }
   });
 
-  const identity: Identity | undefined = parseIdentity(internetIdentity);
+  const identity: Identity | undefined = await loadIdentity();
 
   if (!identity) {
     // not signed in, therefore cannot sync canisters
