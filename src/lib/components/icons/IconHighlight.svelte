@@ -1,9 +1,9 @@
 <!-- https://fonts.google.com/icons?selected=Material%20Icons%20Outlined%3Ahighlight%3A -->
 <script lang="ts">
-    export let size: 'default' | 'small' = 'default';
+  export let size: 'default' | 'small' = 'default';
 
-    let applySize: number | string;
-    $: applySize = size === 'default' ? 24 : '1rem';
+  let applySize: number | string;
+  $: applySize = size === 'default' ? 24 : '1rem';
 </script>
 
 <svg

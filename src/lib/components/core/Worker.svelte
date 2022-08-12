@@ -29,16 +29,17 @@
     syncWorker?.postMessage({msg: 'addCanister', data: detail});
 
   const addSnsCanister = ({detail}: CustomEvent<string>) =>
-      syncWorker?.postMessage({msg: 'addSnsCanister', data: detail});
+    syncWorker?.postMessage({msg: 'addSnsCanister', data: detail});
 
-  $: $authSignedInStore, (() => {
+  $: $authSignedInStore,
+    (() => {
       if (!$authSignedInStore) {
-          return;
+        return;
       }
 
       stopTimer();
       startTimer();
-  })()
+    })();
 </script>
 
 <svelte:window on:addCanister={addCanister} on:addSnsCanister={addSnsCanister} />

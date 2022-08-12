@@ -5,8 +5,8 @@
   import CanisterType from '../canisters/CanisterType.svelte';
   import {authSignedInStore} from '../../stores/auth.store';
   import CanisterSignIn from '../canisters/CanisterSignIn.svelte';
-  import NnsCanisterId from "../canisters/NnsCanisterId.svelte";
-  import SnsCanisterId from "../canisters/SnsCanisterId.svelte";
+  import NnsCanisterId from '../canisters/NnsCanisterId.svelte';
+  import SnsCanisterId from '../canisters/SnsCanisterId.svelte';
 
   let open = false;
 

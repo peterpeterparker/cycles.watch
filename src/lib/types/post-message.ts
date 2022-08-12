@@ -9,7 +9,11 @@ export interface PostMessageDataResponse {
   canisters?: Canister[];
 }
 
-export type PostMessageRequest = 'startCyclesTimer' | 'stopCyclesTimer' | 'addCanister' | 'addSnsCanister';
+export type PostMessageRequest =
+  | 'startCyclesTimer'
+  | 'stopCyclesTimer'
+  | 'addCanister'
+  | 'addSnsCanister';
 export type PostMessageResponse = 'syncCanister' | 'initCanisters';
 
 export interface PostMessageSync<T extends PostMessageDataRequest | PostMessageDataResponse> {

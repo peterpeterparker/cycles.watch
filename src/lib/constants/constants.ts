@@ -6,7 +6,7 @@ export const localIdentityCanisterId: string | null | undefined = import.meta.en
   .VITE_IC_LOCAL_IDENTITY_CANISTER_ID as string | null | undefined;
 
 export const localIdentityServiceUrl: string | null | undefined = import.meta.env
-    .VITE_IC_IDENTITY_SERVICE_URL as string | null | undefined;
+  .VITE_IC_IDENTITY_SERVICE_URL as string | null | undefined;
 
 export const IDB_KEY_CANISTER_IDS = 'cycles_watch_canister_ids';
 export const IDB_KEY_SNS_ROOT_CANISTER_IDS = 'cycles_watch_sns_root_canister_ids';

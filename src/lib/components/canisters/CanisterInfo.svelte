@@ -1,6 +1,6 @@
 <script lang="ts">
   import Copy from '../ui/Copy.svelte';
-  import CanisterHighlight from "./CanisterHighlight.svelte";
+  import CanisterHighlight from './CanisterHighlight.svelte';
   import type {CanisterGroup} from '../../types/canister';
 
   export let canisterId: string;
@@ -34,7 +34,8 @@
     margin-top: 0.45rem;
   }
 
-  .canister-id, .type {
+  .canister-id,
+  .type {
     margin-top: 0.75rem;
   }
 

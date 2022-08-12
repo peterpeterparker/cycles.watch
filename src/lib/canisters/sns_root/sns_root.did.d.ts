@@ -1,4 +1,4 @@
-import type { Principal } from "@dfinity/principal";
+import type {Principal} from '@dfinity/principal';
 export interface CanisterStatusResultV2 {
   controller: Principal;
   status: CanisterStatusType_1;
@@ -10,10 +10,7 @@ export interface CanisterStatusResultV2 {
   idle_cycles_burned_per_day: bigint;
   module_hash: [] | [Array<number>];
 }
-export type CanisterStatusType_1 =
-  | { stopped: null }
-  | { stopping: null }
-  | { running: null };
+export type CanisterStatusType_1 = {stopped: null} | {stopping: null} | {running: null};
 export interface DefiniteCanisterSettingsArgs {
   controller: Principal;
   freezing_threshold: bigint;

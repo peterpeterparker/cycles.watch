@@ -2,9 +2,9 @@ import type {CallConfig, Identity} from '@dfinity/agent';
 import {Principal} from '@dfinity/principal';
 import type {_SERVICE as ICActor} from '../canisters/ic/ic.did';
 import {idlFactory} from '../canisters/ic/ic.utils.did';
+import type {CanisterInfo} from '../types/services';
 import {createActor} from '../utils/actor.utils';
 import {toStatus} from '../utils/canister.utils';
-import type {CanisterInfo} from '../types/services';
 
 const MANAGEMENT_CANISTER_ID = Principal.fromText('aaaaa-aa');
 

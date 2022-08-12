@@ -23,10 +23,7 @@ export const addSnsCanister = async (canisterId: string) => {
 };
 
 export const removeCanister = async (canister: Canister) => {
-  const {
-    id: canisterId,
-    group
-  } = canister;
+  const {id: canisterId, group} = canister;
 
   if (group?.type === 'sns') {
     await removeCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId});

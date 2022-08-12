@@ -1,9 +1,12 @@
 import type {Principal} from '@dfinity/principal';
-import type {_SERVICE as SnsRootActor, CanisterStatusResultV2} from '../canisters/sns_root/sns_root.did';
+import type {
+  CanisterStatusResultV2,
+  _SERVICE as SnsRootActor
+} from '../canisters/sns_root/sns_root.did';
 import {idlFactory} from '../canisters/sns_root/sns_root.utils.did';
+import type {SnsCanisterInfo} from '../types/services';
 import {createActor} from '../utils/actor.utils';
 import {toStatus} from '../utils/canister.utils';
-import type {SnsCanisterInfo} from '../types/services';
 
 const createSnsRootActor = ({canisterId}: {canisterId: string}): Promise<SnsRootActor> =>
   createActor<SnsRootActor>({
