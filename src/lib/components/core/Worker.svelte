@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type {InternetIdentityAuth} from '../../types/identity';
-  import {internetIdentityAuth} from '../../utils/identity.utils';
   import {onWorkerMessage} from '../../services/watch.services';
   import {onDestroy, onMount} from 'svelte';
   import {requestNotificationPermission} from '../../services/notification.services';
@@ -9,14 +7,12 @@
   export let syncWorker: Worker | undefined = undefined;
 
   const startTimer = async () => {
-    const internetIdentity: InternetIdentityAuth = await internetIdentityAuth();
-
     const SyncWorker = await import('$lib/workers/cycles.worker?worker');
     syncWorker = new SyncWorker.default();
 
     syncWorker.onmessage = onWorkerMessage;
 
-    syncWorker.postMessage({msg: 'startCyclesTimer', data: {internetIdentity}});
+    syncWorker.postMessage({msg: 'startCyclesTimer', data: {}});
   };
 
   const stopTimer = () => syncWorker?.postMessage({msg: 'stopCyclesTimer'});

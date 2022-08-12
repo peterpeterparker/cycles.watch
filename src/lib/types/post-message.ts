@@ -1,8 +1,6 @@
 import type {Canister} from './canister';
-import type {InternetIdentityAuth} from './identity';
 
 export interface PostMessageDataRequest {
-  internetIdentity?: InternetIdentityAuth;
   canisterId?: string;
 }
 
