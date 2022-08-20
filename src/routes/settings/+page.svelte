@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Settings from '../lib/components/settings/Settings.svelte';
-  import Back from '../lib/components/core/Back.svelte';
+  import Settings from '../../lib/components/settings/Settings.svelte';
+  import Back from '../../lib/components/core/Back.svelte';
 </script>
 
 <Back />
