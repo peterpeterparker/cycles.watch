@@ -35,12 +35,12 @@
   },
   "type": "module",
   "dependencies": {
-    "@dfinity/agent": "^0.13.1",
-    "@dfinity/auth-client": "^0.13.1",
-    "@dfinity/authentication": "^0.13.1",
-    "@dfinity/candid": "^0.13.1",
-    "@dfinity/identity": "^0.13.1",
-    "@dfinity/principal": "^0.13.1",
+    "@dfinity/agent": "^1.0.0-beta.0",
+    "@dfinity/auth-client": "^1.0.0-beta.0",
+    "@dfinity/authentication": "^1.0.0-beta.0",
+    "@dfinity/candid": "^1.0.0-beta.0",
+    "@dfinity/identity": "^1.0.0-beta.0",
+    "@dfinity/principal": "^1.0.0-beta.0",
     "@sveltejs/kit": "^1.0.0-next.405",
     "idb-keyval": "^6.2.0"
   }
