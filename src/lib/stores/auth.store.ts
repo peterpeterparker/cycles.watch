@@ -19,6 +19,8 @@ const createAuthClient = (): Promise<AuthClient> =>
     }
   });
 
+let authClient: AuthClient | undefined;
+
 const initAuthStore = () => {
   const {subscribe, set, update} = writable<AuthStore>({
     identity: undefined
@@ -28,7 +30,7 @@ const initAuthStore = () => {
     subscribe,
 
     sync: async () => {
-      const authClient: AuthClient = await createAuthClient();
+      authClient = authClient ?? (await createAuthClient());
       const isAuthenticated: boolean = await authClient.isAuthenticated();
 
       set({
@@ -38,14 +40,12 @@ const initAuthStore = () => {
 
     signIn: () =>
       new Promise<void>(async (resolve, reject) => {
-        const authClient: AuthClient = await createAuthClient();
-
-        await authClient.login({
+        await authClient?.login({
           maxTimeToLive,
           onSuccess: () => {
             update((state: AuthStore) => ({
               ...state,
-              identity: authClient.getIdentity()
+              identity: authClient?.getIdentity()
             }));
 
             resolve();
@@ -63,9 +63,9 @@ const initAuthStore = () => {
       }),
 
     signOut: async () => {
-      const authClient: AuthClient = await createAuthClient();
+      const client: AuthClient = authClient ?? (await createAuthClient());
 
-      await authClient.logout();
+      await client.logout();
 
       update((state: AuthStore) => ({
         ...state,

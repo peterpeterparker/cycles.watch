@@ -1,12 +1,15 @@
 import type {Principal} from '@dfinity/principal';
 import type {
   CanisterStatusResultV2,
+  CanisterSummary,
+  GetSnsCanistersSummaryResponse,
   _SERVICE as SnsRootActor
 } from '../canisters/sns_root/sns_root.did';
 import {idlFactory} from '../canisters/sns_root/sns_root.utils.did';
 import type {SnsCanisterInfo} from '../types/services';
 import {createActor} from '../utils/actor.utils';
 import {toStatus} from '../utils/canister.utils';
+import {fromNullable} from '../utils/did.utils';
 
 const createSnsRootActor = ({canisterId}: {canisterId: string}): Promise<SnsRootActor> =>
   createActor<SnsRootActor>({
@@ -25,25 +28,25 @@ export const snsCanisters = async ({
     canisterId: rootCanisterId
   });
 
-  // TODO: this will be soon modified to variants, see canistersSummary details
-  const canisters: Array<[string, Principal, CanisterStatusResultV2]> =
-    await get_sns_canisters_summary([]);
+  const canisters: GetSnsCanistersSummaryResponse = await get_sns_canisters_summary({
+    update_canister_list: [false]
+  });
 
   const findCanisterInfo = (
     type: 'root' | 'governance' | 'ledger' | 'swap'
   ): SnsCanisterInfo | undefined => {
-    const info: [string, Principal, CanisterStatusResultV2] | undefined = canisters.find(
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      ([canisterType, _canisterId, _status]: [string, Principal, CanisterStatusResultV2]) =>
-        canisterType === type
-    );
+    const info: CanisterSummary | undefined = fromNullable(canisters[type]);
 
     if (!info) {
       return undefined;
     }
 
-    /* eslint-disable @typescript-eslint/no-unused-vars */
-    const [_canisterType, canisterId, status] = info;
+    const canisterId: Principal | undefined = fromNullable(info.canister_id);
+    const status: CanisterStatusResultV2 | undefined = fromNullable(info.status);
+
+    if (!canisterId || !status) {
+      return undefined;
+    }
 
     return {
       canisterId: canisterId.toText(),
