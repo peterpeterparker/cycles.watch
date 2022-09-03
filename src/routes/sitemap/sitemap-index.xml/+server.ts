@@ -2,6 +2,8 @@ const url = 'https://cycles.watch/';
 
 const staticPages: string[] = [];
 
+export const prerender = true;
+
 export const GET = async (): Promise<Response> => {
   const headers: Record<string, string> = {
     'Cache-Control': 'max-age=3600',

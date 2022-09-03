@@ -1,6 +1,6 @@
 <script lang="ts">
   import {authStore} from '../lib/stores/auth.store';
-  import {browser} from '$app/env';
+  import {browser} from '$app/environment';
 
   import '$lib/themes/font-faces.scss';
   import '$lib/themes/fonts.scss';
