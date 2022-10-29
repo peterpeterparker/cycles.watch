@@ -8,5 +8,5 @@ export interface CanisterInfo {
 }
 
 export interface SnsCanisterInfo extends CanisterInfo {
-  type: 'root' | 'governance' | 'ledger' | 'swap';
+  type: 'root' | 'governance' | 'ledger' | 'swap' | 'index';
 }

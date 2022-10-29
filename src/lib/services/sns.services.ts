@@ -33,7 +33,7 @@ export const snsCanisters = async ({
   });
 
   const findCanisterInfo = (
-    type: 'root' | 'governance' | 'ledger' | 'swap'
+    type: 'root' | 'governance' | 'ledger' | 'swap' | 'index'
   ): SnsCanisterInfo | undefined => {
     const info: CanisterSummary | undefined = fromNullable(canisters[type]);
 
@@ -60,8 +60,14 @@ export const snsCanisters = async ({
   const rootCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('root');
   const governanceCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('governance');
   const ledgerCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('ledger');
+  const swapCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('swap');
+  const indexCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('index');
 
-  return [rootCanisterInfo, governanceCanisterInfo, ledgerCanisterInfo].filter(
-    (info: SnsCanisterInfo | undefined) => info !== undefined
-  ) as SnsCanisterInfo[];
+  return [
+    rootCanisterInfo,
+    governanceCanisterInfo,
+    ledgerCanisterInfo,
+    swapCanisterInfo,
+    indexCanisterInfo
+  ].filter((info: SnsCanisterInfo | undefined) => info !== undefined) as SnsCanisterInfo[];
 };
