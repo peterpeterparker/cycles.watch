@@ -30,4 +30,23 @@
   @use '../../themes/mixins/canister';
 
   @include canister.overlay;
+
+  .actions {
+    flex-direction: column;
+    padding: 0.45rem 0 0;
+
+    :global(div.inline) {
+      width: 100%;
+      margin: 0;
+
+      @media (min-width: 768px) {
+        width: 320px;
+      }
+    }
+
+    :global(button) {
+      width: 100%;
+      height: 54px;
+    }
+  }
 </style>
