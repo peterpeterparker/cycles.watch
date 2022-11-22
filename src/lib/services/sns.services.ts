@@ -75,7 +75,7 @@ export const snsCanisters = async ({
   const dappsCanisterInfos: (SnsCanisterInfo | undefined)[] = canisters.dapps.map(
     (info: CanisterSummary) => findCanisterInfo({type: 'dapps', info})
   );
-  const archivesCanisterInfos: (SnsCanisterInfo | undefined)[] = canisters.dapps.map(
+  const archivesCanisterInfos: (SnsCanisterInfo | undefined)[] = canisters.archives.map(
     (info: CanisterSummary) => findCanisterInfo({type: 'archives', info})
   );
 
