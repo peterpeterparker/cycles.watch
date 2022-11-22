@@ -6,7 +6,7 @@ import type {
   _SERVICE as SnsRootActor
 } from '../canisters/sns_root/sns_root.did';
 import {idlFactory} from '../canisters/sns_root/sns_root.utils.did';
-import type {SnsCanisterInfo} from '../types/services';
+import type {SnsCanisterInfo, SnsCanisterInfoType} from '../types/services';
 import {createActor} from '../utils/actor.utils';
 import {toStatus} from '../utils/canister.utils';
 import {fromNullable} from '../utils/did.utils';
@@ -32,7 +32,7 @@ export const snsCanisters = async ({
     update_canister_list: [false]
   });
 
-  const findCanisterInfo = (
+  const findCanisterSummaryInfo = (
     type: 'root' | 'governance' | 'ledger' | 'swap' | 'index'
   ): SnsCanisterInfo | undefined => {
     const info: CanisterSummary | undefined = fromNullable(canisters[type]);
@@ -41,6 +41,16 @@ export const snsCanisters = async ({
       return undefined;
     }
 
+    return findCanisterInfo({type, info});
+  };
+
+  const findCanisterInfo = ({
+    type,
+    info
+  }: {
+    type: SnsCanisterInfoType;
+    info: CanisterSummary;
+  }): SnsCanisterInfo | undefined => {
     const canisterId: Principal | undefined = fromNullable(info.canister_id);
     const status: CanisterStatusResultV2 | undefined = fromNullable(info.status);
 
@@ -57,17 +67,25 @@ export const snsCanisters = async ({
     };
   };
 
-  const rootCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('root');
-  const governanceCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('governance');
-  const ledgerCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('ledger');
-  const swapCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('swap');
-  const indexCanisterInfo: SnsCanisterInfo | undefined = findCanisterInfo('index');
+  const rootCanisterInfo: SnsCanisterInfo | undefined = findCanisterSummaryInfo('root');
+  const governanceCanisterInfo: SnsCanisterInfo | undefined = findCanisterSummaryInfo('governance');
+  const ledgerCanisterInfo: SnsCanisterInfo | undefined = findCanisterSummaryInfo('ledger');
+  const swapCanisterInfo: SnsCanisterInfo | undefined = findCanisterSummaryInfo('swap');
+  const indexCanisterInfo: SnsCanisterInfo | undefined = findCanisterSummaryInfo('index');
+  const dappsCanisterInfos: (SnsCanisterInfo | undefined)[] = canisters.dapps.map(
+    (info: CanisterSummary) => findCanisterInfo({type: 'dapps', info})
+  );
+  const archivesCanisterInfos: (SnsCanisterInfo | undefined)[] = canisters.dapps.map(
+    (info: CanisterSummary) => findCanisterInfo({type: 'archives', info})
+  );
 
   return [
     rootCanisterInfo,
     governanceCanisterInfo,
     ledgerCanisterInfo,
     swapCanisterInfo,
-    indexCanisterInfo
+    indexCanisterInfo,
+    ...dappsCanisterInfos,
+    ...archivesCanisterInfos
   ].filter((info: SnsCanisterInfo | undefined) => info !== undefined) as SnsCanisterInfo[];
 };

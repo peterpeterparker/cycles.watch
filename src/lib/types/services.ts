@@ -7,6 +7,8 @@ export interface CanisterInfo {
   canisterId: string;
 }
 
+export type SnsCanisterInfoType = 'root' | 'governance' | 'ledger' | 'swap' | 'index' | 'dapps' | 'archives';
+
 export interface SnsCanisterInfo extends CanisterInfo {
-  type: 'root' | 'governance' | 'ledger' | 'swap' | 'index';
+  type: SnsCanisterInfoType
 }
