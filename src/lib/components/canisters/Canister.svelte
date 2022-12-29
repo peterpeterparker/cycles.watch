@@ -13,7 +13,6 @@
   import type {CanisterSyncStatus} from '../../types/canister';
   import CanisterSkeleton from './CanisterSkeleton.svelte';
   import CanisterInfo from './CanisterInfo.svelte';
-  import CanisterHighlight from './CanisterHighlight.svelte';
   import {highlightStore} from '../../stores/highlight.store';
   import {fade} from 'svelte/transition';
 
