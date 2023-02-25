@@ -1,6 +1,5 @@
 import type {Identity} from '@dfinity/agent';
-import {isDelegationValid} from '@dfinity/authentication';
-import {DelegationChain} from '@dfinity/identity';
+import {DelegationChain, isDelegationValid} from '@dfinity/identity';
 import {createStore, getMany} from 'idb-keyval';
 import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 import {icpXdrConversionRate} from '../services/cmc.services';

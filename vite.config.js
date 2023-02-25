@@ -28,7 +28,10 @@ const config = {
         })
       ]
     }
-  }
+  },
+  worker: {
+    format: "es",
+  },
 };
 
 export default config;
