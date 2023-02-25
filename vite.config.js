@@ -31,7 +31,10 @@ const config = {
   },
   server: {
     port: 3000
-  }
+  },
+  worker: {
+    format: "es",
+  },
 };
 
 export default config;
