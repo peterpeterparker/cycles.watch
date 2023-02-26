@@ -8,7 +8,6 @@
 </script>
 
 <h3><slot name="title" /></h3>
-<p><slot name="icp" /></p>
 
 <p class="status"><slot name="status" /></p>
 <p><slot name="memory" /></p>

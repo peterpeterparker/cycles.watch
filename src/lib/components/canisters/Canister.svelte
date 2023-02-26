@@ -60,7 +60,6 @@
   {#if syncStatus === 'synced'}
     <CanisterInfo canisterId={id} {group}>
       <svelte:fragment slot="title">{formatTCycles(cycles)} TCycles{emoji}</svelte:fragment>
-      <svelte:fragment slot="icp">{formatICP(icp)} ICP</svelte:fragment>
       <svelte:fragment slot="status">{status ?? ''}</svelte:fragment>
       <svelte:fragment slot="memory"
         >{formatNumber(Number(memory_size) / 1000000)}mb</svelte:fragment>
