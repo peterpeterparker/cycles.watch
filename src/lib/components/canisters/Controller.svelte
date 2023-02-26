@@ -1,12 +1,12 @@
 <script lang="ts">
-  import {authStore} from '../../stores/auth.store';
+  import {authStore} from '$lib/stores/auth.store';
   import {createEventDispatcher} from 'svelte';
-  import Copy from '../ui/Copy.svelte';
+  import Copy from '$lib/components/ui/Copy.svelte';
 
   const dispatch = createEventDispatcher();
 
   let principalId = '';
-  $: principalId = $authStore.identity?.getPrincipal()?.toText() ?? '';
+  $: principalId = $authStore.user?.key ?? '';
 </script>
 
 <p>

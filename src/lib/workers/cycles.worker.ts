@@ -1,8 +1,5 @@
 import type {Identity} from '@dfinity/agent';
-import {KEY_STORAGE_DELEGATION} from '@dfinity/auth-client';
-import {KEY_STORAGE_KEY} from '@dfinity/auth-client/lib/cjs/storage';
-import {DelegationChain, isDelegationValid} from '@dfinity/identity';
-import {createStore, getMany} from 'idb-keyval';
+import {AuthClient} from '@dfinity/auth-client';
 import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 import {icpXdrConversionRate} from '../services/cmc.services';
 import {canisterStatus} from '../services/ic.services';
@@ -13,7 +10,6 @@ import type {PostMessageDataRequest, PostMessageSync} from '../types/post-messag
 import type {CanisterInfo, SnsCanisterInfo} from '../types/services';
 import type {Settings} from '../types/settings';
 import {cyclesToICP, formatTCycles} from '../utils/cycles.utils';
-import {initIdentity} from '../utils/identity.utils';
 
 onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageDataRequest>>) => {
   const {msg, data} = dataMsg;
@@ -43,24 +39,14 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
 let timer: NodeJS.Timeout | undefined = undefined;
 
 const loadIdentity = async (): Promise<Identity | undefined> => {
-  const customStore = createStore('auth-client-db', 'ic-keyval');
+  const authClient = await AuthClient.create({
+    idleOptions: {
+      disableIdle: true,
+      disableDefaultIdleCallback: true
+    }
+  });
 
-  const [identityKey, delegationChain] = await getMany(
-    [KEY_STORAGE_KEY, KEY_STORAGE_DELEGATION],
-    customStore
-  );
-
-  // No identity key or delegation key for the worker to fetch the cycles
-  if (!identityKey || !delegationChain) {
-    return undefined;
-  }
-
-  if (!isDelegationValid(DelegationChain.fromJSON(delegationChain))) {
-    console.error('Internet identity has expired. Please login again.');
-    throw new Error('Internet identity has expired. Please login again.');
-  }
-
-  return initIdentity({identityKey, delegationChain});
+  return authClient.getIdentity();
 };
 
 const startCyclesTimer = async ({settings}: {settings: Settings}) => {

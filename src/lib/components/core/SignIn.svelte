@@ -1,8 +1,6 @@
 <script lang="ts">
-  import {authStore} from '../../stores/auth.store';
-  import IconInternetComputer from '../icons/IconInternetComputer.svelte';
-
-  const signIn = async () => await authStore.signIn();
+  import IconInternetComputer from '$lib/components/icons/IconInternetComputer.svelte';
+  import {signIn} from '@junobuild/core';
 </script>
 
 <div class="actions">

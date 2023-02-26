@@ -1,12 +1,14 @@
 <script lang="ts">
-  import IconMenu from '../icons/IconMenu.svelte';
-  import Popover from '../ui/Popover.svelte';
-  import IconSignOut from '../icons/IconSignOut.svelte';
-  import IconSignIn from '../icons/IconSignIn.svelte';
-  import {authSignedInStore, authStore} from '../../stores/auth.store';
-  import IconSettings from '../icons/IconSettings.svelte';
+  import IconMenu from '$lib/components/icons/IconMenu.svelte';
+  import Popover from '$lib/components/ui/Popover.svelte';
+  import IconSignOut from '$lib/components/icons/IconSignOut.svelte';
+  import IconSignIn from '$lib/components/icons/IconSignIn.svelte';
+  import {authSignedInStore} from '$lib/stores/auth.store';
+  import IconSettings from '$lib/components/icons/IconSettings.svelte';
   import {goto} from '$app/navigation';
-  import {canistersEmpty, canistersStore} from '../../stores/canisters.store';
+  import {canistersStore} from '$lib/stores/canisters.store';
+  import {signIn, signOut} from '@junobuild/core';
+  import {clear} from 'idb-keyval';
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -19,8 +21,10 @@
     await callback();
   };
 
-  const signIn = async () => await authStore.signIn();
-  const signOut = async () => await authStore.signOut();
+  const logout = async () => {
+    await clear();
+    await signOut();
+  };
 </script>
 
 <button
@@ -48,7 +52,7 @@
       type="button"
       role="menuitem"
       aria-haspopup="menu"
-      on:click={async () => await onAction(signOut)}
+      on:click={async () => await onAction(logout)}
       class="menu">
       <IconSignOut />
       <span>Sign out</span>

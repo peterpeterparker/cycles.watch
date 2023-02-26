@@ -1,4 +1,4 @@
-import {get, update} from 'idb-keyval';
+import {clear as clearIDB, get, update} from 'idb-keyval';
 import {DEFAULT_SETTINGS, IDB_KEY_SETTINGS} from '../constants/constants';
 import type {Settings} from '../types/settings';
 
@@ -13,6 +13,8 @@ export const removeCanister = async ({key, canisterId}: {key: string; canisterId
   update(key, (canisters: string[] | undefined) => [
     ...(canisters ?? []).filter((id: string) => canisterId !== id)
   ]);
+
+export const clear = (): Promise<void> => clearIDB();
 
 export const getSettings = async (): Promise<Settings> =>
   (await get(IDB_KEY_SETTINGS)) ?? DEFAULT_SETTINGS;

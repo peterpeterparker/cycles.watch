@@ -1,4 +1,13 @@
-import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
+import {
+  addCanisters as addCanistersJuno,
+  removeCanister as removeCanisterJuno
+} from '$lib/services/juno.services';
+import {
+  COLLECTION_CANISTER_IDS,
+  COLLECTION_SNS_ROOT_CANISTER_IDS,
+  IDB_KEY_CANISTER_IDS,
+  IDB_KEY_SNS_ROOT_CANISTER_IDS
+} from '../constants/constants';
 import {canistersStore, type CanistersStore} from '../stores/canisters.store';
 import type {Canister} from '../types/canister';
 import type {
@@ -11,13 +20,19 @@ import {addCanister as addCanisterIDB, removeCanister as removeCanisterIDB} from
 import {notify} from './notification.services';
 
 export const addCanister = async (canisterId: string) => {
-  await addCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId});
+  await Promise.all([
+    addCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId}),
+    addCanistersJuno({canisterIds: [canisterId], collection: COLLECTION_CANISTER_IDS})
+  ]);
 
   emit<PostMessageDataRequest>({message: 'addCanister', detail: {canisterId}});
 };
 
 export const addSnsCanister = async (canisterId: string) => {
-  await addCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId});
+  await Promise.all([
+    addCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId}),
+    addCanistersJuno({canisterIds: [canisterId], collection: COLLECTION_SNS_ROOT_CANISTER_IDS})
+  ]);
 
   emit<PostMessageDataRequest>({message: 'addSnsCanister', detail: {canisterId}});
 };
@@ -26,12 +41,20 @@ export const removeCanister = async (canister: Canister) => {
   const {id: canisterId, group} = canister;
 
   if (group?.type === 'sns') {
-    await removeCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId});
+    await Promise.all([
+      removeCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId}),
+      removeCanisterJuno({collection: COLLECTION_SNS_ROOT_CANISTER_IDS, canisterId})
+    ]);
+
     removeGroupCanistersStore({groupId: canisterId});
     return;
   }
 
-  await removeCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId});
+  await Promise.all([
+    removeCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId}),
+    removeCanisterJuno({collection: COLLECTION_CANISTER_IDS, canisterId})
+  ]);
+
   updateCanistersStore({canister, method: 'remove'});
 };
 

@@ -2,7 +2,8 @@
   import {onWorkerMessage} from '../../services/watch.services';
   import {onDestroy, onMount} from 'svelte';
   import {requestNotificationPermission} from '../../services/notification.services';
-  import {authSignedInStore} from '../../stores/auth.store';
+  import {authSignedInStore, authStore} from '../../stores/auth.store';
+  import {initData} from '$lib/services/data.services';
 
   export let syncWorker: Worker | undefined = undefined;
 
@@ -32,13 +33,15 @@
     syncWorker?.postMessage({msg: 'addSnsCanister', data: detail});
 
   $: $authSignedInStore,
-    (() => {
+    (async () => {
       if (!$authSignedInStore) {
         return;
       }
 
+      await initData($authStore.user!);
+
       stopTimer();
-      startTimer();
+      await startTimer();
     })();
 </script>
 

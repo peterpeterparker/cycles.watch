@@ -1,7 +1,6 @@
 <script lang="ts">
   import Popover from '../ui/Popover.svelte';
-  import IconPapyrs from '../icons/IconPapyrs.svelte';
-  import IconEmoji from '../icons/IconEmoji.svelte';
+  import IconJuno from '../icons/IconJuno.svelte';
   import IconInfo from '../icons/IconInfo.svelte';
   import IconGitHub from '../icons/IconGitHub.svelte';
 
@@ -30,22 +29,12 @@
   </a>
 
   <a
-    aria-label="Blog on web3 with Papyrs"
-    href="https://papy.rs"
+    aria-label="Developed and deploy with Juno.build"
+    href="https://juno.build"
     class="menu"
     aria-haspopup="menu"
     rel="noopener norefferer">
-    <IconPapyrs />
-    <span>Blog on Papyrs</span>
-  </a>
-
-  <a
-    aria-label="Made by David Dal Busco"
-    href="https://daviddalbusco.com"
-    class="menu"
-    aria-haspopup="menu"
-    rel="noopener norefferer">
-    <IconEmoji />
-    <span>Made by David</span>
+    <IconJuno />
+    <span>Build with Juno</span>
   </a>
 </Popover>
