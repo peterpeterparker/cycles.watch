@@ -45,7 +45,7 @@ To start the local dev server, run following command:
 npm run dev
 ```
 
-Per default, it will interact with `mainnet`. 
+Per default, it will interact with `mainnet`.
 
 ## License
 
