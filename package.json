@@ -36,6 +36,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@junobuild/core": "^0.0.5"
+    "@junobuild/core": "^0.0.5",
+    "idb-keyval": "^6.2.0"
   }
 }
