@@ -1,7 +1,8 @@
 import type {Identity} from '@dfinity/agent';
-import {IdbStorage, KEY_STORAGE_DELEGATION} from '@dfinity/auth-client';
+import {KEY_STORAGE_DELEGATION} from '@dfinity/auth-client';
 import {KEY_STORAGE_KEY} from '@dfinity/auth-client/lib/cjs/storage';
 import {DelegationChain, isDelegationValid} from '@dfinity/identity';
+import {createStore, getMany} from 'idb-keyval';
 import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 import {icpXdrConversionRate} from '../services/cmc.services';
 import {canisterStatus} from '../services/ic.services';
@@ -42,12 +43,12 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
 let timer: NodeJS.Timeout | undefined = undefined;
 
 const loadIdentity = async (): Promise<Identity | undefined> => {
-  const idbStorage: IdbStorage = new IdbStorage();
+  const customStore = createStore('auth-client-db', 'ic-keyval');
 
-  const [identityKey, delegationChain] = await Promise.all([
-    idbStorage.get(KEY_STORAGE_KEY),
-    idbStorage.get(KEY_STORAGE_DELEGATION)
-  ]);
+  const [identityKey, delegationChain] = await getMany(
+    [KEY_STORAGE_KEY, KEY_STORAGE_DELEGATION],
+    customStore
+  );
 
   // No identity key or delegation key for the worker to fetch the cycles
   if (!identityKey || !delegationChain) {

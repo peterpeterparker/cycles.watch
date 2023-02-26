@@ -1,15 +1,15 @@
-import type {Identity} from '@dfinity/agent';
-import {DelegationChain, DelegationIdentity, Ed25519KeyIdentity} from '@dfinity/identity';
+import type { Identity } from '@dfinity/agent';
+import { DelegationChain,DelegationIdentity,ECDSAKeyIdentity } from '@dfinity/identity';
 
-export const initIdentity = ({
+export const initIdentity = async ({
   identityKey,
   delegationChain
 }: {
-  identityKey: string;
+  identityKey: CryptoKeyPair;
   delegationChain: string;
-}): Identity => {
+}): Promise<Identity> => {
   const chain: DelegationChain = DelegationChain.fromJSON(delegationChain);
-  const key: Ed25519KeyIdentity = Ed25519KeyIdentity.fromJSON(identityKey);
+  const key: ECDSAKeyIdentity = await ECDSAKeyIdentity.fromKeyPair(identityKey);
 
   return DelegationIdentity.fromDelegation(key, chain);
 };
