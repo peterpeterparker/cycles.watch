@@ -1,5 +1,5 @@
 <script lang="ts">
-  import IconInternetComputer from '$lib/icons/IconInternetComputer.svelte';
+  import IconInternetComputer from '$lib/components/icons/IconInternetComputer.svelte';
   import {signIn} from "@junobuild/core";
 </script>
 

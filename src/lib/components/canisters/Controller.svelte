@@ -1,7 +1,7 @@
 <script lang="ts">
   import {authStore} from '$lib/stores/auth.store';
   import {createEventDispatcher} from 'svelte';
-  import Copy from '$lib/ui/Copy.svelte';
+  import Copy from '$lib/components/ui/Copy.svelte';
 
   const dispatch = createEventDispatcher();
 

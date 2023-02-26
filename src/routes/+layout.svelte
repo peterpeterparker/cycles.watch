@@ -12,6 +12,7 @@
   import Add from '$lib/components/overlays/Add.svelte';
   import {onMount} from "svelte";
   import {initJuno} from "@junobuild/core";
+  import Busy from "$lib/components/ui/Busy.svelte";
 
   onMount(async () => await initJuno({
     satelliteId: "ck4tp-3iaaa-aaaal-ab7da-cai",
@@ -23,3 +24,4 @@
 </Worker>
 
 <Add />
+<Busy />

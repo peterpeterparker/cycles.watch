@@ -3,6 +3,8 @@
   import type {Settings} from '../../types/settings';
   import {getSettings, updateTimerInterval, updateWarnTCycles} from '../../services/idb.services';
   import {DEFAULT_SETTINGS} from '../../constants/constants';
+  import {busy} from '$lib/stores/busy.store';
+  import {setSettings} from '$lib/services/juno.services';
 
   let timer: number | undefined;
   let warn: number | undefined;
@@ -23,7 +25,32 @@
       return;
     }
 
-    await updateWarnTCycles(Number(warn));
+    busy.start();
+
+    try {
+      const warnTCycles = Number(warn);
+
+      await Promise.all([updateWarnTCycles(warnTCycles), setSettings({settings: {warnTCycles}})]);
+    } catch (err: unknown) {
+      console.error(err);
+    }
+
+    busy.stop();
+  };
+
+  const onTimerInterval = async (timerInterval: number) => {
+    busy.start();
+
+    try {
+      await Promise.all([
+        updateTimerInterval(timerInterval),
+        setSettings({settings: {timerInterval}})
+      ]);
+    } catch (err: unknown) {
+      console.error(err);
+    }
+
+    busy.stop();
   };
 </script>
 
@@ -36,7 +63,7 @@
 
       <select
         bind:value={timer}
-        on:change={async () => await updateTimerInterval(timer ?? DEFAULT_SETTINGS.timerInterval)}>
+        on:change={async () => await onTimerInterval(timer ?? DEFAULT_SETTINGS.timerInterval)}>
         <option value={five_min}> Every 5 minutes </option>
         <option value={ten_min}> Every 10 minutes </option>
         <option value={thirty_min}> Every 30 minutes </option>

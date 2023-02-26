@@ -13,7 +13,6 @@ const initAuthStore: AuthStore = {
 
 const start = (set: (store: AuthStore) => void) => {
   const subscriber: () => void = authSubscribe((user: User | null) => {
-    console.log('User:', user);
     set({user});
   });
 
