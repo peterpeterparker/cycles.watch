@@ -24,6 +24,8 @@
   const logout = async () => {
     await clear();
     await signOut();
+
+    window.location.reload();
   };
 </script>
 
