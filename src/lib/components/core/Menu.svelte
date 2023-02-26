@@ -7,8 +7,8 @@
   import IconSettings from '$lib/components/icons/IconSettings.svelte';
   import {goto} from '$app/navigation';
   import {canistersStore} from '$lib/stores/canisters.store';
-  import {signIn, signOut} from "@junobuild/core";
-  import {clear} from "idb-keyval";
+  import {signIn, signOut} from '@junobuild/core';
+  import {clear} from 'idb-keyval';
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -24,7 +24,7 @@
   const logout = async () => {
     await clear();
     await signOut();
-  }
+  };
 </script>
 
 <button

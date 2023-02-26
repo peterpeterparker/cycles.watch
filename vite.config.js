@@ -30,8 +30,8 @@ const config = {
     }
   },
   worker: {
-    format: "es",
-  },
+    format: 'es'
+  }
 };
 
 export default config;

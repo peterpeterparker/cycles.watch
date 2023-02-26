@@ -3,7 +3,7 @@
   import {onDestroy, onMount} from 'svelte';
   import {requestNotificationPermission} from '../../services/notification.services';
   import {authSignedInStore, authStore} from '../../stores/auth.store';
-  import {initData} from "$lib/services/data.services";
+  import {initData} from '$lib/services/data.services';
 
   export let syncWorker: Worker | undefined = undefined;
 

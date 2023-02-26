@@ -1,4 +1,5 @@
 import type {Identity} from '@dfinity/agent';
+import {AuthClient} from '@dfinity/auth-client';
 import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
 import {icpXdrConversionRate} from '../services/cmc.services';
 import {canisterStatus} from '../services/ic.services';
@@ -9,7 +10,6 @@ import type {PostMessageDataRequest, PostMessageSync} from '../types/post-messag
 import type {CanisterInfo, SnsCanisterInfo} from '../types/services';
 import type {Settings} from '../types/settings';
 import {cyclesToICP, formatTCycles} from '../utils/cycles.utils';
-import {AuthClient} from '@dfinity/auth-client';
 
 onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageDataRequest>>) => {
   const {msg, data} = dataMsg;

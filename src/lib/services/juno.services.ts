@@ -111,7 +111,8 @@ export const setSettings = async ({settings}: {settings: Partial<Settings>}) => 
       ...(nonNullish(doc) && doc),
       key: user.key,
       data: {
-        timerInterval: settings?.timerInterval ?? doc?.data.timerInterval ?? DEFAULT_SETTINGS.timerInterval,
+        timerInterval:
+          settings?.timerInterval ?? doc?.data.timerInterval ?? DEFAULT_SETTINGS.timerInterval,
         warnTCycles: settings?.warnTCycles ?? doc?.data.warnTCycles ?? DEFAULT_SETTINGS.warnTCycles
       }
     }

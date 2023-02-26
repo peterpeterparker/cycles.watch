@@ -1,6 +1,6 @@
 <script lang="ts">
   import IconInternetComputer from '$lib/components/icons/IconInternetComputer.svelte';
-  import {signIn} from "@junobuild/core";
+  import {signIn} from '@junobuild/core';
 </script>
 
 <div class="actions">
