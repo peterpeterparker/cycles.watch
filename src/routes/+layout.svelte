@@ -1,7 +1,4 @@
 <script lang="ts">
-  import {authStore} from '$lib/stores/auth.store';
-  import {browser} from '$app/environment';
-
   import '$lib/themes/font-faces.scss';
   import '$lib/themes/fonts.scss';
   import '$lib/themes/theme.scss';
@@ -16,33 +13,13 @@
   import {onMount} from "svelte";
   import {initJuno} from "@junobuild/core";
 
-  const syncAuthStore = async () => {
-    if (!browser) {
-      return;
-    }
-
-    try {
-      await authStore.sync();
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  onMount(async () => {
-    await initJuno({
-      satelliteId: "ck4tp-3iaaa-aaaal-ab7da-cai",
-    });
-  })
+  onMount(async () => await initJuno({
+    satelliteId: "ck4tp-3iaaa-aaaal-ab7da-cai",
+  }));
 </script>
 
-<svelte:window on:storage={syncAuthStore} />
+<Worker>
+  <slot />
+</Worker>
 
-{#await syncAuthStore()}
-  <!-- TODO spinner -->
-{:then}
-  <Worker>
-    <slot />
-  </Worker>
-
-  <Add />
-{/await}
+<Add />

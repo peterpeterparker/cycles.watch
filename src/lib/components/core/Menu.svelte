@@ -1,12 +1,13 @@
 <script lang="ts">
-  import IconMenu from '../icons/IconMenu.svelte';
-  import Popover from '../ui/Popover.svelte';
-  import IconSignOut from '../icons/IconSignOut.svelte';
-  import IconSignIn from '../icons/IconSignIn.svelte';
-  import {authSignedInStore, authStore} from '../../stores/auth.store';
-  import IconSettings from '../icons/IconSettings.svelte';
+  import IconMenu from '$lib/icons/IconMenu.svelte';
+  import Popover from '$lib/ui/Popover.svelte';
+  import IconSignOut from '$lib/icons/IconSignOut.svelte';
+  import IconSignIn from '$lib/icons/IconSignIn.svelte';
+  import {authSignedInStore} from '$lib/stores/auth.store';
+  import IconSettings from '$lib/icons/IconSettings.svelte';
   import {goto} from '$app/navigation';
-  import {canistersEmpty, canistersStore} from '../../stores/canisters.store';
+  import {canistersStore} from '$lib/stores/canisters.store';
+  import {signIn, signOut} from "@junobuild/core";
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -18,9 +19,6 @@
 
     await callback();
   };
-
-  const signIn = async () => await authStore.signIn();
-  const signOut = async () => await authStore.signOut();
 </script>
 
 <button
