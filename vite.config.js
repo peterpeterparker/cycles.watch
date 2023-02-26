@@ -28,9 +28,6 @@ const config = {
         })
       ]
     }
-  },
-  worker: {
-    format: 'es'
   }
 };
 
