@@ -13,6 +13,8 @@
   import '$lib/themes/input.scss';
   import Worker from '$lib/components/core/Worker.svelte';
   import Add from '$lib/components/overlays/Add.svelte';
+  import {onMount} from "svelte";
+  import {initJuno} from "@junobuild/core";
 
   const syncAuthStore = async () => {
     if (!browser) {
@@ -25,6 +27,12 @@
       console.error(err);
     }
   };
+
+  onMount(async () => {
+    await initJuno({
+      satelliteId: "ck4tp-3iaaa-aaaal-ab7da-cai",
+    });
+  })
 </script>
 
 <svelte:window on:storage={syncAuthStore} />
