@@ -45,7 +45,7 @@ To start the local dev server, run following command:
 npm run dev
 ```
 
-Per default, it will interact with `mainnet`. If you wish to develop locally, deploy the CMC and II canisters locally and set their respective local canister ID in `.env.hack` and run the development service with the `--mode hack` flag.
+Per default, it will interact with `mainnet`. 
 
 ## License
 
