@@ -1,13 +1,13 @@
 <div align="center" style="display:flex;flex-direction:column;">
   <a href="https://cycles.watch">
-    <img src="https://github.com/papyrs/cycles.watch/raw/main/static/icons/icon-256x256.png" width="140px" alt="Cycles.watch" role="presentation" />
+    <img src="https://github.com/peterpeterparker/cycles.watch/raw/main/static/icons/icon-256x256.png" width="140px" alt="Cycles.watch" role="presentation" />
   </a>
 
 <h3>Cycles.watch</h3>
 
   <br/>
 
-[![GitHub release](https://img.shields.io/github/release/papyrs/cycles.watch/all?logo=GitHub&style=flat-square)](https://github.com/papyrs/cycles.watch/releases/latest)
+[![GitHub release](https://img.shields.io/github/release/papyrs/cycles.watch/all?logo=GitHub&style=flat-square)](https://github.com/peterpeterparker/cycles.watch/releases/latest)
 
 </div>
 
@@ -32,7 +32,7 @@ Make sure you have a recent version of [Node.js installed](https://nodejs.org/en
 Clone the repo (or a fork) and install the dependencies.
 
 ```
-git clone https://github.com/papyrs/cycles.watch
+git clone https://github.com/peterpeterparker/cycles.watch
 cd cycles.watch
 npm ci
 ```

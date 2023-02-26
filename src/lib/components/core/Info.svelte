@@ -21,7 +21,7 @@
 <Popover bind:visible anchor={button} direction="rtl">
   <a
     aria-label="Cycles.watch in open source - Repo on GitHub"
-    href="https://github.com/papyrs/cycles.watch"
+    href="https://github.com/peterpeterparker/cycles.watch"
     class="menu"
     aria-haspopup="menu"
     rel="external noopener norefferer">
