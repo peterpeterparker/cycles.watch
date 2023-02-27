@@ -29,9 +29,10 @@
   };
 
   // Session duration 14 days
-  const login = async () => signIn({
-    maxTimeToLive: BigInt(14 * 24 * 60 * 60 * 1000 * 1000 * 1000)
-  })
+  const login = async () =>
+    signIn({
+      maxTimeToLive: BigInt(14 * 24 * 60 * 60 * 1000 * 1000 * 1000)
+    });
 </script>
 
 <button
