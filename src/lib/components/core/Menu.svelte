@@ -27,6 +27,11 @@
 
     window.location.reload();
   };
+
+  // Session duration 14 days
+  const login = async () => signIn({
+    maxTimeToLive: BigInt(14 * 24 * 60 * 60 * 1000 * 1000 * 1000)
+  })
 </script>
 
 <button
@@ -64,7 +69,7 @@
       type="button"
       role="menuitem"
       aria-haspopup="menu"
-      on:click={async () => await onAction(signIn)}
+      on:click={async () => await onAction(login)}
       class="menu">
       <IconSignIn />
       <span>Sign in</span>
