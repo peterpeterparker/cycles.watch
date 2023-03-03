@@ -13,11 +13,11 @@
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@sveltejs/adapter-static": "^2.0.1",
-    "@sveltejs/kit": "^1.8.5",
-    "@typescript-eslint/eslint-plugin": "^5.53.0",
-    "@typescript-eslint/parser": "^5.53.0",
+    "@sveltejs/kit": "^1.9.3",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
     "autoprefixer": "^10.4.13",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-svelte3": "^4.0.0",
     "postcss": "^8.4.21",
@@ -34,7 +34,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@junobuild/core": "^0.0.6",
+    "@junobuild/core": "^0.0.7",
     "idb-keyval": "^6.2.0"
   }
 }
