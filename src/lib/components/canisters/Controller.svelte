@@ -1,12 +1,8 @@
 <script lang="ts">
-  import {authStore} from '$lib/stores/auth.store';
   import {createEventDispatcher} from 'svelte';
-  import Copy from '$lib/components/ui/Copy.svelte';
+  import Principal from "$lib/components/core/Principal.svelte";
 
   const dispatch = createEventDispatcher();
-
-  let principalId = '';
-  $: principalId = $authStore.user?.key ?? '';
 </script>
 
 <p>
@@ -24,10 +20,7 @@
   >.
 </p>
 
-<p>
-  <strong aria-label="Your principal ID">{principalId}</strong>
-  <Copy value={principalId} ariaLabel="Copy principal ID to clipboard" />
-</p>
+<Principal bold />
 
 <div class="actions">
   <button type="button" on:click|stopPropagation={() => dispatch('papyNext')}> Done </button>
