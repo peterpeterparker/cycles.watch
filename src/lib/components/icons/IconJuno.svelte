@@ -1,5 +1,9 @@
 <!-- CC BY-NC-SA - Didier Renaud - https://www.customfuture.com/ -->
-<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274.35 220.39"
+<script lang="ts">
+  export let size = 24;
+</script>
+
+<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274.35 220.39" height={size} width={size}
   ><defs
     ><style>
       .cls-1 {
@@ -15,3 +19,9 @@
         r="68.14" /></g
     ></g
   ></svg>
+
+<style lang="scss">
+  svg {
+    vertical-align: bottom;
+  }
+</style>
