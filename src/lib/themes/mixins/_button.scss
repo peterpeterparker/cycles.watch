@@ -89,6 +89,11 @@
   margin: 0.45rem 0.15rem;
   padding: 0 0.15rem;
 
+  &.small {
+    width: 2rem;
+    height: 2rem;
+  }
+
   font-size: var(--font-size-very-small);
 
   &:hover:not(:disabled),

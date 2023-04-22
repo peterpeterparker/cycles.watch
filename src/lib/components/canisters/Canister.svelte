@@ -5,16 +5,16 @@
     CanisterData,
     CanisterGroup,
     CanisterType
-  } from '../../types/canister';
-  import type {CanisterStatus} from '../../types/canister';
-  import {formatTCycles} from '../../utils/cycles.utils';
-  import {formatICP} from '../../utils/icp.utils';
-  import {formatNumber} from '../../utils/number.utils';
-  import type {CanisterSyncStatus} from '../../types/canister';
+  } from '$lib/types/canister';
+  import type {CanisterStatus} from '$lib/types/canister';
+  import {formatTCycles} from '$lib/utils/cycles.utils';
+  import {formatNumber} from '$lib/utils/number.utils';
+  import type {CanisterSyncStatus} from '$lib/types/canister';
   import CanisterSkeleton from './CanisterSkeleton.svelte';
   import CanisterInfo from './CanisterInfo.svelte';
-  import {highlightStore} from '../../stores/highlight.store';
+  import {highlightStore} from '$lib/stores/highlight.store';
   import {fade} from 'svelte/transition';
+  import CanisterToolbar from '$lib/components/canisters/CanisterToolbar.svelte';
 
   export let canister: Canister;
 
@@ -52,36 +52,42 @@
   $: hidden = $highlightStore !== undefined && $highlightStore.id !== groupId;
 </script>
 
-<article
-  class:warn={cyclesStatus === 'warn'}
-  class:error={cyclesStatus === 'error'}
-  class:hidden
-  transition:fade>
-  {#if syncStatus === 'synced'}
-    <CanisterInfo canisterId={id} {group}>
-      <svelte:fragment slot="title">{formatTCycles(cycles)} TCycles{emoji}</svelte:fragment>
-      <svelte:fragment slot="status">{status ?? ''}</svelte:fragment>
-      <svelte:fragment slot="memory"
-        >{formatNumber(Number(memory_size) / 1000000)}mb</svelte:fragment>
+<div>
+  <article
+    class:warn={cyclesStatus === 'warn'}
+    class:error={cyclesStatus === 'error'}
+    class:hidden
+    transition:fade>
+    {#if syncStatus === 'synced'}
+      <CanisterInfo canisterId={id}>
+        <svelte:fragment slot="title">{formatTCycles(cycles)} TCycles{emoji}</svelte:fragment>
+        <svelte:fragment slot="status">{status ?? ''}</svelte:fragment>
+        <svelte:fragment slot="memory"
+          >{formatNumber(Number(memory_size) / 1000000)}mb</svelte:fragment>
 
-      <svelte:fragment slot="type">
-        {#if type !== 'nns'}
-          {description} ({type})
-        {/if}
-      </svelte:fragment>
-    </CanisterInfo>
-  {:else if syncStatus === 'error'}
-    <CanisterInfo canisterId={id} {group}>
-      <svelte:fragment slot="title">Sync error❗️</svelte:fragment>
-    </CanisterInfo>
-  {:else if syncStatus === 'auth'}
-    <CanisterInfo canisterId={id} {group}>
-      <svelte:fragment slot="title">Sign-in required 🔐️</svelte:fragment>
-    </CanisterInfo>
-  {:else}
-    <CanisterSkeleton />
+        <svelte:fragment slot="type">
+          {#if type !== 'nns'}
+            {description} ({type})
+          {/if}
+        </svelte:fragment>
+      </CanisterInfo>
+    {:else if syncStatus === 'error'}
+      <CanisterInfo canisterId={id} {group}>
+        <svelte:fragment slot="title">Sync error❗️</svelte:fragment>
+      </CanisterInfo>
+    {:else if syncStatus === 'auth'}
+      <CanisterInfo canisterId={id} {group}>
+        <svelte:fragment slot="title">Sign-in required 🔐️</svelte:fragment>
+      </CanisterInfo>
+    {:else}
+      <CanisterSkeleton />
+    {/if}
+  </article>
+
+  {#if syncStatus !== 'syncing'}
+    <CanisterToolbar {group} />
   {/if}
-</article>
+</div>
 
 <style lang="scss">
   @use '../../themes/mixins/card';

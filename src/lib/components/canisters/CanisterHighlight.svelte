@@ -20,7 +20,7 @@
   <button
     on:click|stopPropagation={highlight}
     aria-label={$highlightStore !== undefined ? 'Show all canister' : 'Highlight'}
-    class="icon">
+    class="toolbar small">
     <svelte:component this={icon} size="small" />
   </button>
 {/if}

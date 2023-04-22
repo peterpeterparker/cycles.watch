@@ -1,10 +1,7 @@
 <script lang="ts">
-  import Copy from '../ui/Copy.svelte';
-  import CanisterHighlight from './CanisterHighlight.svelte';
-  import type {CanisterGroup} from '../../types/canister';
+  import Copy from '$lib/components/ui/Copy.svelte';
 
   export let canisterId: string;
-  export let group: CanisterGroup;
 </script>
 
 <h3><slot name="title" /></h3>
@@ -18,10 +15,6 @@
   <span>{canisterId}</span>
   <Copy value={canisterId} ariaLabel="Copy canister ID to clipboard" />
 </p>
-
-<div class="highlight">
-  <CanisterHighlight {group} />
-</div>
 
 <style lang="scss">
   p {
@@ -40,10 +33,5 @@
 
   .type {
     min-height: 1rem;
-  }
-
-  .highlight {
-    position: absolute;
-    inset: 0.45rem 0.45rem auto auto;
   }
 </style>

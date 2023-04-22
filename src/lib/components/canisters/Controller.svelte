@@ -1,6 +1,6 @@
 <script lang="ts">
   import {createEventDispatcher} from 'svelte';
-  import Principal from "$lib/components/core/Principal.svelte";
+  import Principal from '$lib/components/core/Principal.svelte';
 
   const dispatch = createEventDispatcher();
 </script>

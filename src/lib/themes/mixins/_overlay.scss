@@ -45,7 +45,10 @@
     --size: min(240px, calc(100vw - 1.45rem));
 
     min-width: var(--size);
-    max-width: var(--size);
+
+    &:not(.center) {
+      max-width: var(--size);
+    }
 
     @include shadow.strong;
 
