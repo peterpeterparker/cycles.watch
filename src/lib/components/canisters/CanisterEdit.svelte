@@ -75,7 +75,7 @@
   .toolbar {
     display: flex;
     justify-content: center;
-    margin: 0.75rem 0 0;
+    margin: 0.45rem 0.15rem;
   }
 
   button {

@@ -29,6 +29,7 @@
     align-items: center;
 
     min-height: 8.45rem;
+    max-height: 13rem;
   }
 
   .inline {

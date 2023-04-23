@@ -96,7 +96,7 @@
   </article>
 
   {#if syncStatus !== 'syncing'}
-    <CanisterToolbar {canister} />
+    <CanisterToolbar {canister} {hidden} />
   {/if}
 </div>
 

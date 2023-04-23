@@ -37,7 +37,7 @@
 
   .type,
   .name {
-    min-height: 1rem;
+    min-height: 1.2rem;
   }
 
   .name {

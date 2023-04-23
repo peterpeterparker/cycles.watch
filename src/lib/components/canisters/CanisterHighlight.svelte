@@ -16,8 +16,6 @@
   $: icon = $highlightStore !== undefined ? IconFlashlightOff : IconHighlight;
 
   const highlight = () => highlightStore.set($highlightStore !== undefined ? undefined : group);
-
-  onDestroy(() => setTimeout(() => highlightStore.set(undefined), 500));
 </script>
 
 {#if $canistersUniqueGroups.length > 1}

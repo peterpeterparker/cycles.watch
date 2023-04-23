@@ -132,6 +132,7 @@ const syncNnsCanisters = async ({
         const canisterInfo: CanisterInfo = await canisterStatus({canisterId, identity});
 
         await syncCanister({
+          canisterId,
           canisterInfo,
           trillionRatio,
           settings,
@@ -181,11 +182,12 @@ const syncSnsCanisters = async ({
 
         const syncCanisters: Promise<void>[] = canisterInfos.map((canisterInfo: SnsCanisterInfo) =>
           syncCanister({
+            canisterId: canisterInfo.canisterId,
             canisterInfo,
             trillionRatio,
             settings,
             group: {type: 'sns', id: rootCanisterId, description: canisterInfo.type},
-            meta: {id: rootCanisterId, ...rest}
+            meta: {id: canisterInfo.canisterId, ...rest}
           })
         );
 
@@ -256,6 +258,7 @@ const addNnsCanister = async ({
     ]);
 
     await syncCanister({
+      canisterId,
       canisterInfo,
       trillionRatio,
       settings,
@@ -277,12 +280,14 @@ const emitCanister = (canister: Canister) =>
   });
 
 const syncCanister = async ({
+  canisterId,
   meta: {id, ...rest},
   settings: {warnTCycles},
   trillionRatio,
   canisterInfo: {cycles, status, memory_size},
   group
 }: {
+  canisterId: string;
   meta: CanisterMeta;
   settings: Settings;
   trillionRatio: bigint;
@@ -292,7 +297,7 @@ const syncCanister = async ({
   const tCycles = Number(formatTCycles(cycles));
 
   const canister: Canister = {
-    id,
+    id: canisterId,
     status: 'synced',
     data: {
       status,
@@ -344,6 +349,7 @@ const addSnsCanister = async ({
     await Promise.all(
       canisterInfos.map((canisterInfo: SnsCanisterInfo) =>
         syncCanister({
+          canisterId: canisterInfo.canisterId,
           canisterInfo,
           trillionRatio,
           settings,

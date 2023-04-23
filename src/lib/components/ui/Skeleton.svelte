@@ -31,7 +31,7 @@
   }
 
   h3.element {
-    height: 1.45rem;
+    height: 1.6rem;
   }
 
   span {

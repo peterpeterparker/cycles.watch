@@ -4,12 +4,18 @@
   import type {Canister} from '$lib/types/canister';
 
   export let canister: Canister;
+  export let hidden: boolean;
 </script>
 
-<div class="toolbar">
-  <CanisterEdit {canister} />
-  <CanisterHighlight {canister} />
-</div>
+{#if !hidden}
+  <div class="toolbar">
+    {#if canister.group?.type !== 'sns' || canister.group?.description === 'root'}
+      <CanisterEdit {canister} />
+    {/if}
+
+    <CanisterHighlight {canister} />
+  </div>
+{/if}
 
 <style lang="scss">
   .toolbar {
