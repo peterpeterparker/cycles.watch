@@ -1,5 +1,6 @@
 import {COLLECTION_SETTINGS, DEFAULT_SETTINGS} from '$lib/constants/constants';
 import {authStore} from '$lib/stores/auth.store';
+import type {CanisterId} from '$lib/types/canister';
 import type {Settings} from '$lib/types/settings';
 import {isNullish, nonNullish} from '$lib/utils/utils';
 import {getDoc as getJunoDoc, setDoc, type Doc, type User} from '@junobuild/core';
@@ -11,8 +12,8 @@ const getDoc = ({
 }: {
   collection: string;
   user: User;
-}): Promise<Doc<string[]> | undefined> =>
-  getJunoDoc<string[]>({
+}): Promise<Doc<(CanisterId | string)[]> | undefined> =>
+  getJunoDoc<(CanisterId | string)[]>({
     collection,
     key: user.key
   });
@@ -23,11 +24,13 @@ export const listCanisters = async ({
 }: {
   collection: string;
   user: User;
-}): Promise<string[]> => {
+}): Promise<CanisterId[]> => {
   try {
     const doc = await getDoc({collection, user});
 
-    return doc?.data ?? [];
+    return (doc?.data ?? []).map((data: CanisterId | string) =>
+      typeof data === 'object' ? data : {id: data}
+    );
   } catch (err: unknown) {
     console.error(err);
     return [];
@@ -39,7 +42,7 @@ export const addCanisters = async ({
   canisterIds
 }: {
   collection: string;
-  canisterIds: string[];
+  canisterIds: CanisterId[];
 }) => {
   const {user} = get(authStore);
 
@@ -49,12 +52,12 @@ export const addCanisters = async ({
 
   const doc = await getDoc({collection, user});
 
-  await setDoc<string[]>({
+  await setDoc<(string | CanisterId)[]>({
     collection,
     doc: {
       ...(nonNullish(doc) && doc),
       key: user.key,
-      data: [...new Set([...(doc?.data ?? []), ...canisterIds])]
+      data: [...(doc?.data ?? []), ...canisterIds]
     }
   });
 };
@@ -78,11 +81,15 @@ export const removeCanister = async ({
     return;
   }
 
-  await setDoc<string[]>({
+  await setDoc<(string | CanisterId)[]>({
     collection,
     doc: {
       ...doc,
-      data: [...(doc.data ?? []).filter((id: string) => canisterId !== id)]
+      data: [
+        ...(doc.data ?? []).filter(
+          (id: string | CanisterId) => canisterId !== (typeof id === 'object' ? id.id : id)
+        )
+      ]
     }
   });
 };

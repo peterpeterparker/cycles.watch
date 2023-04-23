@@ -21,8 +21,8 @@ import {notify} from './notification.services';
 
 export const addCanister = async (canisterId: string) => {
   await Promise.all([
-    addCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId}),
-    addCanistersJuno({canisterIds: [canisterId], collection: COLLECTION_CANISTER_IDS})
+    addCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId: {id: canisterId}}),
+    addCanistersJuno({canisterIds: [{id: canisterId}], collection: COLLECTION_CANISTER_IDS})
   ]);
 
   emit<PostMessageDataRequest>({message: 'addCanister', detail: {canisterId}});
@@ -30,8 +30,11 @@ export const addCanister = async (canisterId: string) => {
 
 export const addSnsCanister = async (canisterId: string) => {
   await Promise.all([
-    addCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId}),
-    addCanistersJuno({canisterIds: [canisterId], collection: COLLECTION_SNS_ROOT_CANISTER_IDS})
+    addCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId: {id: canisterId}}),
+    addCanistersJuno({
+      canisterIds: [{id: canisterId}],
+      collection: COLLECTION_SNS_ROOT_CANISTER_IDS
+    })
   ]);
 
   emit<PostMessageDataRequest>({message: 'addSnsCanister', detail: {canisterId}});

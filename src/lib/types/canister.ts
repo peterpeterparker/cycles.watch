@@ -23,3 +23,8 @@ export interface Canister {
   data?: CanisterData;
   group?: CanisterGroup;
 }
+
+export interface CanisterId {
+  id: string;
+  name?: string;
+}

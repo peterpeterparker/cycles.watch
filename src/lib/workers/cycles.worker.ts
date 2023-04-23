@@ -1,15 +1,15 @@
+import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '$lib/constants/constants';
+import {icpXdrConversionRate} from '$lib/services/cmc.services';
+import {canisterStatus} from '$lib/services/ic.services';
+import {getSettings, listCanisters} from '$lib/services/idb.services';
+import {snsCanisters} from '$lib/services/sns.services';
+import type {Canister, CanisterGroup, CanisterId} from '$lib/types/canister';
+import type {PostMessageDataRequest, PostMessageSync} from '$lib/types/post-message';
+import type {CanisterInfo, SnsCanisterInfo} from '$lib/types/services';
+import type {Settings} from '$lib/types/settings';
+import {cyclesToICP, formatTCycles} from '$lib/utils/cycles.utils';
 import type {Identity} from '@dfinity/agent';
 import {AuthClient} from '@dfinity/auth-client';
-import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
-import {icpXdrConversionRate} from '../services/cmc.services';
-import {canisterStatus} from '../services/ic.services';
-import {getSettings, listCanisters} from '../services/idb.services';
-import {snsCanisters} from '../services/sns.services';
-import type {Canister, CanisterGroup} from '../types/canister';
-import type {PostMessageDataRequest, PostMessageSync} from '../types/post-message';
-import type {CanisterInfo, SnsCanisterInfo} from '../types/services';
-import type {Settings} from '../types/settings';
-import {cyclesToICP, formatTCycles} from '../utils/cycles.utils';
 
 onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageDataRequest>>) => {
   const {msg, data} = dataMsg;
@@ -95,13 +95,13 @@ const syncNnsCanisters = async ({
   settings: Settings;
   trillionRatio: bigint;
 }) => {
-  const canisterIds: string[] = await listCanisters(IDB_KEY_CANISTER_IDS);
+  const canisterIds: CanisterId[] = await listCanisters(IDB_KEY_CANISTER_IDS);
 
   // Update ui with the list of canisters about to be synced
   postMessage({
     msg: 'initCanisters',
     data: {
-      canisters: canisterIds.map((canisterId: string) => ({id: canisterId, status: 'syncing'}))
+      canisters: canisterIds.map(({id: canisterId}) => ({id: canisterId, status: 'syncing'}))
     }
   });
 
@@ -110,7 +110,7 @@ const syncNnsCanisters = async ({
     postMessage({
       msg: 'initCanisters',
       data: {
-        canisters: canisterIds.map((canisterId: string) => ({
+        canisters: canisterIds.map(({id: canisterId}) => ({
           id: canisterId,
           status: 'auth',
           group: {type: 'nns', id: canisterId}
@@ -121,7 +121,7 @@ const syncNnsCanisters = async ({
   }
 
   await Promise.allSettled(
-    canisterIds.map(async (canisterId: string) => {
+    canisterIds.map(async ({id: canisterId}) => {
       try {
         const canisterInfo: CanisterInfo = await canisterStatus({canisterId, identity});
 
@@ -154,18 +154,18 @@ const syncSnsCanisters = async ({
   settings: Settings;
   trillionRatio: bigint;
 }) => {
-  const canisterRootIds: string[] = await listCanisters(IDB_KEY_SNS_ROOT_CANISTER_IDS);
+  const canisterRootIds: CanisterId[] = await listCanisters(IDB_KEY_SNS_ROOT_CANISTER_IDS);
 
   // Update ui with the list of canisters about to be synced
   postMessage({
     msg: 'initCanisters',
     data: {
-      canisters: canisterRootIds.map((canisterId: string) => ({id: canisterId, status: 'syncing'}))
+      canisters: canisterRootIds.map(({id: canisterId}) => ({id: canisterId, status: 'syncing'}))
     }
   });
 
   await Promise.allSettled(
-    canisterRootIds.map(async (rootCanisterId: string) => {
+    canisterRootIds.map(async ({id: rootCanisterId}) => {
       try {
         const canisterInfos: SnsCanisterInfo[] = await snsCanisters({rootCanisterId});
 

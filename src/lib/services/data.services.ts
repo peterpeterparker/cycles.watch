@@ -7,12 +7,10 @@ import {
 import {
   addCanister as addCanisterIDB,
   getSettings as getSettingsIDB,
-  listCanisters as listCanistersIDB,
   updateTimerInterval,
   updateWarnTCycles
 } from '$lib/services/idb.services';
 import {
-  addCanisters as addCanistersJuno,
   getSettings as getSettingsJuno,
   listCanisters as listCanistersJuno,
   setSettings
@@ -62,24 +60,7 @@ const initCanisters = async ({
   collection: string;
   user: User;
 }) => {
-  const [idbCanisters, junoCanisters] = await Promise.all([
-    listCanistersIDB(key),
-    listCanistersJuno({collection, user})
-  ]);
-
   // Load Juno -> IDB
-  const canisterIds = junoCanisters.filter((canisterId) => !idbCanisters.includes(canisterId));
-  if (canisterIds.length > 0) {
-    await Promise.all(canisterIds.map((canisterId) => addCanisterIDB({key, canisterId})));
-    return;
-  }
-
-  // Migrate IDB -> Juno
-  const migrateCanisterIds = idbCanisters.filter(
-    (canisterId) => !junoCanisters.includes(canisterId)
-  );
-
-  if (migrateCanisterIds.length > 0) {
-    await addCanistersJuno({collection, canisterIds: migrateCanisterIds});
-  }
+  const junoCanisters = await listCanistersJuno({collection, user});
+  await Promise.all(junoCanisters.map((canisterId) => addCanisterIDB({key, canisterId})));
 };
