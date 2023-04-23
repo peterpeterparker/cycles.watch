@@ -9,6 +9,8 @@
     background: transparent;
     border: 3px solid var(--spinner-color, black);
 
+    border-radius: 50%;
+
     width: var(--spinner-size);
     height: var(--spinner-size);
 
