@@ -2,6 +2,7 @@
 export const idlFactory = ({IDL}) => {
   const SnsRootCanister = IDL.Record({
     dapp_canister_ids: IDL.Vec(IDL.Principal),
+    testflight: IDL.Bool,
     latest_ledger_archive_poll_timestamp_seconds: IDL.Opt(IDL.Nat64),
     archive_canister_ids: IDL.Vec(IDL.Principal),
     governance_canister_id: IDL.Opt(IDL.Principal),
@@ -72,7 +73,11 @@ export const idlFactory = ({IDL}) => {
   const RegisterDappCanisterRequest = IDL.Record({
     canister_id: IDL.Opt(IDL.Principal)
   });
+  const RegisterDappCanistersRequest = IDL.Record({
+    canister_ids: IDL.Vec(IDL.Principal)
+  });
   const SetDappControllersRequest = IDL.Record({
+    canister_ids: IDL.Opt(RegisterDappCanistersRequest),
     controller_principal_ids: IDL.Vec(IDL.Principal)
   });
   const CanisterCallError = IDL.Record({
@@ -96,12 +101,14 @@ export const idlFactory = ({IDL}) => {
     ),
     list_sns_canisters: IDL.Func([IDL.Record({})], [ListSnsCanistersResponse], ['query']),
     register_dapp_canister: IDL.Func([RegisterDappCanisterRequest], [IDL.Record({})], []),
+    register_dapp_canisters: IDL.Func([RegisterDappCanistersRequest], [IDL.Record({})], []),
     set_dapp_controllers: IDL.Func([SetDappControllersRequest], [SetDappControllersResponse], [])
   });
 };
 export const init = ({IDL}) => {
   const SnsRootCanister = IDL.Record({
     dapp_canister_ids: IDL.Vec(IDL.Principal),
+    testflight: IDL.Bool,
     latest_ledger_archive_poll_timestamp_seconds: IDL.Opt(IDL.Nat64),
     archive_canister_ids: IDL.Vec(IDL.Principal),
     governance_canister_id: IDL.Opt(IDL.Principal),
