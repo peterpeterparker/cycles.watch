@@ -1,9 +1,5 @@
 <script>
   import AddCanister from '../canisters/AddCanister.svelte';
-  import IconJuno from '$lib/components/icons/IconJuno.svelte';
-  import IconPlus from "$lib/components/icons/IconPlus.svelte";
-  import {emitAddCanister} from "$lib/utils/events.utils";
-  import Button from "$lib/components/ui/Button.svelte";
 </script>
 
 <section>
