@@ -16,7 +16,11 @@
   <Copy value={canisterId} ariaLabel="Copy canister ID to clipboard" />
 </p>
 
+<p class="name"><slot name="name" /></p>
+
 <style lang="scss">
+  @use '../../themes/mixins/text';
+
   p {
     font-size: var(--font-size-very-small);
     margin: 0;
@@ -31,7 +35,13 @@
     margin-top: 0.75rem;
   }
 
-  .type {
+  .type,
+  .name {
     min-height: 1rem;
+  }
+
+  .name {
+    margin-top: 0.15rem;
+    @include text.truncate;
   }
 </style>

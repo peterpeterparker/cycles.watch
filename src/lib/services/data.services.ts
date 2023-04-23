@@ -62,5 +62,5 @@ const initCanisters = async ({
 }) => {
   // Load Juno -> IDB
   const junoCanisters = await listCanistersJuno({collection, user});
-  await Promise.all(junoCanisters.map((canisterId) => addCanisterIDB({key, canisterId})));
+  await Promise.all(junoCanisters.map((meta) => addCanisterIDB({key, meta})));
 };

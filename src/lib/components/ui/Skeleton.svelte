@@ -16,7 +16,7 @@
     display: block;
 
     width: var(--width);
-    height: inherit;
+    height: 0.9rem;
 
     margin: 0 0 0.25rem;
 
@@ -28,6 +28,10 @@
     pointer-events: none;
 
     border-radius: 4px;
+  }
+
+  h3.element {
+    height: 1.45rem;
   }
 
   span {

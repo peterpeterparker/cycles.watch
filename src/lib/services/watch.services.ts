@@ -9,7 +9,7 @@ import {
   IDB_KEY_SNS_ROOT_CANISTER_IDS
 } from '../constants/constants';
 import {canistersStore, type CanistersStore} from '../stores/canisters.store';
-import type {Canister} from '../types/canister';
+import type {Canister, CanisterMeta} from '../types/canister';
 import type {
   PostMessageDataRequest,
   PostMessageDataResponse,
@@ -19,25 +19,25 @@ import {emit} from '../utils/events.utils';
 import {addCanister as addCanisterIDB, removeCanister as removeCanisterIDB} from './idb.services';
 import {notify} from './notification.services';
 
-export const addCanister = async (canisterId: string) => {
+export const addCanister = async (meta: CanisterMeta) => {
   await Promise.all([
-    addCanisterIDB({key: IDB_KEY_CANISTER_IDS, canisterId: {id: canisterId}}),
-    addCanistersJuno({canisterIds: [{id: canisterId}], collection: COLLECTION_CANISTER_IDS})
+    addCanisterIDB({key: IDB_KEY_CANISTER_IDS, meta}),
+    addCanistersJuno({canisterIds: [meta], collection: COLLECTION_CANISTER_IDS})
   ]);
 
-  emit<PostMessageDataRequest>({message: 'addCanister', detail: {canisterId}});
+  emit<PostMessageDataRequest>({message: 'addCanister', detail: {meta}});
 };
 
-export const addSnsCanister = async (canisterId: string) => {
+export const addSnsCanister = async (meta: CanisterMeta) => {
   await Promise.all([
-    addCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, canisterId: {id: canisterId}}),
+    addCanisterIDB({key: IDB_KEY_SNS_ROOT_CANISTER_IDS, meta}),
     addCanistersJuno({
-      canisterIds: [{id: canisterId}],
+      canisterIds: [meta],
       collection: COLLECTION_SNS_ROOT_CANISTER_IDS
     })
   ]);
 
-  emit<PostMessageDataRequest>({message: 'addSnsCanister', detail: {canisterId}});
+  emit<PostMessageDataRequest>({message: 'addSnsCanister', detail: {meta}});
 };
 
 export const removeCanister = async (canister: Canister) => {

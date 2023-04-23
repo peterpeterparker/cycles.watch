@@ -1,6 +1,6 @@
 import {COLLECTION_SETTINGS, DEFAULT_SETTINGS} from '$lib/constants/constants';
 import {authStore} from '$lib/stores/auth.store';
-import type {CanisterId} from '$lib/types/canister';
+import type {CanisterMeta} from '$lib/types/canister';
 import type {Settings} from '$lib/types/settings';
 import {isNullish, nonNullish} from '$lib/utils/utils';
 import {getDoc as getJunoDoc, setDoc, type Doc, type User} from '@junobuild/core';
@@ -12,8 +12,8 @@ const getDoc = ({
 }: {
   collection: string;
   user: User;
-}): Promise<Doc<(CanisterId | string)[]> | undefined> =>
-  getJunoDoc<(CanisterId | string)[]>({
+}): Promise<Doc<(CanisterMeta | string)[]> | undefined> =>
+  getJunoDoc<(CanisterMeta | string)[]>({
     collection,
     key: user.key
   });
@@ -24,11 +24,11 @@ export const listCanisters = async ({
 }: {
   collection: string;
   user: User;
-}): Promise<CanisterId[]> => {
+}): Promise<CanisterMeta[]> => {
   try {
     const doc = await getDoc({collection, user});
 
-    return (doc?.data ?? []).map((data: CanisterId | string) =>
+    return (doc?.data ?? []).map((data: CanisterMeta | string) =>
       typeof data === 'object' ? data : {id: data}
     );
   } catch (err: unknown) {
@@ -42,7 +42,7 @@ export const addCanisters = async ({
   canisterIds
 }: {
   collection: string;
-  canisterIds: CanisterId[];
+  canisterIds: CanisterMeta[];
 }) => {
   const {user} = get(authStore);
 
@@ -52,7 +52,7 @@ export const addCanisters = async ({
 
   const doc = await getDoc({collection, user});
 
-  await setDoc<(string | CanisterId)[]>({
+  await setDoc<(string | CanisterMeta)[]>({
     collection,
     doc: {
       ...(nonNullish(doc) && doc),
@@ -81,13 +81,13 @@ export const removeCanister = async ({
     return;
   }
 
-  await setDoc<(string | CanisterId)[]>({
+  await setDoc<(string | CanisterMeta)[]>({
     collection,
     doc: {
       ...doc,
       data: [
         ...(doc.data ?? []).filter(
-          (id: string | CanisterId) => canisterId !== (typeof id === 'object' ? id.id : id)
+          (id: string | CanisterMeta) => canisterId !== (typeof id === 'object' ? id.id : id)
         )
       ]
     }

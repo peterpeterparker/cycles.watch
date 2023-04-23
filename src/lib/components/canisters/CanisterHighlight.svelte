@@ -1,12 +1,16 @@
 <script lang="ts">
   import {onDestroy, SvelteComponent} from 'svelte';
-  import IconHighlight from '../icons/IconHighlight.svelte';
-  import IconFlashlightOff from '../icons/IconFlashlightOff.svelte';
-  import type {CanisterGroup} from '../../types/canister';
-  import {highlightStore} from '../../stores/highlight.store';
-  import {canistersUniqueGroups} from '../../stores/canisters.store';
+  import IconHighlight from '$lib/components/icons/IconHighlight.svelte';
+  import IconFlashlightOff from '$lib/components/icons/IconFlashlightOff.svelte';
+  import type {CanisterGroup} from '$lib/types/canister';
+  import {highlightStore} from '$lib/stores/highlight.store';
+  import {canistersUniqueGroups} from '$lib/stores/canisters.store';
+  import type {Canister} from '$lib/types/canister';
 
-  export let group: CanisterGroup;
+  export let canister: Canister;
+
+  let group: CanisterGroup;
+  $: ({group} = canister);
 
   let icon: typeof SvelteComponent;
   $: icon = $highlightStore !== undefined ? IconFlashlightOff : IconHighlight;

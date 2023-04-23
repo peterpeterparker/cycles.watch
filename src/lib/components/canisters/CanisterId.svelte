@@ -1,9 +1,10 @@
 <script lang="ts">
   import {createEventDispatcher} from 'svelte';
-  import {canistersUniqueGroups} from '../../stores/canisters.store';
-  import type {Canister} from '../../types/canister';
+  import {canistersUniqueGroups} from '$lib/stores/canisters.store';
+  import type {Canister} from '$lib/types/canister';
+  import type {CanisterMeta} from '$lib/types/canister';
 
-  export let add: (canisterId: string) => Promise<void>;
+  export let add: (meta: CanisterMeta) => Promise<void>;
   export let placeholder: string;
 
   const dispatch = createEventDispatcher();
@@ -25,7 +26,7 @@
       return;
     }
 
-    await add(canisterId);
+    await add({id: canisterId});
 
     dispatch('papyDone');
   };

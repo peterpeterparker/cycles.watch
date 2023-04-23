@@ -4,6 +4,7 @@
     CanisterCyclesStatus,
     CanisterData,
     CanisterGroup,
+    CanisterMeta,
     CanisterType
   } from '$lib/types/canister';
   import type {CanisterStatus} from '$lib/types/canister';
@@ -22,8 +23,12 @@
   let data: CanisterData | undefined;
   let syncStatus: CanisterSyncStatus = 'syncing';
   let group: CanisterGroup;
+  let meta: CanisterMeta;
 
-  $: ({id, data, status: syncStatus, group} = canister);
+  $: ({id, data, status: syncStatus, group, meta} = canister);
+
+  let name: string | undefined;
+  $: name = meta?.name;
 
   let groupId: string;
   let type: CanisterType;
@@ -70,6 +75,12 @@
             {description} ({type})
           {/if}
         </svelte:fragment>
+
+        <svelte:fragment slot="name">
+          {#if name !== undefined}
+            {name}
+          {/if}
+        </svelte:fragment>
       </CanisterInfo>
     {:else if syncStatus === 'error'}
       <CanisterInfo canisterId={id} {group}>
@@ -85,7 +96,7 @@
   </article>
 
   {#if syncStatus !== 'syncing'}
-    <CanisterToolbar {group} />
+    <CanisterToolbar {canister} />
   {/if}
 </div>
 

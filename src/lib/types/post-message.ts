@@ -1,7 +1,7 @@
-import type {Canister} from './canister';
+import type {Canister, CanisterMeta} from './canister';
 
 export interface PostMessageDataRequest {
-  canisterId?: string;
+  meta?: CanisterMeta;
 }
 
 export interface PostMessageDataResponse {
