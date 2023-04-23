@@ -11,3 +11,4 @@
 <Skeleton animationDelay={400} />
 
 <Skeleton animationDelay={500} />
+<Skeleton animationDelay={400} />

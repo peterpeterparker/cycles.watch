@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {addCanister} from '../../services/watch.services';
+  import {addCanister} from '$lib/services/watch.services';
   import CanisterId from './CanisterId.svelte';
 </script>
 

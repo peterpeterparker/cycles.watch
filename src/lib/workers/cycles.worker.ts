@@ -1,15 +1,15 @@
+import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '$lib/constants/constants';
+import {icpXdrConversionRate} from '$lib/services/cmc.services';
+import {canisterStatus} from '$lib/services/ic.services';
+import {getSettings, listCanisters} from '$lib/services/idb.services';
+import {snsCanisters} from '$lib/services/sns.services';
+import type {Canister, CanisterGroup, CanisterMeta} from '$lib/types/canister';
+import type {PostMessageDataRequest, PostMessageSync} from '$lib/types/post-message';
+import type {CanisterInfo, SnsCanisterInfo} from '$lib/types/services';
+import type {Settings} from '$lib/types/settings';
+import {cyclesToICP, formatTCycles} from '$lib/utils/cycles.utils';
 import type {Identity} from '@dfinity/agent';
 import {AuthClient} from '@dfinity/auth-client';
-import {IDB_KEY_CANISTER_IDS, IDB_KEY_SNS_ROOT_CANISTER_IDS} from '../constants/constants';
-import {icpXdrConversionRate} from '../services/cmc.services';
-import {canisterStatus} from '../services/ic.services';
-import {getSettings, listCanisters} from '../services/idb.services';
-import {snsCanisters} from '../services/sns.services';
-import type {Canister, CanisterGroup} from '../types/canister';
-import type {PostMessageDataRequest, PostMessageSync} from '../types/post-message';
-import type {CanisterInfo, SnsCanisterInfo} from '../types/services';
-import type {Settings} from '../types/settings';
-import {cyclesToICP, formatTCycles} from '../utils/cycles.utils';
 
 onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageDataRequest>>) => {
   const {msg, data} = dataMsg;
@@ -19,7 +19,7 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
     return;
   }
 
-  const {canisterId} = data;
+  const {meta} = data;
 
   const settings: Settings = await getSettings();
 
@@ -28,10 +28,16 @@ onmessage = async ({data: dataMsg}: MessageEvent<PostMessageSync<PostMessageData
       await startCyclesTimer({settings});
       return;
     case 'addCanister':
-      await addNnsCanister({canisterId, settings});
+      await addNnsCanister({
+        meta,
+        settings
+      });
       return;
     case 'addSnsCanister':
-      await addSnsCanister({canisterId, settings});
+      await addSnsCanister({
+        meta,
+        settings
+      });
       return;
   }
 };
@@ -95,13 +101,13 @@ const syncNnsCanisters = async ({
   settings: Settings;
   trillionRatio: bigint;
 }) => {
-  const canisterIds: string[] = await listCanisters(IDB_KEY_CANISTER_IDS);
+  const canisterIds: CanisterMeta[] = await listCanisters(IDB_KEY_CANISTER_IDS);
 
   // Update ui with the list of canisters about to be synced
   postMessage({
     msg: 'initCanisters',
     data: {
-      canisters: canisterIds.map((canisterId: string) => ({id: canisterId, status: 'syncing'}))
+      canisters: canisterIds.map(({id: canisterId}) => ({id: canisterId, status: 'syncing'}))
     }
   });
 
@@ -110,7 +116,7 @@ const syncNnsCanisters = async ({
     postMessage({
       msg: 'initCanisters',
       data: {
-        canisters: canisterIds.map((canisterId: string) => ({
+        canisters: canisterIds.map(({id: canisterId}) => ({
           id: canisterId,
           status: 'auth',
           group: {type: 'nns', id: canisterId}
@@ -121,16 +127,16 @@ const syncNnsCanisters = async ({
   }
 
   await Promise.allSettled(
-    canisterIds.map(async (canisterId: string) => {
+    canisterIds.map(async ({id: canisterId, ...rest}) => {
       try {
         const canisterInfo: CanisterInfo = await canisterStatus({canisterId, identity});
 
         await syncCanister({
           canisterInfo,
           trillionRatio,
-          canisterId: canisterInfo.canisterId,
           settings,
-          group: {type: 'nns', id: canisterInfo.canisterId}
+          group: {type: 'nns', id: canisterInfo.canisterId},
+          meta: {id: canisterId, ...rest}
         });
       } catch (err: unknown) {
         console.error(err);
@@ -138,7 +144,11 @@ const syncNnsCanisters = async ({
         emitCanister({
           id: canisterId,
           status: 'error',
-          group: {type: 'nns', id: canisterId}
+          group: {type: 'nns', id: canisterId},
+          meta: {
+            id: canisterId,
+            ...rest
+          }
         });
 
         throw err;
@@ -154,18 +164,18 @@ const syncSnsCanisters = async ({
   settings: Settings;
   trillionRatio: bigint;
 }) => {
-  const canisterRootIds: string[] = await listCanisters(IDB_KEY_SNS_ROOT_CANISTER_IDS);
+  const canisterRootIds: CanisterMeta[] = await listCanisters(IDB_KEY_SNS_ROOT_CANISTER_IDS);
 
   // Update ui with the list of canisters about to be synced
   postMessage({
     msg: 'initCanisters',
     data: {
-      canisters: canisterRootIds.map((canisterId: string) => ({id: canisterId, status: 'syncing'}))
+      canisters: canisterRootIds.map(({id: canisterId}) => ({id: canisterId, status: 'syncing'}))
     }
   });
 
   await Promise.allSettled(
-    canisterRootIds.map(async (rootCanisterId: string) => {
+    canisterRootIds.map(async ({id: rootCanisterId, ...rest}) => {
       try {
         const canisterInfos: SnsCanisterInfo[] = await snsCanisters({rootCanisterId});
 
@@ -173,9 +183,9 @@ const syncSnsCanisters = async ({
           syncCanister({
             canisterInfo,
             trillionRatio,
-            canisterId: canisterInfo.canisterId,
             settings,
-            group: {type: 'sns', id: rootCanisterId, description: canisterInfo.type}
+            group: {type: 'sns', id: rootCanisterId, description: canisterInfo.type},
+            meta: {id: rootCanisterId, ...rest}
           })
         );
 
@@ -186,7 +196,10 @@ const syncSnsCanisters = async ({
         emitCanister({
           id: rootCanisterId,
           status: 'error',
-          group: {type: 'sns', id: rootCanisterId, description: 'root'}
+          group: {type: 'sns', id: rootCanisterId, description: 'root'},
+          meta: {
+            id: rootCanisterId
+          }
         });
 
         throw err;
@@ -196,15 +209,17 @@ const syncSnsCanisters = async ({
 };
 
 const addNnsCanister = async ({
-  canisterId,
+  meta,
   settings
 }: {
-  canisterId: string | undefined;
+  meta: CanisterMeta | undefined;
   settings: Settings;
 }) => {
-  if (!canisterId) {
+  if (meta === undefined) {
     throw new Error('Canister id unknown');
   }
+
+  const {id: canisterId, ...rest} = meta;
 
   // Update ui with the canister information as syncing
   postMessage({
@@ -243,9 +258,9 @@ const addNnsCanister = async ({
     await syncCanister({
       canisterInfo,
       trillionRatio,
-      canisterId,
       settings,
-      group: {type: 'nns', id: canisterId}
+      group: {type: 'nns', id: canisterId},
+      meta: {id: canisterId, ...rest}
     });
   } catch (err) {
     catchErr({err, canisterId, group: {type: 'nns', id: canisterId}});
@@ -262,13 +277,13 @@ const emitCanister = (canister: Canister) =>
   });
 
 const syncCanister = async ({
-  canisterId,
+  meta: {id, ...rest},
   settings: {warnTCycles},
   trillionRatio,
   canisterInfo: {cycles, status, memory_size},
   group
 }: {
-  canisterId: string;
+  meta: CanisterMeta;
   settings: Settings;
   trillionRatio: bigint;
   canisterInfo: CanisterInfo;
@@ -277,7 +292,7 @@ const syncCanister = async ({
   const tCycles = Number(formatTCycles(cycles));
 
   const canister: Canister = {
-    id: canisterId,
+    id,
     status: 'synced',
     data: {
       status,
@@ -286,22 +301,28 @@ const syncCanister = async ({
       icp: cyclesToICP({cycles, trillionRatio}),
       cyclesStatus: tCycles < 0 ? 'error' : tCycles < warnTCycles ? 'warn' : 'ok'
     },
-    group
+    group,
+    meta: {
+      id,
+      ...rest
+    }
   };
 
   emitCanister(canister);
 };
 
 const addSnsCanister = async ({
-  canisterId,
+  meta,
   settings
 }: {
-  canisterId: string | undefined;
+  meta: CanisterMeta | undefined;
   settings: Settings;
 }) => {
-  if (!canisterId) {
+  if (meta === undefined) {
     throw new Error('Root canister id unknown');
   }
+
+  const {id: canisterId, ...rest} = meta;
 
   // Update ui with the canister information as syncing
   postMessage({
@@ -325,9 +346,9 @@ const addSnsCanister = async ({
         syncCanister({
           canisterInfo,
           trillionRatio,
-          canisterId: canisterInfo.canisterId,
           settings,
-          group: {type: 'sns', id: canisterId, description: canisterInfo.type}
+          group: {type: 'sns', id: canisterId, description: canisterInfo.type},
+          meta: {id: canisterId, ...rest}
         })
       )
     );
@@ -338,7 +359,7 @@ const addSnsCanister = async ({
 
 const catchErr = ({
   err,
-  canisterId,
+  canisterId: id,
   group
 }: {
   err: unknown;
@@ -348,9 +369,12 @@ const catchErr = ({
   console.error(err);
 
   emitCanister({
-    id: canisterId,
+    id,
     status: 'error',
-    group
+    group,
+    meta: {
+      id
+    }
   });
 };
 

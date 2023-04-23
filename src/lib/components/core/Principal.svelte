@@ -14,7 +14,7 @@
 </p>
 
 <style lang="scss">
-    .bold {
-      font-weight: bold;
-    }
+  .bold {
+    font-weight: bold;
+  }
 </style>

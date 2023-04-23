@@ -12,7 +12,7 @@
 {/if}
 
 <style lang="scss">
-    h2 {
-      margin-top: 2.75rem;
-    }
+  h2 {
+    margin-top: 2.75rem;
+  }
 </style>

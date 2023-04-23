@@ -3,7 +3,12 @@
   export let size = 24;
 </script>
 
-<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 274.35 220.39" height={size} width={size}
+<svg
+  id="Layer_2"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 274.35 220.39"
+  height={size}
+  width={size}
   ><defs
     ><style>
       .cls-1 {

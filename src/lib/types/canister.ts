@@ -22,4 +22,11 @@ export interface Canister {
   status: CanisterSyncStatus;
   data?: CanisterData;
   group?: CanisterGroup;
+  meta: CanisterMeta;
+}
+
+// Metadata saved on chain
+export interface CanisterMeta {
+  id: string;
+  name?: string;
 }
