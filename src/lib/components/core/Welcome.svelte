@@ -1,6 +1,9 @@
 <script>
   import AddCanister from '../canisters/AddCanister.svelte';
   import IconJuno from '$lib/components/icons/IconJuno.svelte';
+  import IconPlus from "$lib/components/icons/IconPlus.svelte";
+  import {emitAddCanister} from "$lib/utils/events.utils";
+  import Button from "$lib/components/ui/Button.svelte";
 </script>
 
 <section>
@@ -9,20 +12,6 @@
     <a href="https://internetcomputer.org/" rel="external noopener norefferer" target="_blank"
       >Internet Computer</a>
     blockchain. It periodically refreshes their state and provides information on their remaining resources.
-  </p>
-
-  <p>
-    This tool is used anonymously and its settings are saved in a <a
-      href="https://juno.build/"
-      rel="external noopener norefferer"
-      target="_blank">Juno "Satellite"</a>
-    <IconJuno />.
-  </p>
-
-  <p>
-    Notifications are optional and generated locally. Note that unlike push notifications, these are
-    only generated if the dapp is open on your device, regardless of whether it's active, idle, or
-    in the background.
   </p>
 
   <div class="actions">
