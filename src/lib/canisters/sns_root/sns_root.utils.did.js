@@ -1,4 +1,6 @@
 /* Do not edit.  Compiled with ./scripts/compile-idl-js from packages/sns/candid/sns_root.did */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const idlFactory = ({IDL}) => {
   const SnsRootCanister = IDL.Record({
     dapp_canister_ids: IDL.Vec(IDL.Principal),
@@ -105,6 +107,8 @@ export const idlFactory = ({IDL}) => {
     set_dapp_controllers: IDL.Func([SetDappControllersRequest], [SetDappControllersResponse], [])
   });
 };
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const init = ({IDL}) => {
   const SnsRootCanister = IDL.Record({
     dapp_canister_ids: IDL.Vec(IDL.Principal),

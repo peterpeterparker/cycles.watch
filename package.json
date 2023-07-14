@@ -3,7 +3,7 @@
   "version": "0.0.8",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -34,7 +34,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@junobuild/core": "^0.0.20",
+    "@junobuild/core": "^0.0.21",
     "idb-keyval": "^6.2.1"
   }
 }

@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const idlFactory = ({IDL}) => {
   const canister_id = IDL.Principal;
   const definite_canister_settings = IDL.Record({
@@ -123,6 +125,8 @@ export const idlFactory = ({IDL}) => {
     )
   });
 };
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const init = ({IDL}) => {
   return [];
 };

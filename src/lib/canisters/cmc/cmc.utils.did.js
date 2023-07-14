@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const idlFactory = ({IDL}) => {
   const IcpXdrConversionRate = IDL.Record({
     xdr_permyriad_per_icp: IDL.Nat64,
@@ -39,6 +41,8 @@ export const idlFactory = ({IDL}) => {
     transaction_notification: IDL.Func([TransactionNotification], [Result], [])
   });
 };
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const init = ({IDL}) => {
   return [];
 };
