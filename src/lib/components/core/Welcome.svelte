@@ -1,5 +1,5 @@
 <script>
-  import AddCanister from '../canisters/AddCanister.svelte';
+  import SignIn from '$lib/components/core/SignIn.svelte';
 </script>
 
 <section>
@@ -11,7 +11,7 @@
   </p>
 
   <div class="actions">
-    <AddCanister display="inline" />
+    <SignIn />
   </div>
 </section>
 
@@ -29,5 +29,11 @@
   small {
     vertical-align: middle;
     font-size: var(--font-size-very-small);
+  }
+
+  p {
+    @media (min-width: 768px) {
+      margin: 0;
+    }
   }
 </style>
