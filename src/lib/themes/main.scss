@@ -1,6 +1,9 @@
 @use "./mixins/section";
 
 main {
+  display: flex;
+  flex-direction: column;
+
   padding: var(--nav-height) 0 1.45rem;
   height: 100vh;
   overflow-y: auto;
