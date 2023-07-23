@@ -91,7 +91,13 @@
         <svelte:fragment slot="title">Sign-in required 🔐️</svelte:fragment>
       </CanisterInfo>
     {:else}
-      <CanisterSkeleton />
+      <CanisterSkeleton canisterId={id}>
+        <svelte:fragment slot="name">
+          {#if name !== undefined}
+            {name}
+          {/if}
+        </svelte:fragment>
+      </CanisterSkeleton>
     {/if}
   </article>
 

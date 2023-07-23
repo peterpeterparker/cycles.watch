@@ -107,7 +107,11 @@ const syncNnsCanisters = async ({
   postMessage({
     msg: 'initCanisters',
     data: {
-      canisters: canisterIds.map(({id: canisterId}) => ({id: canisterId, status: 'syncing'}))
+      canisters: canisterIds.map(({id: canisterId, ...rest}) => ({
+        id: canisterId,
+        meta: {id: canisterId, ...rest},
+        status: 'syncing'
+      }))
     }
   });
 
@@ -171,7 +175,11 @@ const syncSnsCanisters = async ({
   postMessage({
     msg: 'initCanisters',
     data: {
-      canisters: canisterRootIds.map(({id: canisterId}) => ({id: canisterId, status: 'syncing'}))
+      canisters: canisterRootIds.map(({id: canisterId, ...rest}) => ({
+        id: canisterId,
+        meta: {id: canisterId, ...rest},
+        status: 'syncing'
+      }))
     }
   });
 
