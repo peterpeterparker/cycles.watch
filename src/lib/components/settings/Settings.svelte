@@ -36,7 +36,7 @@
           on:click={() => remove(canister)}>
           <IconClose />
         </button>
-        {canister.id}{canister.group.type === 'sns' ? ' (sns)' : ''}
+        {canister.id}{canister.group?.type === 'sns' ? ' (sns)' : ''}
       </div>
     {/each}
 
