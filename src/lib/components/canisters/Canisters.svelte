@@ -2,7 +2,6 @@
   import {canistersStore, sortedCanisters} from '../../stores/canisters.store';
   import Canister from './Canister.svelte';
   import Spinner from '../ui/Spinner.svelte';
-  import AddCanister from './AddCanister.svelte';
 </script>
 
 {#if !$canistersStore.initialized}
@@ -12,7 +11,6 @@
     {#each $sortedCanisters as canister (canister.id)}
       <Canister {canister} />
     {/each}
-    <AddCanister />
   </section>
 {/if}
 

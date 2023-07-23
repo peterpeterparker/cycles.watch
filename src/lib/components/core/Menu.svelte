@@ -9,6 +9,8 @@
   import {canistersStore} from '$lib/stores/canisters.store';
   import {signIn, signOut} from '@junobuild/core';
   import {clear} from 'idb-keyval';
+  import IconPlus from '$lib/components/icons/IconPlus.svelte';
+  import {emitAddCanister} from '$lib/utils/events.utils';
 
   let visible: boolean | undefined;
   let button: HTMLButtonElement | undefined;
@@ -45,6 +47,18 @@
 </button>
 
 <Popover bind:visible anchor={button}>
+  {#if $authSignedInStore}
+    <button
+      type="button"
+      role="menuitem"
+      aria-haspopup="menu"
+      on:click={emitAddCanister}
+      class="menu">
+      <IconPlus />
+      <span>Add a canister</span>
+    </button>
+  {/if}
+
   <button
     type="button"
     role="menuitem"
