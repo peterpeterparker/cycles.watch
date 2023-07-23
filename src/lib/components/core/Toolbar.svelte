@@ -1,12 +1,12 @@
 <script lang="ts">
   import Menu from './Menu.svelte';
-  import Info from './Info.svelte';
+  import GitHub from './GitHub.svelte';
 </script>
 
 <nav>
   <Menu />
 
-  <Info />
+  <GitHub />
 </nav>
 
 <style lang="scss">
