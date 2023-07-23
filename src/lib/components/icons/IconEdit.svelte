@@ -1,4 +1,4 @@
-<!-- https://fonts.google.com/icons?selected=Material%20Icons%20Round%3Aedit%3A -->
+<!-- https://fonts.google.com/icons?selected=Material%20Symbols%20Rounded%3Aedit%3AFILL%400%3Bwght%40400%3BGRAD%400%3Bopsz%4024 -->
 <script lang="ts">
   export let size: 'default' | 'small' = 'default';
 
@@ -8,9 +8,9 @@
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 -960 960 960"
   height={applySize}
-  viewBox="0 0 24 24"
   width={applySize}
   fill="currentColor"
-  ><path d="M0 0h24v24H0V0z" fill="none" /><path
-    d="M3 17.46v3.04c0 .28.22.5.5.5h3.04c.13 0 .26-.05.35-.15L17.81 9.94l-3.75-3.75L3.15 17.1c-.1.1-.15.22-.15.36zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" /></svg>
+  ><path
+    d="M200-200h56l345-345-56-56-345 345v56Zm572-403L602-771l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829-660l-57 57ZM160-120q-17 0-28.5-11.5T120-160v-113q0-8 3-15.5t9-13.5l412-412 170 170-412 412q-6 6-13.5 9t-15.5 3H160Zm413-453-28-28 56 56-28-28Z" /></svg>

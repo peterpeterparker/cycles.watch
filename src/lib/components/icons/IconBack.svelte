@@ -1,9 +1,4 @@
-<!-- https://fonts.google.com/icons?selected=Material%20Icons%20Sharp%3Aarrow_back%3A -->
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  height="24px"
-  viewBox="0 0 24 24"
-  width="24px"
-  fill="currentColor"
-  ><path d="M0 0h24v24H0V0z" fill="none" /><path
-    d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" /></svg>
+<!-- https://fonts.google.com/icons?selected=Material%20Symbols%20Rounded%3Aarrow_back_ios_new%3AFILL%400%3Bwght%40400%3BGRAD%400%3Bopsz%4024 -->
+<svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16"
+  ><path
+    d="m382-480 294 294q15 15 14.5 35T675-116q-15 15-35 15t-35-15L297-423q-12-12-18-27t-6-30q0-15 6-30t18-27l308-308q15-15 35.5-14.5T676-844q15 15 15 35t-15 35L382-480Z" /></svg>

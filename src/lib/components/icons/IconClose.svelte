@@ -1,9 +1,4 @@
-<!-- https://fonts.google.com/icons?selected=Material%20Icons%20Sharp%3Aclose%3A -->
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  height="24px"
-  viewBox="0 0 24 24"
-  width="24px"
-  fill="currentColor"
-  ><path d="M0 0h24v24H0V0z" fill="none" /><path
-    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" /></svg>
+<!-- https://fonts.google.com/icons?selected=Material%20Symbols%20Rounded%3Aclose%3AFILL%400%3Bwght%40400%3BGRAD%400%3Bopsz%4024 -->
+<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
+  ><path
+    d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" /></svg>

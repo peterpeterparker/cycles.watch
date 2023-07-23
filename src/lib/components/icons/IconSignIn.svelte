@@ -1,12 +1,4 @@
-<!-- https://fonts.google.com/icons?selected=Material%20Icons%20Sharp%3Alogin%3A -->
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  enable-background="new 0 0 24 24"
-  height="24px"
-  viewBox="0 0 24 24"
-  width="24px"
-  fill="currentColor"
-  ><g><rect fill="none" height="24" width="24" /></g><g
-    ><path
-      d="M11,7L9.6,8.4l2.6,2.6H2v2h10.2l-2.6,2.6L11,17l5-5L11,7z M20,19h-8v2h10V3H12v2h8V19z" /></g
-  ></svg>
+<!-- https://fonts.google.com/icons?selected=Material%20Symbols%20Rounded%3Alogin%3AFILL%400%3Bwght%40400%3BGRAD%400%3Bopsz%4048 -->
+<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"
+  ><path
+    d="M511-120q-12.75 0-21.375-8.675-8.625-8.676-8.625-21.5 0-12.825 8.625-21.325T511-180h269v-600H511q-12.75 0-21.375-8.675-8.625-8.676-8.625-21.5 0-12.825 8.625-21.325T511-840h269q24 0 42 18t18 42v600q0 24-18 42t-42 18H511Zm-26-330H150q-12.75 0-21.375-8.675-8.625-8.676-8.625-21.5 0-12.825 8.625-21.325T150-510h333l-81-81q-9-9-8.5-21t9.5-21q9-9 21.5-9t21.5 9l133 133q9 9 9 21t-9 21L447-326q-8.8 9-20.9 8.5-12.1-.5-21.491-9.5Q396-336 396-348.5t9-21.5l80-80Z" /></svg>
