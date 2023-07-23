@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {canistersStore} from '../../stores/canisters.store';
+  import {canistersStore, sortedCanisters} from '../../stores/canisters.store';
   import Canister from './Canister.svelte';
   import Spinner from '../ui/Spinner.svelte';
   import AddCanister from './AddCanister.svelte';
@@ -9,7 +9,7 @@
   <Spinner />
 {:else}
   <section class="grid">
-    {#each $canistersStore.canisters as canister (canister.id)}
+    {#each $sortedCanisters as canister (canister.id)}
       <Canister {canister} />
     {/each}
     <AddCanister />

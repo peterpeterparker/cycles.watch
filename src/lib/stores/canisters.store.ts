@@ -21,3 +21,7 @@ export const canistersUniqueGroups = derived(canistersStore, ($canisters) =>
     ({group}: Canister) => group?.type === 'nns' || group?.description === 'root'
   )
 );
+
+export const sortedCanisters = derived([canistersStore], ([{canisters}]) =>
+  canisters.sort(({id: idA}, {id: idB}) => idA.localeCompare(idB))
+);
