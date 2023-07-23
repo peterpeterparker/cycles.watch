@@ -28,4 +28,9 @@
     display: flex;
     gap: .45rem;
   }
+
+  footer a {
+    background: none;
+    box-shadow: none;
+  }
 </style>
