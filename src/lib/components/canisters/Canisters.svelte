@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {canistersStore, sortedCanisters} from '../../stores/canisters.store';
+  import {canistersStore, sortedCanisters} from '$lib/stores/canisters.store';
   import Canister from './Canister.svelte';
   import Spinner from '../ui/Spinner.svelte';
 </script>
