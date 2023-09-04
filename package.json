@@ -8,7 +8,8 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint .",
-    "format": "prettier --write --plugin-search-dir=. ."
+    "format": "prettier --write --plugin-search-dir=. .",
+    "postinstall": "node ./scripts/copy-workers.mjs"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
@@ -33,6 +34,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@junobuild/analytics": "^0.0.5",
     "@junobuild/core": "^0.0.22",
     "idb-keyval": "^6.2.1"
   }

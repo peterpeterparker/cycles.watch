@@ -11,14 +11,15 @@
   import Worker from '$lib/components/core/Worker.svelte';
   import Add from '$lib/components/overlays/Add.svelte';
   import {onMount} from 'svelte';
-  import {initJuno} from '@junobuild/core';
   import Busy from '$lib/components/ui/Busy.svelte';
+  import {initAnalytics, initJuno} from "$lib/services/init.services";
 
   onMount(
     async () =>
-      await initJuno({
-        satelliteId: 'ck4tp-3iaaa-aaaal-ab7da-cai'
-      })
+      await Promise.all([
+        initJuno(),
+        initAnalytics()
+      ])
   );
 </script>
 
