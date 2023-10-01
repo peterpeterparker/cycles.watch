@@ -1,32 +1,32 @@
-@use "./mixins/shadow";
+@use './mixins/shadow';
 
 input,
 textarea,
 select {
-  @include shadow.strong;
+	@include shadow.strong;
 
-  margin: 0.45rem 0;
-  padding: 0.25rem 0.45rem;
+	margin: 0.45rem 0;
+	padding: 0.25rem 0.45rem;
 
-  outline: none;
+	outline: none;
 
-  transition: box-shadow 0.15s ease-out;
+	transition: box-shadow 0.15s ease-out;
 
-  &:focus {
-    box-shadow: 3px 3px var(--color-secondary);
-  }
+	&:focus {
+		box-shadow: 3px 3px var(--color-secondary);
+	}
 }
 
 input,
 textarea {
-  @media (min-width: 768px) {
-    min-width: 50%;
-  }
+	@media (min-width: 768px) {
+		min-width: 50%;
+	}
 
-  min-width: 100%;
-  max-width: 100%;
+	min-width: 100%;
+	max-width: 100%;
 }
 
 textarea {
-  resize: none;
+	resize: none;
 }

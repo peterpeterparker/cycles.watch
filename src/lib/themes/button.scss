@@ -1,21 +1,21 @@
-@use "./mixins/button";
+@use './mixins/button';
 
 button {
-  @include button.primary;
+	@include button.primary;
 
-  &.menu {
-    @include button.menu;
-  }
+	&.menu {
+		@include button.menu;
+	}
 
-  &.icon {
-    @include button.icon;
-  }
+	&.icon {
+		@include button.icon;
+	}
 
-  &.toolbar {
-    @include button.toolbar;
-  }
+	&.toolbar {
+		@include button.toolbar;
+	}
 
-  &.text {
-    @include button.text;
-  }
+	&.text {
+		@include button.text;
+	}
 }

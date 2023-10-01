@@ -1,27 +1,27 @@
 html {
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
 }
 body {
-  position: relative;
-  overflow: hidden;
-  height: 100%;
+	position: relative;
+	overflow: hidden;
+	height: 100%;
 
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 * {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 *:before {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 *:after {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 article,
@@ -36,24 +36,24 @@ menu,
 nav,
 section,
 summary {
-  display: block;
+	display: block;
 }
 audio,
 canvas,
 progress,
 video {
-  display: inline-block;
+	display: inline-block;
 }
 audio:not([controls]) {
-  display: none;
-  height: 0;
+	display: none;
+	height: 0;
 }
 progress {
-  vertical-align: baseline;
+	vertical-align: baseline;
 }
 [hidden],
 template {
-  display: none;
+	display: none;
 }
 
 a,
@@ -61,120 +61,120 @@ input,
 button,
 select,
 textarea {
-  font-family: inherit;
-  color: inherit;
+	font-family: inherit;
+	color: inherit;
 }
 a {
-  color: inherit;
-  background-color: transparent;
-  -webkit-text-decoration-skip: objects;
-  text-decoration: underline;
-  cursor: pointer;
-  word-break: break-word;
+	color: inherit;
+	background-color: transparent;
+	-webkit-text-decoration-skip: objects;
+	text-decoration: underline;
+	cursor: pointer;
+	word-break: break-word;
 }
 a:active,
 a:hover {
-  color: var(--color-secondary);
-  outline-width: 0;
+	color: var(--color-secondary);
+	outline-width: 0;
 }
 a:hover,
 a:focus {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 a:focus,
 a:focus-visible {
-  outline: none;
+	outline: none;
 }
 b,
 strong {
-  font-weight: bold;
+	font-weight: bold;
 }
 mark {
-  background: rgba(var(--color-primary-rgb), 0.8);
-  color: var(--color-primary-contrast);
-  padding: 0 0.25rem;
-  margin: 0 0.25rem 0 0;
-  box-shadow: 2px 2px black;
-  border: 1px solid black;
+	background: rgba(var(--color-primary-rgb), 0.8);
+	color: var(--color-primary-contrast);
+	padding: 0 0.25rem;
+	margin: 0 0.25rem 0 0;
+	box-shadow: 2px 2px black;
+	border: 1px solid black;
 
-  &:focus-visible {
-    outline: none;
-  }
+	&:focus-visible {
+		outline: none;
+	}
 
-  a {
-    text-decoration: none;
+	a {
+		text-decoration: none;
 
-    &:hover,
-    &:active {
-      color: inherit;
-      text-decoration: underline;
-    }
-  }
+		&:hover,
+		&:active {
+			color: inherit;
+			text-decoration: underline;
+		}
+	}
 }
 img {
-  border-style: none;
-  max-width: 100%;
-  padding: 0;
-  margin: 0;
+	border-style: none;
+	max-width: 100%;
+	padding: 0;
+	margin: 0;
 }
 svg:not(:root) {
-  overflow: hidden;
+	overflow: hidden;
 }
 code,
 kbd,
 pre,
 samp {
-  font-family: monospace, monospace;
-  font-size: 1em;
+	font-family: monospace, monospace;
+	font-size: 1em;
 }
 hr {
-  padding: 0;
-  border: none;
-  height: 1px;
+	padding: 0;
+	border: none;
+	height: 1px;
 }
 textarea {
-  overflow: auto;
+	overflow: auto;
 }
 form {
-  padding: 0;
-  margin: 0 0 1.45rem;
+	padding: 0;
+	margin: 0 0 1.45rem;
 }
 ul {
-  list-style-type: square;
+	list-style-type: square;
 }
 p {
-  padding: 0;
-  margin: 0 0 1.25rem;
+	padding: 0;
+	margin: 0 0 1.25rem;
 }
 figure {
-  padding: 0;
+	padding: 0;
 }
 figcaption {
-  margin: 0.45rem 0.75rem;
-  text-align: center;
-  outline: none;
+	margin: 0.45rem 0.75rem;
+	text-align: center;
+	outline: none;
 }
 
 ::selection {
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
+	background: var(--color-primary);
+	color: var(--color-primary-contrast);
 }
 
 ::-moz-selection {
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
+	background: var(--color-primary);
+	color: var(--color-primary-contrast);
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 0;
-  background-color: var(--color-primary);
+	border-radius: 0;
+	background-color: var(--color-primary);
 }
 
 ::-webkit-scrollbar-track {
-  border-radius: 0;
-  background: none;
+	border-radius: 0;
+	background: none;
 }
 
 ::-webkit-scrollbar {
-  width: 0.45rem;
+	width: 0.45rem;
 }

@@ -4,29 +4,29 @@ export type CanisterCyclesStatus = 'ok' | 'warn' | 'error';
 export type CanisterType = 'nns' | 'sns';
 
 export interface CanisterData {
-  status: CanisterStatus;
-  memory_size: bigint;
-  cycles: bigint;
-  icp: number;
-  cyclesStatus: CanisterCyclesStatus;
+	status: CanisterStatus;
+	memory_size: bigint;
+	cycles: bigint;
+	icp: number;
+	cyclesStatus: CanisterCyclesStatus;
 }
 
 export interface CanisterGroup {
-  type: CanisterType;
-  id: string;
-  description?: string;
+	type: CanisterType;
+	id: string;
+	description?: string;
 }
 
 export interface Canister {
-  id: string;
-  status: CanisterSyncStatus;
-  data?: CanisterData;
-  group?: CanisterGroup;
-  meta: CanisterMeta;
+	id: string;
+	status: CanisterSyncStatus;
+	data?: CanisterData;
+	group?: CanisterGroup;
+	meta: CanisterMeta;
 }
 
 // Metadata saved on chain
 export interface CanisterMeta {
-  id: string;
-  name?: string;
+	id: string;
+	name?: string;
 }

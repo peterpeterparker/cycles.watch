@@ -1,20 +1,20 @@
 @mixin overlay {
-  @include paragraph;
+	@include paragraph;
 
-  @include actions;
+	@include actions;
 }
 
 @mixin paragraph {
-  p:first-of-type {
-    margin-top: 1.25rem;
-  }
+	p:first-of-type {
+		margin-top: 1.25rem;
+	}
 }
 
 @mixin actions {
-  .actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: calc(2 * var(--padding));
-  }
+	.actions {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: calc(2 * var(--padding));
+	}
 }

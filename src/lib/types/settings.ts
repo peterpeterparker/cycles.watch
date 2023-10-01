@@ -1,4 +1,4 @@
 export interface Settings {
-  timerInterval: number;
-  warnTCycles: number;
+	timerInterval: number;
+	warnTCycles: number;
 }
