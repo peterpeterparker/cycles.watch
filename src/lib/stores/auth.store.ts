@@ -1,6 +1,6 @@
 import { nonNullish } from '$lib/utils/utils';
-import type { User } from '@junobuild/core';
-import { authSubscribe } from '@junobuild/core';
+import type { User } from '@junobuild/core-peer';
+import { authSubscribe } from '@junobuild/core-peer';
 import { derived, readable, type Readable } from 'svelte/store';
 
 export interface AuthStore {

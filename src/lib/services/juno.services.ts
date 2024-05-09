@@ -3,7 +3,7 @@ import { authStore } from '$lib/stores/auth.store';
 import type { CanisterMeta } from '$lib/types/canister';
 import type { Settings } from '$lib/types/settings';
 import { isNullish, nonNullish } from '$lib/utils/utils';
-import { getDoc as getJunoDoc, setDoc, type Doc, type User } from '@junobuild/core';
+import { getDoc as getJunoDoc, setDoc, type Doc, type User } from '@junobuild/core-peer';
 import { get } from 'svelte/store';
 
 const getDoc = ({

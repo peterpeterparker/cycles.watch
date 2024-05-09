@@ -7,7 +7,7 @@
   import IconSettings from '$lib/components/icons/IconSettings.svelte';
   import {goto} from '$app/navigation';
   import {canistersStore} from '$lib/stores/canisters.store';
-  import {signIn, signOut} from '@junobuild/core';
+  import {signIn, signOut} from '@junobuild/core-peer';
   import {clear} from 'idb-keyval';
   import IconPlus from '$lib/components/icons/IconPlus.svelte';
   import {emitAddCanister} from '$lib/utils/events.utils';

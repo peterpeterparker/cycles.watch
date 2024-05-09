@@ -16,7 +16,7 @@ import {
 	setSettings
 } from '$lib/services/juno.services';
 import { nonNullish } from '$lib/utils/utils';
-import type { User } from '@junobuild/core';
+import type { User } from '@junobuild/core-peer';
 
 export const initData = async (user: User) => {
 	await Promise.all([

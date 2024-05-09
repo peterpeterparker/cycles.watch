@@ -33,7 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@junobuild/core": "^0.0.49",
+		"@junobuild/core-peer": "^0.0.14",
 		"idb-keyval": "^6.2.1"
 	}
 }
