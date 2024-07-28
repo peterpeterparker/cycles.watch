@@ -12,6 +12,8 @@
 	},
 	"devDependencies": {
 		"@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+		"@junobuild/config": "^0.0.11",
+		"@junobuild/vite-plugin": "^0.0.15",
 		"@sveltejs/adapter-static": "^2.0.3",
 		"@sveltejs/kit": "^1.25.1",
 		"@typescript-eslint/eslint-plugin": "^6.7.3",
@@ -33,7 +35,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@junobuild/core-peer": "^0.0.14",
+		"@junobuild/core-peer": "^0.0.21",
 		"idb-keyval": "^6.2.1"
 	}
 }

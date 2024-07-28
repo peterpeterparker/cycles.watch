@@ -1,4 +1,5 @@
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import juno from '@junobuild/vite-plugin';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { readFileSync } from 'fs';
 import { dirname } from 'path';
@@ -10,7 +11,7 @@ const { version } = JSON.parse(json);
 
 /** @type {import('vite').UserConfig} */
 const config = {
-	plugins: [sveltekit()],
+	plugins: [sveltekit(), juno()],
 	define: {
 		VITE_APP_VERSION: JSON.stringify(version)
 	},
