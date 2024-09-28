@@ -1,32 +1,34 @@
 <!-- CC BY-NC-SA - Didier Renaud - https://www.customfuture.com/ -->
 <script lang="ts">
-  export let size = 24;
+	export let size = 24;
 </script>
 
 <svg
-  id="Layer_2"
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 274.35 220.39"
-  height={size}
-  width={size}
-  ><defs
-    ><style>
-      .cls-1 {
-        fill: var(--color-primary);
-      }
-    </style></defs
-  ><g
-    ><g
-      ><rect x="0" y="0" width="220.39" height="220.39" rx="110.19" ry="110.19" /><circle
-        class="cls-1"
-        cx="206.21"
-        cy="68.14"
-        r="68.14" /></g
-    ></g
-  ></svg>
+	id="Layer_2"
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 274.35 220.39"
+	height={size}
+	width={size}
+	><defs
+		><style>
+			.cls-1 {
+				fill: var(--color-primary);
+			}
+		</style></defs
+	><g
+		><g
+			><rect x="0" y="0" width="220.39" height="220.39" rx="110.19" ry="110.19" /><circle
+				class="cls-1"
+				cx="206.21"
+				cy="68.14"
+				r="68.14"
+			/></g
+		></g
+	></svg
+>
 
 <style lang="scss">
-  svg {
-    vertical-align: bottom;
-  }
+	svg {
+		vertical-align: bottom;
+	}
 </style>

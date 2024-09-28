@@ -1,19 +1,19 @@
 <script lang="ts">
-  import IconCopy from '../icons/IconCopy.svelte';
+	import IconCopy from '../icons/IconCopy.svelte';
 
-  export let value: string;
-  export let ariaLabel: string;
+	export let value: string;
+	export let ariaLabel: string;
 
-  const copyToClipboard = async () => await navigator.clipboard.writeText(value);
+	const copyToClipboard = async () => await navigator.clipboard.writeText(value);
 </script>
 
 <button on:click|stopPropagation={copyToClipboard} aria-label={ariaLabel} class="icon">
-  <IconCopy />
+	<IconCopy />
 </button>
 
 <style lang="scss">
-  button {
-    padding: 2px;
-    vertical-align: bottom;
-  }
+	button {
+		padding: 2px;
+		vertical-align: bottom;
+	}
 </style>

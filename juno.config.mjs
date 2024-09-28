@@ -7,7 +7,7 @@ export default defineConfig({
 		source: 'build',
 		settings: {
 			heapMemoryLimit: 1073741824n,
-			logVisibility: "controllers"
+			logVisibility: 'controllers'
 		}
 	}
 });

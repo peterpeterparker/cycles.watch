@@ -6,5 +6,5 @@ export const toStatus = (
 	'stopped' in status && status.stopped === null
 		? 'stopped'
 		: 'stopping' in status && status.stopping === null
-		? 'stopping'
-		: 'running';
+			? 'stopping'
+			: 'running';

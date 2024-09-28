@@ -1,48 +1,48 @@
 <script lang="ts">
-  import {onWorkerMessage} from '../../services/watch.services';
-  import {onDestroy, onMount} from 'svelte';
-  import {requestNotificationPermission} from '../../services/notification.services';
-  import {authSignedInStore, authStore} from '../../stores/auth.store';
-  import {initData} from '$lib/services/data.services';
+	import { onWorkerMessage } from '../../services/watch.services';
+	import { onDestroy, onMount } from 'svelte';
+	import { requestNotificationPermission } from '../../services/notification.services';
+	import { authSignedInStore, authStore } from '../../stores/auth.store';
+	import { initData } from '$lib/services/data.services';
 
-  export let syncWorker: Worker | undefined = undefined;
+	export let syncWorker: Worker | undefined = undefined;
 
-  const startTimer = async () => {
-    const SyncWorker = await import('$lib/workers/cycles.worker?worker');
-    syncWorker = new SyncWorker.default();
+	const startTimer = async () => {
+		const SyncWorker = await import('$lib/workers/cycles.worker?worker');
+		syncWorker = new SyncWorker.default();
 
-    syncWorker.onmessage = onWorkerMessage;
+		syncWorker.onmessage = onWorkerMessage;
 
-    syncWorker.postMessage({msg: 'startCyclesTimer', data: {}});
-  };
+		syncWorker.postMessage({ msg: 'startCyclesTimer', data: {} });
+	};
 
-  const stopTimer = () => syncWorker?.postMessage({msg: 'stopCyclesTimer'});
+	const stopTimer = () => syncWorker?.postMessage({ msg: 'stopCyclesTimer' });
 
-  onMount(async () => {
-    await requestNotificationPermission();
+	onMount(async () => {
+		await requestNotificationPermission();
 
-    await startTimer();
-  });
+		await startTimer();
+	});
 
-  onDestroy(stopTimer);
+	onDestroy(stopTimer);
 
-  const addCanister = ({detail}: CustomEvent<string>) =>
-    syncWorker?.postMessage({msg: 'addCanister', data: detail});
+	const addCanister = ({ detail }: CustomEvent<string>) =>
+		syncWorker?.postMessage({ msg: 'addCanister', data: detail });
 
-  const addSnsCanister = ({detail}: CustomEvent<string>) =>
-    syncWorker?.postMessage({msg: 'addSnsCanister', data: detail});
+	const addSnsCanister = ({ detail }: CustomEvent<string>) =>
+		syncWorker?.postMessage({ msg: 'addSnsCanister', data: detail });
 
-  $: $authSignedInStore,
-    (async () => {
-      if (!$authSignedInStore) {
-        return;
-      }
+	$: $authSignedInStore,
+		(async () => {
+			if (!$authSignedInStore) {
+				return;
+			}
 
-      await initData($authStore.user!);
+			await initData($authStore.user!);
 
-      stopTimer();
-      await startTimer();
-    })();
+			stopTimer();
+			await startTimer();
+		})();
 </script>
 
 <svelte:window on:addCanister={addCanister} on:addSnsCanister={addSnsCanister} />

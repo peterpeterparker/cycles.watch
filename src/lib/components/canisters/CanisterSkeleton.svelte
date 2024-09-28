@@ -1,12 +1,12 @@
 <script lang="ts">
-  import Skeleton from '../ui/Skeleton.svelte';
-  import CanisterName from '$lib/components/canisters/CanisterName.svelte';
+	import Skeleton from '../ui/Skeleton.svelte';
+	import CanisterName from '$lib/components/canisters/CanisterName.svelte';
 
-  export let canisterId: string;
+	export let canisterId: string;
 </script>
 
 <CanisterName {canisterId}>
-  <slot name="name" slot="name" />
+	<slot name="name" slot="name" />
 </CanisterName>
 
 <Skeleton elementTag="h3" />
