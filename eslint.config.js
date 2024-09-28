@@ -28,5 +28,18 @@ export default tseslint.config(
 	},
 	{
 		ignores: ['build/', '.svelte-kit/', 'dist/', 'src/lib/canisters/**/*']
+	},
+	{
+		rules: {
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					varsIgnorePattern: '^_',
+					argsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_'
+				}
+			],
+			'@typescript-eslint/no-unused-expressions': 'off'
+		}
 	}
 );

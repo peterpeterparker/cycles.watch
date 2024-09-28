@@ -10,9 +10,9 @@ const MANAGEMENT_CANISTER_ID = Principal.fromText('aaaaa-aa');
 
 // Source nns-dapp - dart -> JS bridge
 const transform = (_methodName: string, args: unknown[], _callConfig: CallConfig) => {
-	const first = args[0] as any;
+	const first = args[0] as unknown;
 	let effectiveCanisterId = MANAGEMENT_CANISTER_ID;
-	if (first && typeof first === 'object' && first.canister_id) {
+	if (first && typeof first === 'object' && 'canister_id' in first && first.canister_id) {
 		effectiveCanisterId = Principal.from(first.canister_id as unknown);
 	}
 

@@ -1,6 +1,6 @@
 <!-- adapted from pen: https://codepen.io/mimoh/pen/VmVqPB -->
 
-<div class="spinner" />
+<div class="spinner"></div>
 
 <style lang="scss">
 	.spinner {

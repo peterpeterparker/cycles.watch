@@ -19,5 +19,3 @@ declare namespace svelteHTML {
 		'on:addCanister'?: (event: CustomEvent) => void;
 	}
 }
-
-/* eslint-enable */

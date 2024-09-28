@@ -11,7 +11,7 @@ const initAuthStore: AuthStore = {
 	user: undefined
 };
 
-const start = (set: (store: AuthStore) => void) => {
+const start = (set: (_store: AuthStore) => void) => {
 	const subscriber: () => void = authSubscribe((user: User | null) => {
 		set({ user });
 	});

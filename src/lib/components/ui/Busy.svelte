@@ -11,7 +11,7 @@
 {#if nonNullish($busy)}
 	<div transition:fade>
 		{#if $busy.close}
-			<div class="backdrop" on:click={close} />
+			<div class="backdrop" on:click={close}></div>
 		{/if}
 
 		<div class="content">

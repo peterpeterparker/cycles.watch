@@ -96,11 +96,3 @@
 		</button>
 	{/if}
 </Popover>
-
-<style lang="scss">
-	hr {
-		width: 80%;
-		margin: 0.45rem auto;
-		background: var(--color-theme);
-	}
-</style>

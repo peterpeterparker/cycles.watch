@@ -32,7 +32,7 @@
 		style="--popover-top: {`${bottom}px`}; --popover-left: {`${left}px`}"
 		on:click|stopPropagation
 	>
-		<div class="backdrop" on:click|stopPropagation={() => (visible = false)} />
+		<div class="backdrop" on:click|stopPropagation={() => (visible = false)}></div>
 		<div
 			transition:scale={{ delay: 25, duration: 150, easing: quintOut }}
 			class="wrapper"

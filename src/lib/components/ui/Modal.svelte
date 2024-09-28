@@ -16,7 +16,7 @@
 		dispatch('papyClose');
 	};
 
-	const stickyFooter: boolean = $$slots.stickyFooter !== undefined ?? false;
+	const stickyFooter: boolean = $$slots.stickyFooter !== undefined;
 	const footer: boolean = ($$slots.footer ?? false) || stickyFooter;
 </script>
 
@@ -29,7 +29,7 @@
 		aria-describedby="modalContent"
 		on:introend
 	>
-		<div class="backdrop" on:click|stopPropagation={close} />
+		<div class="backdrop" on:click|stopPropagation={close}></div>
 		<div
 			transition:scale={{ delay: 25, duration: 150, easing: quintOut }}
 			class="wrapper"

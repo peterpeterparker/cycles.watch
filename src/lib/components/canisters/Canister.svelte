@@ -22,7 +22,7 @@
 	let id: string;
 	let data: CanisterData | undefined;
 	let syncStatus: CanisterSyncStatus = 'syncing';
-	let group: CanisterGroup;
+	let group: CanisterGroup | undefined;
 	let meta: CanisterMeta;
 
 	$: ({ id, data, status: syncStatus, group, meta } = canister);
@@ -39,10 +39,15 @@
 	let status: CanisterStatus | undefined;
 	let memory_size: bigint;
 	let cycles: bigint;
-	let icp: number;
 	let cyclesStatus: CanisterCyclesStatus | undefined;
 
-	$: ({ status, memory_size, cycles, icp, cyclesStatus } = data ?? {
+	$: ({
+		status,
+		memory_size,
+		cycles,
+		icp: _,
+		cyclesStatus
+	} = data ?? {
 		status: undefined,
 		cyclesStatus: undefined,
 		memory_size: BigInt(0),
@@ -85,11 +90,11 @@
 				</svelte:fragment>
 			</CanisterInfo>
 		{:else if syncStatus === 'error'}
-			<CanisterInfo canisterId={id} {group}>
+			<CanisterInfo canisterId={id}>
 				<svelte:fragment slot="title">Sync error❗️</svelte:fragment>
 			</CanisterInfo>
 		{:else if syncStatus === 'auth'}
-			<CanisterInfo canisterId={id} {group}>
+			<CanisterInfo canisterId={id}>
 				<svelte:fragment slot="title">Sign-in required 🔐️</svelte:fragment>
 			</CanisterInfo>
 		{:else}

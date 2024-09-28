@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy, type Component } from 'svelte';
+	import type { Component } from 'svelte';
 	import IconHighlight from '$lib/components/icons/IconHighlight.svelte';
 	import IconFlashlightOff from '$lib/components/icons/IconFlashlightOff.svelte';
 	import type { CanisterGroup } from '$lib/types/canister';
@@ -9,7 +9,7 @@
 
 	export let canister: Canister;
 
-	let group: CanisterGroup;
+	let group: CanisterGroup | undefined;
 	$: ({ group } = canister);
 
 	let icon: Component;
