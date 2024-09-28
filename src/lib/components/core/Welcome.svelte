@@ -26,10 +26,6 @@
     align-items: center;
     flex-direction: column;
   }
-  small {
-    vertical-align: middle;
-    font-size: var(--font-size-very-small);
-  }
 
   p {
     @media (min-width: 768px) {

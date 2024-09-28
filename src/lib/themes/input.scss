@@ -19,12 +19,12 @@ select {
 
 input,
 textarea {
+	min-width: 100%;
+	max-width: 100%;
+
 	@media (min-width: 768px) {
 		min-width: 50%;
 	}
-
-	min-width: 100%;
-	max-width: 100%;
 }
 
 textarea {

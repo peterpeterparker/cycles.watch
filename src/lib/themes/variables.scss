@@ -5,10 +5,6 @@
 
 	--nav-height: 3.75rem;
 
-	@media (min-width: 768px) {
-		--nav-height: 5.45rem;
-	}
-
 	/** Colors */
 
 	--color-error: #ef476f;
@@ -52,4 +48,9 @@
 	--color-secondary-contrast-rgb: 0, 0, 0;
 	--color-secondary-shade: #71b5bd;
 	--color-secondary-tint: #8dd3db;
+
+	@media (min-width: 768px) {
+		--nav-height: 5.45rem;
+	}
+
 }
