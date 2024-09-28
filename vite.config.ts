@@ -1,9 +1,9 @@
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import juno from '@junobuild/vite-plugin';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { readFileSync } from 'fs';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { readFileSync } from 'node:fs';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const file = fileURLToPath(new URL('package.json', import.meta.url));
 const json = readFileSync(file, 'utf8');
@@ -14,6 +14,13 @@ const config = {
 	plugins: [sveltekit(), juno()],
 	define: {
 		VITE_APP_VERSION: JSON.stringify(version)
+	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				api: 'modern-compiler'
+			}
+		}
 	},
 	// Node polyfill agent-js. Thanks solution shared by chovyfu on the Discord channel.
 	// https://stackoverflow.com/questions/71744659/how-do-i-deploy-a-sveltekit-app-to-a-dfinity-container
@@ -34,7 +41,7 @@ const config = {
 	build: {
 		rollupOptions: {
 			output: {
-				manualChunks: (id) => {
+				manualChunks: (id: string) => {
 					const folder = dirname(id);
 
 					if (

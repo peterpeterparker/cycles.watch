@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {onDestroy, SvelteComponent} from 'svelte';
+  import {onDestroy, type Component} from 'svelte';
   import IconHighlight from '$lib/components/icons/IconHighlight.svelte';
   import IconFlashlightOff from '$lib/components/icons/IconFlashlightOff.svelte';
   import type {CanisterGroup} from '$lib/types/canister';
@@ -12,7 +12,7 @@
   let group: CanisterGroup;
   $: ({group} = canister);
 
-  let icon: typeof SvelteComponent;
+  let icon: Component;
   $: icon = $highlightStore !== undefined ? IconFlashlightOff : IconHighlight;
 
   const highlight = () => highlightStore.set($highlightStore !== undefined ? undefined : group);

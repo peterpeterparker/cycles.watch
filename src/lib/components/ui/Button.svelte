@@ -1,10 +1,10 @@
 <script lang="ts">
-  import {SvelteComponent} from 'svelte';
+  import type {Component} from 'svelte';
 
   export let display: 'inline' | 'card' = 'card';
   export let text: string;
 
-  export let icon: typeof SvelteComponent;
+  export let icon: Component;
 
   export let card = true;
   $: card = display === 'card';
