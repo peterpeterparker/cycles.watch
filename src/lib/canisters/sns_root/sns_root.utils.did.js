@@ -18,32 +18,54 @@ export const idlFactory = ({ IDL }) => {
 		stopping: IDL.Null,
 		running: IDL.Null
 	});
+	const LogVisibility = IDL.Variant({
+		controllers: IDL.Null,
+		public: IDL.Null
+	});
+	const DefiniteCanisterSettings = IDL.Record({
+		freezing_threshold: IDL.Opt(IDL.Nat),
+		controllers: IDL.Vec(IDL.Principal),
+		reserved_cycles_limit: IDL.Opt(IDL.Nat),
+		log_visibility: IDL.Opt(LogVisibility),
+		wasm_memory_limit: IDL.Opt(IDL.Nat),
+		memory_allocation: IDL.Opt(IDL.Nat),
+		compute_allocation: IDL.Opt(IDL.Nat)
+	});
 	const CanisterStatusResult = IDL.Record({
-		controller: IDL.Principal,
 		status: CanisterStatusType,
 		memory_size: IDL.Nat,
-		module_hash: IDL.Opt(IDL.Vec(IDL.Nat8))
+		cycles: IDL.Nat,
+		settings: DefiniteCanisterSettings,
+		idle_cycles_burned_per_day: IDL.Opt(IDL.Nat),
+		module_hash: IDL.Opt(IDL.Vec(IDL.Nat8)),
+		reserved_cycles: IDL.Opt(IDL.Nat)
+	});
+	const CanisterInstallMode = IDL.Variant({
+		reinstall: IDL.Null,
+		upgrade: IDL.Null,
+		install: IDL.Null
+	});
+	const ChangeCanisterRequest = IDL.Record({
+		arg: IDL.Vec(IDL.Nat8),
+		wasm_module: IDL.Vec(IDL.Nat8),
+		stop_before_installing: IDL.Bool,
+		mode: CanisterInstallMode,
+		canister_id: IDL.Principal,
+		memory_allocation: IDL.Opt(IDL.Nat),
+		compute_allocation: IDL.Opt(IDL.Nat)
 	});
 	const GetSnsCanistersSummaryRequest = IDL.Record({
 		update_canister_list: IDL.Opt(IDL.Bool)
 	});
-	const CanisterStatusType_1 = IDL.Variant({
-		stopped: IDL.Null,
-		stopping: IDL.Null,
-		running: IDL.Null
-	});
 	const DefiniteCanisterSettingsArgs = IDL.Record({
-		controller: IDL.Principal,
 		freezing_threshold: IDL.Nat,
 		controllers: IDL.Vec(IDL.Principal),
+		wasm_memory_limit: IDL.Opt(IDL.Nat),
 		memory_allocation: IDL.Nat,
 		compute_allocation: IDL.Nat
 	});
 	const CanisterStatusResultV2 = IDL.Record({
-		controller: IDL.Principal,
-		status: CanisterStatusType_1,
-		freezing_threshold: IDL.Nat,
-		balance: IDL.Vec(IDL.Tuple(IDL.Vec(IDL.Nat8), IDL.Nat)),
+		status: CanisterStatusType,
 		memory_size: IDL.Nat,
 		cycles: IDL.Nat,
 		settings: DefiniteCanisterSettingsArgs,
@@ -72,6 +94,18 @@ export const idlFactory = ({ IDL }) => {
 		dapps: IDL.Vec(IDL.Principal),
 		archives: IDL.Vec(IDL.Principal)
 	});
+	const ManageDappCanisterSettingsRequest = IDL.Record({
+		freezing_threshold: IDL.Opt(IDL.Nat64),
+		canister_ids: IDL.Vec(IDL.Principal),
+		reserved_cycles_limit: IDL.Opt(IDL.Nat64),
+		log_visibility: IDL.Opt(IDL.Int32),
+		wasm_memory_limit: IDL.Opt(IDL.Nat64),
+		memory_allocation: IDL.Opt(IDL.Nat64),
+		compute_allocation: IDL.Opt(IDL.Nat64)
+	});
+	const ManageDappCanisterSettingsResponse = IDL.Record({
+		failure_reason: IDL.Opt(IDL.Text)
+	});
 	const RegisterDappCanisterRequest = IDL.Record({
 		canister_id: IDL.Opt(IDL.Principal)
 	});
@@ -95,6 +129,7 @@ export const idlFactory = ({ IDL }) => {
 	});
 	return IDL.Service({
 		canister_status: IDL.Func([CanisterIdRecord], [CanisterStatusResult], []),
+		change_canister: IDL.Func([ChangeCanisterRequest], [], []),
 		get_build_metadata: IDL.Func([], [IDL.Text], ['query']),
 		get_sns_canisters_summary: IDL.Func(
 			[GetSnsCanistersSummaryRequest],
@@ -102,6 +137,11 @@ export const idlFactory = ({ IDL }) => {
 			[]
 		),
 		list_sns_canisters: IDL.Func([IDL.Record({})], [ListSnsCanistersResponse], ['query']),
+		manage_dapp_canister_settings: IDL.Func(
+			[ManageDappCanisterSettingsRequest],
+			[ManageDappCanisterSettingsResponse],
+			[]
+		),
 		register_dapp_canister: IDL.Func([RegisterDappCanisterRequest], [IDL.Record({})], []),
 		register_dapp_canisters: IDL.Func([RegisterDappCanistersRequest], [IDL.Record({})], []),
 		set_dapp_controllers: IDL.Func([SetDappControllersRequest], [SetDappControllersResponse], [])
