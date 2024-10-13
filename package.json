@@ -35,6 +35,11 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@dfinity/agent": "^2.0.0",
+		"@dfinity/auth-client": "^2.0.0",
+		"@dfinity/candid": "^2.0.0",
+		"@dfinity/identity": "^2.0.0",
+		"@dfinity/principal": "^2.0.0",
 		"@junobuild/core-peer": "^0.0.27",
 		"idb-keyval": "^6.2.1"
 	}
