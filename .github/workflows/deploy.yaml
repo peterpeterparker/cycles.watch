@@ -19,9 +19,6 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
-
       - name: Deploy to Juno
         uses: buildwithjuno/juno-action@main
         with:
