@@ -29,7 +29,8 @@
 		aria-describedby="modalContent"
 		on:introend
 	>
-		<div class="backdrop" on:click|stopPropagation={close}></div>
+		<button class="backdrop" tabindex="-1" on:click|stopPropagation={close} aria-label="Close"
+		></button>
 		<div
 			transition:scale={{ delay: 25, duration: 150, easing: quintOut }}
 			class="wrapper"

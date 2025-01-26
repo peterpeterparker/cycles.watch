@@ -11,7 +11,7 @@
 {#if nonNullish($busy)}
 	<div transition:fade>
 		{#if $busy.close}
-			<div class="backdrop" on:click={close}></div>
+			<button class="backdrop" tabindex="-1" on:click={close} aria-label="Close"></button>
 		{/if}
 
 		<div class="content">

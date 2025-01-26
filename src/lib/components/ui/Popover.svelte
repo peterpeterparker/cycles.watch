@@ -30,9 +30,13 @@
 		class="popover"
 		tabindex="-1"
 		style="--popover-top: {`${bottom}px`}; --popover-left: {`${left}px`}"
-		on:click|stopPropagation
 	>
-		<div class="backdrop" on:click|stopPropagation={() => (visible = false)}></div>
+		<button
+			class="backdrop"
+			aria-label="Close"
+			tabindex="-1"
+			on:click|stopPropagation={() => (visible = false)}
+		></button>
 		<div
 			transition:scale={{ delay: 25, duration: 150, easing: quintOut }}
 			class="wrapper"
