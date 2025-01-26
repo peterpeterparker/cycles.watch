@@ -1,3 +1,5 @@
+import { CONTAINER } from '$lib/constants/constants';
+import { nonNullish } from '$lib/utils/utils';
 import {
 	Actor,
 	HttpAgent,
@@ -17,19 +19,18 @@ export const createActor = async <T = Record<string, ActorMethod>>({
 	idlFactory: IDL.InterfaceFactory;
 	identity?: Identity;
 }): Promise<ActorSubclass<T>> => {
-	const host: string = import.meta.env.VITE_IC_HOST as string;
-
-	const agent: HttpAgent = new HttpAgent({ ...(identity && { identity }), ...(host && { host }) });
+	const host = CONTAINER ?? 'https://icp-api.io';
 
 	const local = (): boolean => {
 		const { hostname }: URL = new URL(host);
-		return ['127.0.0.1', 'localhost', 'nnsdapp.dfinity.network'].includes(hostname);
+		return ['127.0.0.1', 'localhost'].includes(hostname);
 	};
 
-	if (local()) {
-		// Fetch root key for certificate validation during development
-		await agent.fetchRootKey();
-	}
+	const agent = await HttpAgent.create({
+		...(nonNullish(identity) && { identity }),
+		...(nonNullish(host) && { host }),
+		shouldFetchRootKey: local()
+	});
 
 	// Creates an actor with using the candid interface and the HttpAgent
 	return Actor.createActor(idlFactory, {
