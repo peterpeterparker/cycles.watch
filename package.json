@@ -41,5 +41,8 @@
 		"idb-keyval": "^6.2.1",
 		"svelte": "^5.19.3",
 		"svelte-check": "^4.1.4"
+	},
+	"overrides": {
+		"cookie": "^0.7.0"
 	}
 }
