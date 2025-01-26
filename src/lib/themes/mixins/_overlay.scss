@@ -9,6 +9,20 @@
 	}
 }
 
+@mixin backdrop-button {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: none;
+	border-radius: 0;
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.15);
+	}
+}
+
 @mixin content {
 	padding: 0 1rem;
 	width: 100%;
@@ -23,6 +37,8 @@
 	.backdrop {
 		position: absolute;
 		inset: 0;
+
+		@include backdrop-button;
 
 		@include backdrop('light');
 
