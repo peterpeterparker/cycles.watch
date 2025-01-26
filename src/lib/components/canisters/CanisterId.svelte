@@ -19,7 +19,7 @@
 		canisterId !== '' &&
 		$canistersUniqueGroups.find(({ id }: Canister) => id === canisterId) === undefined;
 
-	const handleSubmit = async ($event: MouseEvent | TouchEvent) => {
+	const handleSubmit = async ($event: SubmitEvent) => {
 		$event.preventDefault();
 
 		if (!validConfirm || canisterId === undefined) {
@@ -34,7 +34,7 @@
 
 <slot />
 
-<form on:submit={async ($event) => await handleSubmit($event)}>
+<form onsubmit={handleSubmit}>
 	<input
 		bind:value={canisterId}
 		type="text"

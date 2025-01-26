@@ -11,11 +11,14 @@ declare namespace App {
 
 declare const VITE_APP_VERSION: string;
 
-// eslint window checks for custom events
+/* eslint-disable */
+
 declare namespace svelteHTML {
 	interface HTMLAttributes {
-		'on:submit'?: (event: CustomEvent) => void;
-		'on:openAddCanister'?: (event: CustomEvent) => void;
-		'on:addCanister'?: (event: CustomEvent) => void;
+		onopenAddCanister?: (event: CustomEvent<any>) => void;
+		onaddCanister?: (event: CustomEvent<any>) => void;
+		onaddSnsCanister?: (event: CustomEvent<any>) => void;
 	}
 }
+
+/* eslint-enable */

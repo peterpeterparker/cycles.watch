@@ -5,7 +5,7 @@
 
 <nav>
 	<button class="toolbar" on:click={async () => await back()} title="Back">
-		<IconBack slot="icon" />
+		<IconBack />
 		<span class="visually-hidden">Back</span>
 	</button>
 </nav>

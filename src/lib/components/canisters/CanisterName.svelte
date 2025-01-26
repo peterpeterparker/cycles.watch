@@ -21,9 +21,6 @@
 		margin: 0;
 	}
 
-	.canister-id {
-	}
-
 	.name {
 		min-height: 1.2rem;
 		margin-bottom: 0.15rem;

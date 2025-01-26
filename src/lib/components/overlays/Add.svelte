@@ -32,7 +32,7 @@
 	$: back = step !== 'type';
 </script>
 
-<svelte:window on:openAddCanister={() => (open = true)} />
+<svelte:window onopenAddCanister={() => (open = true)} />
 
 {#if open}
 	<Modal on:papyClose={onClose} on:papyBack={onBack} {back}>

@@ -79,6 +79,8 @@
 		position: absolute;
 		inset: 0;
 
+		@include overlay.backdrop-button;
+
 		@include overlay.backdrop('light');
 
 		@include interaction.tappable;

@@ -45,6 +45,6 @@
 		})();
 </script>
 
-<svelte:window on:addCanister={addCanister} on:addSnsCanister={addSnsCanister} />
+<svelte:window onaddCanister={addCanister} onaddSnsCanister={addSnsCanister} />
 
 <slot />

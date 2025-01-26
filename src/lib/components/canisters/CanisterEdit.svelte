@@ -15,7 +15,7 @@
 	let validConfirm = false;
 	let saving = false;
 
-	const handleSubmit = async ($event: MouseEvent | TouchEvent) => {
+	const handleSubmit = async ($event: SubmitEvent) => {
 		$event.preventDefault();
 
 		if (!validConfirm || canisterName === undefined || canisterName === '') {
@@ -38,12 +38,19 @@
 	$: validConfirm = canisterName !== undefined && canisterName !== '';
 </script>
 
-<button on:click|stopPropagation={() => (visible = true)} aria-label="Edit" class="toolbar small">
+<button
+	onclick={($event) => {
+		$event.stopPropagation();
+		visible = true;
+	}}
+	aria-label="Edit"
+	class="toolbar small"
+>
 	<IconEdit size="small" />
 </button>
 
 <Popover bind:visible center>
-	<form class="container" on:submit={async ($event) => await handleSubmit($event)}>
+	<form class="container" onsubmit={handleSubmit}>
 		<label for="canisterName">Canister name</label>
 
 		<input

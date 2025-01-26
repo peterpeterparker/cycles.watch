@@ -1,9 +1,11 @@
 <script lang="ts">
 	import IconInternetComputer from '$lib/components/icons/IconInternetComputer.svelte';
 	import { signIn } from '@junobuild/core';
+
+	const onclick = async () => await signIn();
 </script>
 
-<button type="button" on:click={signIn} class="primary">
+<button type="button" {onclick} class="primary">
 	<IconInternetComputer />
 	Continue with Internet Identity
 </button>

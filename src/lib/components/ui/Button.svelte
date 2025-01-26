@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
+	import { nonNullish } from '$lib/utils/utils';
 
 	export let display: 'inline' | 'card' = 'card';
 	export let text: string;
 
-	export let icon: Component;
+	export let icon: Component | undefined = undefined;
 
 	export let card = true;
 	$: card = display === 'card';
@@ -12,7 +13,9 @@
 
 <div class={card ? 'card' : 'inline'}>
 	<button type="button" class={card ? 'toolbar' : 'primary'} title={text} on:click>
-		<svelte:component this={icon} slot="icon" />
+		{#if nonNullish(icon)}
+			<svelte:component this={icon} slot="icon" />
+		{/if}
 		<span class={card ? 'visually-hidden' : ''}>{text}</span>
 	</button>
 
