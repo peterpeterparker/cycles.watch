@@ -55,14 +55,18 @@
 	border: none;
 	margin: 0;
 	justify-content: flex-start;
-	padding: 0.25rem 1rem;
+	padding: 0.25rem 0.5rem;
 	font-size: var(--font-size-h5);
 
 	svg {
-		margin: 0.45rem 1.25rem 0.45rem 0.45rem;
+		margin: 0.45rem 0.75rem 0.45rem 0.45rem;
 		width: 1.25rem;
 		height: 1.25rem;
 		background: white;
+	}
+
+	span {
+		padding: 0 var(--padding);
 	}
 
 	&:hover:not(:disabled),
@@ -73,6 +77,7 @@
 		span {
 			background: rgba(var(--color-primary-rgb), 0.4);
 			color: var(--color-primary-contrast);
+			border-radius: var(--padding);
 		}
 	}
 }

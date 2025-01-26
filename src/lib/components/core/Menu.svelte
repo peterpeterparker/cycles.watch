@@ -11,6 +11,7 @@
 	import { clear } from 'idb-keyval';
 	import IconPlus from '$lib/components/icons/IconPlus.svelte';
 	import { emitAddCanister } from '$lib/utils/events.utils';
+	import GitHub from '$lib/components/core/GitHub.svelte';
 
 	let visible: boolean | undefined;
 	let button: HTMLButtonElement | undefined;
@@ -43,11 +44,11 @@
 	bind:this={button}
 	title="Open to access more features"
 >
-	<IconMenu slot="icon" />
+	<IconMenu />
 	<span class="visually-hidden">Menu</span>
 </button>
 
-<Popover bind:visible anchor={button}>
+<Popover bind:visible anchor={button} direction="rtl">
 	{#if $authSignedInStore}
 		<button
 			type="button"
@@ -71,6 +72,8 @@
 		<IconSettings />
 		<span>Settings</span>
 	</button>
+
+	<GitHub />
 
 	{#if $authSignedInStore}
 		<button
