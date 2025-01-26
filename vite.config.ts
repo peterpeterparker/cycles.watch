@@ -58,6 +58,9 @@ const config = {
 	},
 	worker: {
 		format: 'es'
+	},
+	server: {
+		port: 5174
 	}
 };
 
