@@ -8,8 +8,9 @@ import type { PostMessageDataRequest, PostMessageSync } from '$lib/types/post-me
 import type { CanisterInfo, SnsCanisterInfo } from '$lib/types/services';
 import type { Settings } from '$lib/types/settings';
 import { cyclesToICP, formatTCycles } from '$lib/utils/cycles.utils';
+import { isNullish } from '$lib/utils/utils';
 import type { Identity } from '@dfinity/agent';
-import { AuthClient } from '@dfinity/auth-client';
+import { unsafeIdentity } from '@junobuild/core';
 
 onmessage = async ({ data: dataMsg }: MessageEvent<PostMessageSync<PostMessageDataRequest>>) => {
 	const { msg, data } = dataMsg;
@@ -44,19 +45,8 @@ onmessage = async ({ data: dataMsg }: MessageEvent<PostMessageSync<PostMessageDa
 
 let timer: NodeJS.Timeout | undefined = undefined;
 
-const loadIdentity = async (): Promise<Identity | undefined> => {
-	const authClient = await AuthClient.create({
-		idleOptions: {
-			disableIdle: true,
-			disableDefaultIdleCallback: true
-		}
-	});
-
-	return authClient.getIdentity();
-};
-
 const startCyclesTimer = async ({ settings }: { settings: Settings }) => {
-	const identity: Identity | undefined = await loadIdentity();
+	const identity = await unsafeIdentity();
 
 	const sync = async () => await syncCanisters({ identity, settings });
 
@@ -242,9 +232,9 @@ const addNnsCanister = async ({
 		}
 	});
 
-	const identity: Identity | undefined = await loadIdentity();
+	const identity = await unsafeIdentity();
 
-	if (!identity) {
+	if (isNullish(identity) || identity.getPrincipal().isAnonymous()) {
 		// not signed in, therefore cannot sync canisters
 		postMessage({
 			msg: 'syncCanister',
