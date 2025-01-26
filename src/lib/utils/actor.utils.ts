@@ -19,7 +19,7 @@ export const createActor = async <T = Record<string, ActorMethod>>({
 	idlFactory: IDL.InterfaceFactory;
 	identity?: Identity;
 }): Promise<ActorSubclass<T>> => {
-	const host = CONTAINER;
+	const host = CONTAINER ?? 'https://icp-api.io';
 
 	const local = (): boolean => {
 		const { hostname }: URL = new URL(host);
