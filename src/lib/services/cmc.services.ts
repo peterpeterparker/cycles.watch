@@ -2,7 +2,7 @@ import type { _SERVICE as CMCActor } from '../canisters/cmc/cmc.did';
 import { idlFactory } from '../canisters/cmc/cmc.utils.did';
 import { createActor } from '../utils/actor.utils';
 
-const CMC_CANISTER_ID = import.meta.env.VITE_IC_CMC_CANISTER_ID as string;
+const CMC_CANISTER_ID = import.meta.env.VITE_CMC_ID as string;
 
 const createCMCActor = (): Promise<CMCActor> =>
 	createActor<CMCActor>({
