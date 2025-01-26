@@ -13,8 +13,14 @@
 	import { onMount } from 'svelte';
 	import Busy from '$lib/components/ui/Busy.svelte';
 	import { initSatellite } from '@junobuild/core-peer';
+	import { CONTAINER, SATELLITE_ID } from '$lib/constants/constants';
 
-	onMount(initSatellite);
+	onMount(async () => {
+		await initSatellite({
+			satelliteId: SATELLITE_ID,
+			container: CONTAINER
+		});
+	});
 </script>
 
 <Worker>
