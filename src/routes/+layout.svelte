@@ -12,7 +12,7 @@
 	import Add from '$lib/components/overlays/Add.svelte';
 	import { onMount } from 'svelte';
 	import Busy from '$lib/components/ui/Busy.svelte';
-	import { initSatellite } from '@junobuild/core-peer';
+	import { initSatellite } from '@junobuild/core';
 	import { CONTAINER, SATELLITE_ID } from '$lib/constants/constants';
 
 	onMount(async () => {
