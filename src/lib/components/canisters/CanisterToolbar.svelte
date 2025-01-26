@@ -2,6 +2,7 @@
 	import CanisterEdit from '$lib/components/canisters/CanisterEdit.svelte';
 	import CanisterHighlight from '$lib/components/canisters/CanisterHighlight.svelte';
 	import type { Canister } from '$lib/types/canister';
+	import CanisterTopUp from '$lib/components/canisters/CanisterTopUp.svelte';
 
 	export let canister: Canister;
 	export let hidden: boolean;
@@ -12,6 +13,8 @@
 		{#if canister.group?.type !== 'sns' || canister.group?.description === 'root'}
 			<CanisterEdit {canister} />
 		{/if}
+
+		<CanisterTopUp {canister} />
 
 		<CanisterHighlight {canister} />
 	</div>
