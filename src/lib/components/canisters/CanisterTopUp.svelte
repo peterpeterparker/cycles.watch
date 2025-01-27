@@ -2,7 +2,7 @@
 	import Popover from '$lib/components/ui/Popover.svelte';
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Canister } from '$lib/types/canister';
-	import WalletConnect from '$lib/components/wallets/WalletConnect.svelte';
+	import Wallet from "$lib/components/wallets/Wallet.svelte";
 
 	interface Props {
 		canister: Canister;
@@ -26,18 +26,11 @@
 
 <Popover bind:visible center>
 	<div class="container">
-		<label for="canisterName">Connect a Wallet</label>
-
-		<WalletConnect />
+		<Wallet />
 	</div>
 </Popover>
 
 <style lang="scss">
-	label {
-		font-weight: bold;
-		margin: 0;
-	}
-
 	.container {
 		display: flex;
 		flex-direction: column;
