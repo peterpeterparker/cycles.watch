@@ -37,6 +37,13 @@
 			// TODO: expires_at: now + 5min
 		};
 
+        // TODO for next week:
+        // - Display balance
+        // - ICP / Cycles
+        // - Input field
+        // - Expires at
+        // - Decode subaccount
+
 		await wallet.icrc2Approve({
 			owner: account.owner,
 			request
