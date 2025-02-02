@@ -30,9 +30,4 @@
 		display: flex;
 		gap: 0.45rem;
 	}
-
-	footer a {
-		background: none;
-		box-shadow: none;
-	}
 </style>
