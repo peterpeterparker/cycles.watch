@@ -1,11 +1,15 @@
 @use './interaction';
-@use './shadow';
+@use './card';
 
-@mixin backdrop($color) {
+@mixin backdrop($color, $blur: true) {
 	@if $color == 'dark' {
 		background: rgba(0, 0, 0, 0.9);
 	} @else {
 		background: rgba(0, 0, 0, 0.15);
+	}
+
+	@if $blur {
+		backdrop-filter: blur(4px);
 	}
 }
 
@@ -66,7 +70,7 @@
 			max-width: var(--size);
 		}
 
-		@include shadow.strong;
+		@include card.container(black);
 
 		width: fit-content;
 		height: auto;

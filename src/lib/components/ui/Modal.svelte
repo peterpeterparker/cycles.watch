@@ -66,7 +66,7 @@
 	@use '../../themes/mixins/interaction';
 	@use '../../themes/mixins/section';
 	@use '../../themes/mixins/overlay';
-	@use '../../themes/mixins/shadow';
+	@use '../../themes/mixins/card';
 
 	.modal {
 		position: fixed;
@@ -95,7 +95,7 @@
 		@include section.large;
 		height: calc(min(100vh, 796px) - 2.75rem);
 
-		@include shadow.strong;
+		@include card.container(black);
 
 		overflow: hidden;
 

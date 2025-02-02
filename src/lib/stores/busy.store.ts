@@ -3,7 +3,6 @@ import { derived, writable, type Readable } from 'svelte/store';
 
 export interface Busy {
 	spinner: boolean;
-	close: boolean;
 }
 
 const initBusyStore = () => {
@@ -13,11 +12,7 @@ const initBusyStore = () => {
 		subscribe,
 
 		start() {
-			set({ spinner: true, close: false });
-		},
-
-		show() {
-			set({ spinner: false, close: true });
+			set({ spinner: true });
 		},
 
 		stop() {

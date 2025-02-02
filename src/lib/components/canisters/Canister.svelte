@@ -134,13 +134,11 @@
 	}
 
 	.warn {
-		box-shadow: 0 4px 16px 0 rgba(var(--color-warning-rgb), 0.12);
-		border: 2px solid var(--color-warning-tint);
+		border: 4px solid var(--color-warning-tint);
 	}
 
 	.error {
-		box-shadow: 0 4px 16px 0 rgba(var(--color-error-rgb), 0.12);
-		border: 2px solid var(--color-error-tint);
+		border: 4px solid var(--color-error-tint);
 	}
 
 	.hidden {

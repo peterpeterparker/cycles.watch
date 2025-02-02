@@ -1,26 +1,13 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { busy } from '$lib/stores/busy.store';
-	import IconClose from '$lib/components/icons/IconClose.svelte';
 	import Spinner from '$lib/components/ui/Spinner.svelte';
 	import { nonNullish } from '$lib/utils/utils';
-
-	const close = () => busy.stop();
 </script>
 
 {#if nonNullish($busy)}
 	<div transition:fade>
-		{#if $busy.close}
-			<button class="backdrop" tabindex="-1" on:click={close} aria-label="Close"></button>
-		{/if}
-
 		<div class="content">
-			{#if $busy.close}
-				<button on:click|stopPropagation={close} aria-label="Close" class="text close"
-					><IconClose /></button
-				>
-			{/if}
-
 			{#if $busy.spinner}
 				<div class="spinner">
 					<Spinner />
@@ -47,7 +34,7 @@
 		position: fixed;
 		@include inset;
 
-		@include overlay.backdrop(dark);
+		@include overlay.backdrop(dark, $blur: false);
 	}
 
 	.backdrop {
