@@ -2,6 +2,14 @@
 @use './shadow';
 @use './text';
 
+@mixin container($border) {
+	background: white;
+	color: black;
+	border-radius: var(--padding);
+
+	border: 4px solid $border;
+}
+
 @mixin card($tappable) {
 	padding: 0.75rem;
 
@@ -9,9 +17,7 @@
 	flex-direction: column;
 	justify-content: space-between;
 
-	@include shadow.strong;
-
-	border-color: transparent;
+	@include container(var(--color-primary));
 
 	@if $tappable {
 		@include interaction.tappable;
