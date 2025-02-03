@@ -7,6 +7,7 @@ export interface PostMessageDataRequest {
 export interface PostMessageDataResponse {
 	canister?: Canister;
 	canisters?: Canister[];
+	icpXdrConversionRate?: bigint;
 }
 
 export type PostMessageRequest =
@@ -14,7 +15,7 @@ export type PostMessageRequest =
 	| 'stopCyclesTimer'
 	| 'addCanister'
 	| 'addSnsCanister';
-export type PostMessageResponse = 'syncCanister' | 'initCanisters';
+export type PostMessageResponse = 'syncCanister' | 'initCanisters' | 'syncIcpXdrConversionRate';
 
 export interface PostMessageSync<T extends PostMessageDataRequest | PostMessageDataResponse> {
 	msg: PostMessageRequest | PostMessageResponse;

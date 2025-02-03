@@ -10,6 +10,7 @@
 	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
 	import Identifier from '$lib/components/ui/Identifier.svelte';
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
+    import WalletInput from "$lib/components/wallets/WalletInput.svelte";
 
 	interface Props {
 		wallet: IcpWallet;
@@ -36,10 +37,10 @@
 		};
 
 		// TODO for next week:
-		// - Display balance
 		// - ICP / Cycles
 		// - Input field
 		// - Expires at
+        // - Implement the API endpoint in our serverless function
 
 		await wallet.icrc2Approve({
 			owner: account.owner,
@@ -54,6 +55,8 @@
 <Identifier identifier={accountAsText} ariaLabel="Copy the account ID to clipboard" />
 
 <WalletBalance account={icrcAccount} />
+
+<WalletInput />
 
 <Button display="inline" text="Ask approval" icon={IconPublish} on:click={approve} />
 
