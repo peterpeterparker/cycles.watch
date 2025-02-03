@@ -18,6 +18,7 @@ import type {
 import { emit } from '../utils/events.utils';
 import { addCanister as addCanisterIDB, removeCanister as removeCanisterIDB } from './idb.services';
 import { notify } from './notification.services';
+import {icpXdrConversionRateStore} from "$lib/stores/cmc.store";
 
 export const addCanister = async (meta: CanisterMeta) => {
 	await Promise.all([
@@ -136,19 +137,24 @@ const syncCanister = async ({ canister }: PostMessageDataResponse) => {
 	await notifyCanisterCycles(canister);
 };
 
+const syncIcpXdrConversionRate = ({ icpXdrConversionRate }: PostMessageDataResponse) => {
+	icpXdrConversionRateStore.set(icpXdrConversionRate);
+
+	console.log(icpXdrConversionRate)
+}
+
 export const onWorkerMessage = async ({
 	data: { msg, data }
 }: MessageEvent<PostMessageSync<PostMessageDataResponse>>) => {
-	if (!['syncCanister', 'initCanisters'].includes(msg)) {
-		return;
-	}
-
 	switch (msg) {
 		case 'syncCanister':
 			await syncCanister(data);
 			return;
 		case 'initCanisters':
 			setCanistersStore(data);
+			return;
+		case 'syncIcpXdrConversionRate':
+			syncIcpXdrConversionRate(data);
 			return;
 	}
 };

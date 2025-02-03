@@ -5,6 +5,8 @@ export const APP_VERSION = VITE_APP_VERSION;
 export const SATELLITE_ID = import.meta.env.VITE_SATELLITE_ID;
 export const CONTAINER = import.meta.env.VITE_CONTAINER;
 
+export const ICP_LEDGER_ID = import.meta.env.VITE_ICP_LEDGER_ID as string;
+
 export const IDB_KEY_CANISTER_IDS = 'cycles_watch_canister_ids';
 export const IDB_KEY_SNS_ROOT_CANISTER_IDS = 'cycles_watch_sns_root_canister_ids';
 export const IDB_KEY_SETTINGS = 'cycles_watch_settings';
@@ -19,3 +21,5 @@ export const DEFAULT_SETTINGS: Settings = {
 	// Warn canister running out of cycles
 	warnTCycles: 5
 };
+
+export const E8S_PER_ICP = 100_000_000n;
