@@ -4,7 +4,7 @@
 	import WalletConnect from '$lib/components/wallets/WalletConnect.svelte';
 	import { onDestroy } from 'svelte';
 	import { isNullish } from '$lib/utils/utils';
-    import WalletApprove from "$lib/components/wallets/WalletApprove.svelte";
+	import WalletApprove from '$lib/components/wallets/WalletApprove.svelte';
 
 	let wallet: IcpWallet | undefined | null = $state(undefined);
 	let account: IcrcAccount | undefined | null = $state(undefined);

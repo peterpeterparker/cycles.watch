@@ -1,14 +1,15 @@
 <script lang="ts">
 	import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
-	import { encodeIcrcAccount } from '@dfinity/ledger-icrc';
+	import { encodeIcrcAccount, type IcrcAccount as IcrcAccountLib } from '@dfinity/ledger-icrc';
 	import { Principal } from '@dfinity/principal';
 	import Button from '$lib/components/ui/Button.svelte';
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
-	import { SATELLITE_ID } from '$lib/constants/constants';
+	import { E8S_PER_ICP, SATELLITE_ID } from '$lib/constants/constants';
 	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
 	import Identifier from '$lib/components/ui/Identifier.svelte';
+	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
 
 	interface Props {
 		wallet: IcpWallet;
@@ -17,18 +18,14 @@
 
 	let { wallet, account }: Props = $props();
 
-	let accountAsText = $derived(
-		encodeIcrcAccount({
-			owner: Principal.fromText(account.owner),
-			subaccount: nonNullish(account.subaccount)
-				? base64ToUint8Array(account.subaccount)
-				: undefined
-		})
-	);
+	let icrcAccount = $derived<IcrcAccountLib>({
+		owner: Principal.fromText(account.owner),
+		subaccount: nonNullish(account.subaccount) ? base64ToUint8Array(account.subaccount) : undefined
+	});
+
+	let accountAsText = $derived(encodeIcrcAccount(icrcAccount));
 
 	const approve = async () => {
-		const E8S_PER_ICP = 100_000_000n;
-
 		const request: Icrc2ApproveRequest = {
 			spender: {
 				owner: Principal.fromText(SATELLITE_ID),
@@ -55,6 +52,8 @@
 
 <span>Account:</span>
 <Identifier identifier={accountAsText} ariaLabel="Copy the account ID to clipboard" />
+
+<WalletBalance account={icrcAccount} />
 
 <Button display="inline" text="Ask approval" icon={IconPublish} on:click={approve} />
 

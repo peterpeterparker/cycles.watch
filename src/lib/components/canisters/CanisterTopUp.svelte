@@ -2,7 +2,7 @@
 	import Popover from '$lib/components/ui/Popover.svelte';
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Canister } from '$lib/types/canister';
-	import Wallet from "$lib/components/wallets/Wallet.svelte";
+	import Wallet from '$lib/components/wallets/Wallet.svelte';
 
 	interface Props {
 		canister: Canister;
