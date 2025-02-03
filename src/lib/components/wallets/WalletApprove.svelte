@@ -8,6 +8,7 @@
 	import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
 	import { SATELLITE_ID } from '$lib/constants/constants';
 	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
+	import Identifier from '$lib/components/ui/Identifier.svelte';
 
 	interface Props {
 		wallet: IcpWallet;
@@ -52,8 +53,8 @@
 	};
 </script>
 
-<span>Account</span>
-<p>{accountAsText}</p>
+<span>Account:</span>
+<Identifier identifier={accountAsText} ariaLabel="Copy the account ID to clipboard" />
 
 <Button display="inline" text="Ask approval" icon={IconPublish} on:click={approve} />
 
