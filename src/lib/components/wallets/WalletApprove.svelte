@@ -7,6 +7,7 @@
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
 	import { SATELLITE_ID } from '$lib/constants/constants';
+	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
 
 	interface Props {
 		wallet: IcpWallet;
@@ -17,11 +18,10 @@
 
 	let accountAsText = $derived(
 		encodeIcrcAccount({
-			owner: Principal.fromText(account.owner)
-			// TODO: expose base64ToUint8Array in signer library
-			// subaccount: nonNullish(account.subaccount)
-			// 				? base64ToUint8Array(account.subaccount)
-			// 		: undefined
+			owner: Principal.fromText(account.owner),
+			subaccount: nonNullish(account.subaccount)
+				? base64ToUint8Array(account.subaccount)
+				: undefined
 		})
 	);
 
@@ -37,19 +37,18 @@
 			// TODO: expires_at: now + 5min
 		};
 
-        // TODO for next week:
-        // - Display balance
-        // - ICP / Cycles
-        // - Input field
-        // - Expires at
-        // - Decode subaccount
+		// TODO for next week:
+		// - Display balance
+		// - ICP / Cycles
+		// - Input field
+		// - Expires at
 
 		await wallet.icrc2Approve({
 			owner: account.owner,
 			request
 		});
 
-        console.log("Approve ✅");
+		console.log('Approve ✅');
 	};
 </script>
 
