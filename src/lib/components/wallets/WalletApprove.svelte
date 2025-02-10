@@ -35,6 +35,14 @@
 	let userAmount: string = $state('');
 	let balance: bigint | undefined = $state(undefined);
 
+	// TODO: extract approve function to wallet.services
+	// TODO: create a swap.services in which I'll implement a function to do both approve and request
+
+	// TODO: next week
+	// - Implement the request
+	// - Initialize the server functions
+	// - Do the effective transfer of the amount of icp
+
 	const approve = async () => {
 		// TODO: should we double the fee? one fee for the approval and one for the effective transfer in the backend?
 		const { valid, tokenAmount } = assertAndConvertAmountToICPToken({
@@ -56,9 +64,6 @@
 			amount: tokenAmount.toE8s(),
 			expires_at: nowInBigIntNanoSeconds() + FIVE_MINUTES
 		};
-
-		// TODO for next week:
-		// - Implement the API endpoint in our serverless function
 
 		await wallet.icrc2Approve({
 			owner: account.owner,
