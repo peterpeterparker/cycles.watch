@@ -9,11 +9,10 @@
 
 	interface Props {
 		account: IcrcAccount;
+		balance: bigint | undefined
 	}
 
-	let { account }: Props = $props();
-
-	let balance: bigint | undefined = $state(undefined);
+	let { account, balance = $bindable(undefined) }: Props = $props();
 
 	onMount(async () => {
 		const { balance: result } = await getBalance({ account });

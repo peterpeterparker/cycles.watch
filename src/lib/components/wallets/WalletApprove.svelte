@@ -7,10 +7,11 @@
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
 	import { E8S_PER_ICP, SATELLITE_ID } from '$lib/constants/constants';
-	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
+	import { base64ToUint8Array, isNullish, nonNullish } from '@dfinity/utils';
 	import Identifier from '$lib/components/ui/Identifier.svelte';
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
 	import WalletInput from '$lib/components/wallets/WalletInput.svelte';
+	import { assertAndConvertAmountToICPToken } from '$lib/utils/token.utils';
 
 	interface Props {
 		wallet: IcpWallet;
@@ -26,7 +27,19 @@
 
 	let accountAsText = $derived(encodeIcrcAccount(icrcAccount));
 
+	let userAmount: string = $state('');
+	let balance: bigint | undefined = $state(undefined);
+
 	const approve = async () => {
+		const { valid, tokenAmount } = assertAndConvertAmountToICPToken({
+			amount: userAmount,
+			balance
+		});
+
+		if (!valid || isNullish(tokenAmount)) {
+			return;
+		}
+
 		const request: Icrc2ApproveRequest = {
 			spender: {
 				owner: Principal.fromText(SATELLITE_ID),
@@ -37,8 +50,6 @@
 		};
 
 		// TODO for next week:
-		// - ICP / Cycles
-		// - Input field
 		// - Expires at
 		// - Implement the API endpoint in our serverless function
 
@@ -54,9 +65,9 @@
 <span>Account:</span>
 <Identifier identifier={accountAsText} ariaLabel="Copy the account ID to clipboard" />
 
-<WalletBalance account={icrcAccount} />
+<WalletBalance account={icrcAccount} bind:balance />
 
-<WalletInput />
+<WalletInput bind:userAmount />
 
 <div role="toolbar">
 	<Button display="inline" text="Ask approval" icon={IconPublish} on:click={approve} />
