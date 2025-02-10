@@ -1,7 +1,22 @@
 <script lang="ts">
 	import Value from '$lib/components/ui/Value.svelte';
+	import { nonNullish } from '@dfinity/utils';
+	import { icpXdrConversionRateStore } from '$lib/stores/cmc.store';
+	import {formatTCycles, icpToCycles} from '$lib/utils/cycles.utils';
 
 	let userAmount: string = $state('');
+
+	let convertedCycles: number | undefined = $derived(
+		nonNullish($icpXdrConversionRateStore) && !isNaN(Number(userAmount)) && nonNullish(userAmount)
+			? icpToCycles({ icp: Number(userAmount), trillionRatio: $icpXdrConversionRateStore })
+			: undefined
+	);
+
+	let displayTCycles: string | undefined = $state(undefined);
+
+	$effect(() => {
+		displayTCycles = nonNullish(convertedCycles) ? `${formatTCycles(BigInt(convertedCycles ?? 0))}` : '';
+	});
 </script>
 
 <div>
@@ -25,7 +40,7 @@
 			Converted to Cycles
 		{/snippet}
 
-		Amount of Cycles
+		{displayTCycles} T Cycles
 	</Value>
 </div>
 

@@ -15,3 +15,11 @@ export const cyclesToICP = ({
 	cycles: bigint;
 	trillionRatio: bigint;
 }): number => Number(cycles) / Number(trillionRatio);
+
+export const icpToCycles = ({
+	icp,
+	trillionRatio
+}: {
+	icp: number;
+	trillionRatio: bigint;
+}): number => Math.trunc(icp * Number(trillionRatio));

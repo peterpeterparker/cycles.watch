@@ -139,8 +139,6 @@ const syncCanister = async ({ canister }: PostMessageDataResponse) => {
 
 const syncIcpXdrConversionRate = ({ icpXdrConversionRate }: PostMessageDataResponse) => {
 	icpXdrConversionRateStore.set(icpXdrConversionRate);
-
-	console.log(icpXdrConversionRate);
 };
 
 export const onWorkerMessage = async ({
