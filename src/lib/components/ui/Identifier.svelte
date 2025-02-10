@@ -22,8 +22,6 @@
 
 <style lang="scss">
 	p {
-		:global(button) {
-			width: fit-content;
-		}
+		--button-copy-width: fit-content;
 	}
 </style>

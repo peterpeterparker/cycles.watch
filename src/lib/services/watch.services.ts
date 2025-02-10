@@ -2,6 +2,7 @@ import {
 	addCanisters as addCanistersJuno,
 	removeCanister as removeCanisterJuno
 } from '$lib/services/juno.services';
+import { icpXdrConversionRateStore } from '$lib/stores/cmc.store';
 import {
 	COLLECTION_CANISTER_IDS,
 	COLLECTION_SNS_ROOT_CANISTER_IDS,
@@ -18,7 +19,6 @@ import type {
 import { emit } from '../utils/events.utils';
 import { addCanister as addCanisterIDB, removeCanister as removeCanisterIDB } from './idb.services';
 import { notify } from './notification.services';
-import {icpXdrConversionRateStore} from "$lib/stores/cmc.store";
 
 export const addCanister = async (meta: CanisterMeta) => {
 	await Promise.all([
@@ -140,8 +140,8 @@ const syncCanister = async ({ canister }: PostMessageDataResponse) => {
 const syncIcpXdrConversionRate = ({ icpXdrConversionRate }: PostMessageDataResponse) => {
 	icpXdrConversionRateStore.set(icpXdrConversionRate);
 
-	console.log(icpXdrConversionRate)
-}
+	console.log(icpXdrConversionRate);
+};
 
 export const onWorkerMessage = async ({
 	data: { msg, data }

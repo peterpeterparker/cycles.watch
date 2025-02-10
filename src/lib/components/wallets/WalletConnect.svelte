@@ -29,12 +29,18 @@
 	};
 </script>
 
-<span>Connect a Wallet</span>
-<Button display="inline" text="OISY" icon={IconOisy} on:click={connectOISY} />
+<div>
+	<span>Connect a Wallet</span>
+	<Button display="inline" text="OISY" icon={IconOisy} on:click={connectOISY} />
+</div>
 
 <style lang="scss">
 	span {
 		font-weight: bold;
 		margin: 0;
+	}
+
+	div {
+		--button-width: 100%;
 	}
 </style>

@@ -37,9 +37,5 @@
 		padding: 0 1.75rem;
 
 		width: 100%;
-
-		:global(button) {
-			width: 100%;
-		}
 	}
 </style>

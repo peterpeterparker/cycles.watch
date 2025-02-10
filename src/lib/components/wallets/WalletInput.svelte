@@ -4,23 +4,33 @@
 	let userAmount: string = $state('');
 </script>
 
-<Value ref="icp-amount">
-	{#snippet label()}
-		Amount in ICP
-	{/snippet}
+<div>
+	<Value ref="icp-amount">
+		{#snippet label()}
+			Amount in ICP
+		{/snippet}
 
-	<input
-		id="icp-amount"
-		bind:value={userAmount}
-		type="text"
-		placeholder="How many ICP to convert?"
-	/>
-</Value>
+		<input
+			id="icp-amount"
+			bind:value={userAmount}
+			type="text"
+			placeholder="How many ICP to convert?"
+		/>
+	</Value>
+</div>
 
-<Value>
-	{#snippet label()}
-		Converted to Cycles
-	{/snippet}
+<div>
+	<Value>
+		{#snippet label()}
+			Converted to Cycles
+		{/snippet}
 
-	Amount of Cycles
-</Value>
+		Amount of Cycles
+	</Value>
+</div>
+
+<style lang="scss">
+	div {
+		margin: 1.25rem 0 0;
+	}
+</style>

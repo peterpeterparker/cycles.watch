@@ -47,4 +47,8 @@
 	span {
 		font-size: var(--font-size-small);
 	}
+
+	button {
+		width: var(--button-width);
+	}
 </style>
