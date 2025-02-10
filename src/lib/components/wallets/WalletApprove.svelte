@@ -31,6 +31,7 @@
 	let balance: bigint | undefined = $state(undefined);
 
 	const approve = async () => {
+		// TODO: should we double the fee? one fee for the approval and one for the effective transfer in the backend?
 		const { valid, tokenAmount } = assertAndConvertAmountToICPToken({
 			amount: userAmount,
 			balance
@@ -45,7 +46,7 @@
 				owner: Principal.fromText(SATELLITE_ID),
 				subaccount: []
 			},
-			amount: 1n * (E8S_PER_ICP / 2n)
+			amount: tokenAmount.toE8s()
 			// TODO: expires_at: now + 5min
 		};
 
