@@ -7,7 +7,12 @@
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
 	import { E8S_PER_ICP, SATELLITE_ID } from '$lib/constants/constants';
-	import { base64ToUint8Array, isNullish, nonNullish } from '@dfinity/utils';
+	import {
+		base64ToUint8Array,
+		isNullish,
+		nonNullish,
+		nowInBigIntNanoSeconds
+	} from '@dfinity/utils';
 	import Identifier from '$lib/components/ui/Identifier.svelte';
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
 	import WalletInput from '$lib/components/wallets/WalletInput.svelte';
@@ -41,17 +46,18 @@
 			return;
 		}
 
+		const FIVE_MINUTES = 5n * 60n * 1000n * 1000n * 1000n;
+
 		const request: Icrc2ApproveRequest = {
 			spender: {
 				owner: Principal.fromText(SATELLITE_ID),
 				subaccount: []
 			},
-			amount: tokenAmount.toE8s()
-			// TODO: expires_at: now + 5min
+			amount: tokenAmount.toE8s(),
+			expires_at: nowInBigIntNanoSeconds() + FIVE_MINUTES
 		};
 
 		// TODO for next week:
-		// - Expires at
 		// - Implement the API endpoint in our serverless function
 
 		await wallet.icrc2Approve({
