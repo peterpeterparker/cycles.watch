@@ -3,6 +3,7 @@
 	import IconOisy from '$lib/components/icons/IconOisy.svelte';
 	import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
+	import { CONTAINER } from '$lib/constants/constants';
 
 	interface Props {
 		wallet: IcpWallet | undefined | null;
@@ -13,7 +14,8 @@
 
 	const connectOISY = async () => {
 		wallet = await IcpWallet.connect({
-			url: 'http://localhost:5175/sign/'
+			url: 'http://localhost:5175/sign/',
+			host: CONTAINER
 		});
 
 		const { allPermissionsGranted } = await wallet.requestPermissionsNotGranted();
