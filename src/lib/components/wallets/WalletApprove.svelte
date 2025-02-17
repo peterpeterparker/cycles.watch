@@ -6,7 +6,7 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
-	import { E8S_PER_ICP, SATELLITE_ID } from '$lib/constants/constants';
+	import { SATELLITE_ID } from '$lib/constants/constants';
 	import {
 		base64ToUint8Array,
 		isNullish,
@@ -17,6 +17,7 @@
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
 	import WalletInput from '$lib/components/wallets/WalletInput.svelte';
 	import { assertAndConvertAmountToICPToken } from '$lib/utils/token.utils';
+	import { approveAndRequest } from '$lib/services/wallet.services';
 
 	interface Props {
 		wallet: IcpWallet;
@@ -35,40 +36,22 @@
 	let userAmount: string = $state('');
 	let balance: bigint | undefined = $state(undefined);
 
-	// TODO: extract approve function to wallet.services
-	// TODO: create a swap.services in which I'll implement a function to do both approve and request
-
 	// TODO: next week
 	// - Implement the request
 	// - Initialize the server functions
 	// - Do the effective transfer of the amount of icp
 
 	const approve = async () => {
-		// TODO: should we double the fee? one fee for the approval and one for the effective transfer in the backend?
-		const { valid, tokenAmount } = assertAndConvertAmountToICPToken({
-			amount: userAmount,
-			balance
+		const { success } = await approveAndRequest({
+			balance,
+			userAmount,
+			account: icrcAccount,
+			wallet
 		});
 
-		if (!valid || isNullish(tokenAmount)) {
+		if (!success) {
 			return;
 		}
-
-		const FIVE_MINUTES = 5n * 60n * 1000n * 1000n * 1000n;
-
-		const request: Icrc2ApproveRequest = {
-			spender: {
-				owner: Principal.fromText(SATELLITE_ID),
-				subaccount: []
-			},
-			amount: tokenAmount.toE8s(),
-			expires_at: nowInBigIntNanoSeconds() + FIVE_MINUTES
-		};
-
-		await wallet.icrc2Approve({
-			owner: account.owner,
-			request
-		});
 
 		console.log('Approve ✅');
 	};
