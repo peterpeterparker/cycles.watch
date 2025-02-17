@@ -5,18 +5,10 @@
 	import { Principal } from '@dfinity/principal';
 	import Button from '$lib/components/ui/Button.svelte';
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
-	import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
-	import { SATELLITE_ID } from '$lib/constants/constants';
-	import {
-		base64ToUint8Array,
-		isNullish,
-		nonNullish,
-		nowInBigIntNanoSeconds
-	} from '@dfinity/utils';
+	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
 	import Identifier from '$lib/components/ui/Identifier.svelte';
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
 	import WalletInput from '$lib/components/wallets/WalletInput.svelte';
-	import { assertAndConvertAmountToICPToken } from '$lib/utils/token.utils';
 	import { approveAndRequest } from '$lib/services/wallet.services';
 
 	interface Props {
