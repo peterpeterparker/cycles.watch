@@ -68,7 +68,8 @@ export const approveAndRequest = async ({
 			...rest
 		});
 
-		await requestSwap();
+		// TODO: next week
+		// await requestSwap();
 
 		return { success: true };
 	} catch (err: unknown) {
@@ -115,6 +116,4 @@ const approve = async ({
 		owner: account.owner.toText(),
 		request
 	});
-
-	console.log('Approve ✅');
 };
