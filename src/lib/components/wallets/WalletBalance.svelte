@@ -9,7 +9,7 @@
 
 	interface Props {
 		account: IcrcAccount;
-		balance: bigint | undefined
+		balance: bigint | undefined;
 	}
 
 	let { account, balance = $bindable(undefined) }: Props = $props();

@@ -1,3 +1,3 @@
 export interface CyclesRequest {
-    icpAmount: bigint;
+	icpAmount: bigint;
 }

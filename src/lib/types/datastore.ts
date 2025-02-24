@@ -1,3 +1,3 @@
 export interface RequestData {
-    status: "submitted" | "swapped" | "failed";
+	status: 'submitted' | 'swapped' | 'failed';
 }

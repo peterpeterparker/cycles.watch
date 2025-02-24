@@ -1,16 +1,15 @@
-import { get } from 'svelte/store';
+import { IC_TRANSACTION_FEE_ICP } from '$lib/constants/constants';
+import { toasts } from '$lib/stores/toasts.store';
 import { FromStringToTokenError, ICPToken, isNullish, TokenAmountV2 } from '@dfinity/utils';
-import {toasts} from "$lib/stores/toasts.store";
-import {IC_TRANSACTION_FEE_ICP} from "$lib/constants/constants";
 
 const amountToICPToken = (amount: string): TokenAmountV2 | undefined => {
-    const token = TokenAmountV2.fromString({ token: ICPToken, amount });
+	const token = TokenAmountV2.fromString({ token: ICPToken, amount });
 
-    if (Object.values(FromStringToTokenError).includes(token as string | FromStringToTokenError)) {
-        return undefined;
-    }
+	if (Object.values(FromStringToTokenError).includes(token as string | FromStringToTokenError)) {
+		return undefined;
+	}
 
-    return <TokenAmountV2>token;
+	return <TokenAmountV2>token;
 };
 
 export const assertAndConvertAmountToICPToken = ({
@@ -24,14 +23,14 @@ export const assertAndConvertAmountToICPToken = ({
 }): { valid: boolean; tokenAmount?: TokenAmountV2 } => {
 	if (isNullish(balance) || balance === 0n) {
 		toasts.error({
-			text: "Your balance is undefined or null."
+			text: 'Your balance is undefined or null.'
 		});
 		return { valid: false };
 	}
 
 	if (isNullish(amount)) {
 		toasts.error({
-			text: "No amount provided."
+			text: 'No amount provided.'
 		});
 		return { valid: false };
 	}
@@ -40,21 +39,21 @@ export const assertAndConvertAmountToICPToken = ({
 
 	if (isNullish(tokenAmount)) {
 		toasts.error({
-			text: "Cannot convert amount to token."
+			text: 'Cannot convert amount to token.'
 		});
 		return { valid: false };
 	}
 
-    if (tokenAmount.toE8s() === 0n) {
-        toasts.error({
-            text: "Amount cannot be zero."
-        });
-        return { valid: false };
-    }
+	if (tokenAmount.toE8s() === 0n) {
+		toasts.error({
+			text: 'Amount cannot be zero.'
+		});
+		return { valid: false };
+	}
 
 	if (balance - fee < tokenAmount.toE8s()) {
 		toasts.error({
-			text: "Invalid amount. Not enough balance."
+			text: 'Invalid amount. Not enough balance.'
 		});
 		return { valid: false };
 	}
