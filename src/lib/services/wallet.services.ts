@@ -68,7 +68,7 @@ export const approveAndRequest = async ({
 			...rest
 		});
 
-		await requestSwap();
+		await requestSwap({ tokenAmount });
 
 		return { success: true };
 	} catch (err: unknown) {
@@ -81,11 +81,12 @@ export const approveAndRequest = async ({
 	}
 };
 
-const requestSwap = async () => {
+const requestSwap = async ({ tokenAmount }: { tokenAmount: TokenAmountV2 }) => {
 	const doc: Doc<RequestData> = {
 		key: crypto.randomUUID(),
 		data: {
-			status: 'submitted'
+			status: 'submitted',
+			icpAmount: tokenAmount.toE8s()
 		}
 	};
 
