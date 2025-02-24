@@ -1,4 +1,4 @@
 export interface RequestData {
 	status: 'submitted' | 'swapped' | 'failed';
-	icpAmount: bigint;
+	icp_amount: number;
 }

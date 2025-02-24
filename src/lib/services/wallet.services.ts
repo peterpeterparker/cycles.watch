@@ -86,7 +86,8 @@ const requestSwap = async ({ tokenAmount }: { tokenAmount: TokenAmountV2 }) => {
 		key: crypto.randomUUID(),
 		data: {
 			status: 'submitted',
-			icpAmount: tokenAmount.toE8s()
+			// TODO: debug what's happening here!!!!
+			icp_amount: Number(tokenAmount.toE8s())
 		}
 	};
 
