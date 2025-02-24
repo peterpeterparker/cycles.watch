@@ -3,9 +3,7 @@
 
 // @ts-expect-error
 export const idlFactory = ({ IDL }) => {
-	return IDL.Service({ build_version: IDL.Func([], [IDL.Text], ['query']) });
+  return IDL.Service({ 'build_version' : IDL.Func([], [IDL.Text], ['query']) });
 };
 // @ts-expect-error
-export const init = ({ IDL }) => {
-	return [];
-};
+export const init = ({ IDL }) => { return []; };

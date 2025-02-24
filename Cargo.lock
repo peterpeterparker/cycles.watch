@@ -1067,6 +1067,7 @@ dependencies = [
  "candid",
  "ic-cdk",
  "ic-cdk-macros",
+ "icrc-ledger-types",
  "junobuild-macros",
  "junobuild-satellite",
  "junobuild-utils",
