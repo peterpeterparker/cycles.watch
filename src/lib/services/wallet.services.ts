@@ -68,8 +68,7 @@ export const approveAndRequest = async ({
 			...rest
 		});
 
-		// TODO: next week
-		// await requestSwap();
+		await requestSwap();
 
 		return { success: true };
 	} catch (err: unknown) {
