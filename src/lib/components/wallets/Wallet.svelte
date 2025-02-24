@@ -21,5 +21,5 @@
 {#if isNullish(account) || isNullish(wallet)}
 	<WalletConnect bind:wallet bind:account />
 {:else}
-	<WalletApprove {wallet} {account} />
+	<WalletApprove {wallet} {account} onsuccess={disconnect} />
 {/if}

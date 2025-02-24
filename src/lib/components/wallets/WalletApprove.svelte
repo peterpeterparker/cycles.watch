@@ -10,13 +10,15 @@
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
 	import WalletInput from '$lib/components/wallets/WalletInput.svelte';
 	import { approveAndRequest } from '$lib/services/wallet.services';
+	import {toasts} from "$lib/stores/toasts.store";
 
 	interface Props {
 		wallet: IcpWallet;
 		account: IcrcAccount;
+		onsuccess: () => void;
 	}
 
-	let { wallet, account }: Props = $props();
+	let { wallet, account, onsuccess }: Props = $props();
 
 	let icrcAccount = $derived<IcrcAccountLib>({
 		owner: Principal.fromText(account.owner),
@@ -45,7 +47,9 @@
 			return;
 		}
 
-		console.log('Approve ✅');
+		toasts.success('Swapping ICP to cycles submitted...');
+
+		onsuccess();
 	};
 </script>
 
