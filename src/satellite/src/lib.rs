@@ -16,9 +16,9 @@ use crate::types::RequestData;
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     let data: RequestData = decode_doc_data(&context.data.data.after.data)?;
 
-    print(format!("There is a new swap request {:?}", data.icp_amount.value));
+    print(format!("There is a new swap request from {} for {:?}", data.wallet_owner.value.to_text(), data.icp_amount.value));
 
-    let account: Account = Account::from(context.caller);
+    let account: Account = Account::from(data.wallet_owner.value);
 
     let balance = icrc_balance_of(Principal::from_text(ICP_LEDGER_ID).unwrap(), account)
         .await

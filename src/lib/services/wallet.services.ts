@@ -50,6 +50,7 @@ export interface ApproveAndRequestParams {
 export const approveAndRequest = async ({
 	userAmount,
 	balance,
+	account,
 	...rest
 }: ApproveAndRequestParams): Promise<{ success: boolean }> => {
 	// TODO: should we double the fee? one fee for the approval and one for the effective transfer in the backend?
@@ -65,10 +66,11 @@ export const approveAndRequest = async ({
 	try {
 		await approve({
 			tokenAmount,
+			account,
 			...rest
 		});
 
-		await requestSwap({ tokenAmount });
+		await requestSwap({ tokenAmount, account });
 
 		return { success: true };
 	} catch (err: unknown) {
@@ -81,12 +83,19 @@ export const approveAndRequest = async ({
 	}
 };
 
-const requestSwap = async ({ tokenAmount }: { tokenAmount: TokenAmountV2 }) => {
+const requestSwap = async ({
+	tokenAmount,
+	account: { owner: wallet_owner }
+}: {
+	tokenAmount: TokenAmountV2;
+	account: IcrcAccount;
+}) => {
 	const doc: Doc<RequestData> = {
 		key: crypto.randomUUID(),
 		data: {
 			status: 'submitted',
-			icp_amount: tokenAmount.toE8s()
+			icp_amount: tokenAmount.toE8s(),
+			wallet_owner
 		}
 	};
 
