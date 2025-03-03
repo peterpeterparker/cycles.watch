@@ -48,9 +48,12 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
     print(format!("This is now the balance of the satellite {:?}", satellite_balance));
 
-    // TODO: implement ICP -> cycles swap
-    // keep track of the requests
-    // update status accordingly
+    // TODO: next week
+    // 1. Clean include fee in allowed amount
+    // 2. Clean up code
+    // 3. Update some sort of status booking to keep track of the request and transfer
+    // 4. Effectively gonna implement ICP -> cycles
+    // 5. Update some sort of status (if it succeed or if error)
 
     Ok(())
 }
