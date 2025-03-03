@@ -16,7 +16,7 @@ use crate::types::RequestData;
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     let data: RequestData = decode_doc_data(&context.data.data.after.data)?;
 
-    print(format!("There is a new swap request {:?}", data.icp_amount));
+    print(format!("There is a new swap request {:?}", data.icp_amount.value));
 
     let account: Account = Account::from(context.caller);
 

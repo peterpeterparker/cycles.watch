@@ -1,9 +1,10 @@
+use junobuild_utils::DocDataBigInt;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct RequestData {
     pub status: String,
-    pub icp_amount: u128,
+    pub icp_amount: DocDataBigInt,
 }
 
 #[derive(Serialize, Deserialize)]
