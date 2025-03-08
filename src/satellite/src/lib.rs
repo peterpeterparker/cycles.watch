@@ -72,10 +72,10 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     // 3. Saturation add
 
     // TODO: next week implement
-    // 1. onDisconnect
-    // 2. Update some sort of status booking to keep track of the request and transfer
-    // 3. Effectively gonna implement ICP -> cycles
-    // 4. Update some sort of status (if it succeed or if error)
+    // 1. Update some sort of status booking to keep track of the request and transfer
+    // 2. Effectively gonna implement ICP -> cycles
+    // 3. Update some sort of status (if it succeed or if error)
+    // 4. onDisconnect on frontend
 
     Ok(())
 }
