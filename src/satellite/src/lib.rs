@@ -1,29 +1,34 @@
-mod types;
-mod ledger;
 mod env;
+mod ledger;
+mod types;
+mod utils;
 
-use candid::{Nat, Principal};
+use crate::ledger::{icrc_balance_of, icrc_transfer_from};
+use crate::types::RequestData;
+use crate::utils::icp_ledger_id;
+use candid::{Nat};
 use ic_cdk::{id, print, trap};
 use icrc_ledger_types::icrc1::account::Account;
 use junobuild_macros::on_set_doc;
 use junobuild_satellite::{include_satellite, OnSetDocContext};
 use junobuild_utils::decode_doc_data;
-use crate::env::ICP_LEDGER_ID;
-use crate::ledger::{icrc_balance_of, icrc_transfer_from};
-use crate::types::RequestData;
 
 #[on_set_doc(collections = ["request"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
+    // ###############
+    // Init data
+    // ###############
     let data: RequestData = decode_doc_data(&context.data.data.after.data)?;
-
-    print(format!("There is a new swap request from {} for {:?}", data.wallet_owner.value.to_text(), data.icp_amount.value));
 
     let from_account: Account = Account::from(data.wallet_owner.value);
 
-    let balance = icrc_balance_of(Principal::from_text(ICP_LEDGER_ID).unwrap(), &from_account)
-        .await
-        .map_err(|e| trap(&format!("Failed to call ICRC ledger icrc_balance_of: {:?}", e)))
-        .map_err(|e| trap(&format!("Failed to get the balance: {:?}", e)));
+    let ledger_id = icp_ledger_id()?;
+
+    // ###############
+    // Check current account balance. This way the process can stop early on
+    // ###############
+
+    let balance = icrc_balance_of(&ledger_id, &from_account).await?;
 
     // TODO: if balance < icp_amount => error
 
@@ -34,19 +39,29 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
     let to_account: Account = Account::from(id());
 
-    let result = icrc_transfer_from(Principal::from_text(ICP_LEDGER_ID).unwrap(), &from_account, &to_account, &Nat::from(smaller_amount))
-        .await
-        .map_err(|e| trap(&format!("Failed to call ICRC ledger icrc_transfer_from: {:?}", e)))
-        .map_err(|e| trap(&format!("Failed to execute the transfer from: {:?}", e)));
+    let result = icrc_transfer_from(
+        &ledger_id,
+        &from_account,
+        &to_account,
+        &Nat::from(smaller_amount),
+    )
+    .await
+    .map_err(|e| {
+        trap(&format!(
+            "Failed to call ICRC ledger icrc_transfer_from: {:?}",
+            e
+        ))
+    })
+    .map_err(|e| trap(&format!("Failed to execute the transfer from: {:?}", e)));
 
     print(format!("Result of the transfer from is {:?}", result));
 
-    let satellite_balance = icrc_balance_of(Principal::from_text(ICP_LEDGER_ID).unwrap(), &to_account)
-        .await
-        .map_err(|e| trap(&format!("Failed to call ICRC ledger icrc_balance_of: {:?}", e)))
-        .map_err(|e| trap(&format!("Failed to get the balance: {:?}", e)));
+    let satellite_balance = icrc_balance_of(&ledger_id, &to_account).await?;
 
-    print(format!("This is now the balance of the satellite {:?}", satellite_balance));
+    print(format!(
+        "This is now the balance of the satellite {:?}",
+        satellite_balance
+    ));
 
     // TODO: next week
     // 1. Clean include fee in allowed amount
