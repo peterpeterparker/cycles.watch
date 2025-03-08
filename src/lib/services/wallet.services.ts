@@ -1,5 +1,5 @@
 import { createAgent } from '$lib/api/api.agent';
-import { ICP_LEDGER_ID, SATELLITE_ID } from '$lib/constants/constants';
+import { IC_TRANSACTION_FEE_ICP, ICP_LEDGER_ID, SATELLITE_ID } from '$lib/constants/constants';
 import { toasts } from '$lib/stores/toasts.store';
 import type { RequestData } from '$lib/types/datastore';
 import { assertAndConvertAmountToICPToken } from '$lib/utils/token.utils';
@@ -8,7 +8,7 @@ import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
 import { type IcrcAccount, IcrcLedgerCanister } from '@dfinity/ledger-icrc';
 import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 import { Principal } from '@dfinity/principal';
-import { isNullish, nowInBigIntNanoSeconds, TokenAmountV2 } from '@dfinity/utils';
+import { isNullish, nowInBigIntNanoSeconds } from '@dfinity/utils';
 import { type Doc, setDoc } from '@junobuild/core';
 
 export const getBalance = async ({
@@ -53,24 +53,30 @@ export const approveAndRequest = async ({
 	account,
 	...rest
 }: ApproveAndRequestParams): Promise<{ success: boolean }> => {
-	// TODO: should we double the fee? one fee for the approval and one for the effective transfer in the backend?
+	const transferFee = IC_TRANSACTION_FEE_ICP;
+
 	const { valid, tokenAmount } = assertAndConvertAmountToICPToken({
 		amount: userAmount,
-		balance
+		balance,
+		fee: transferFee
 	});
 
 	if (!valid || isNullish(tokenAmount)) {
 		return { success: false };
 	}
 
+	// The wallet will pay for the fee of the transfer
+	const swapAmount = tokenAmount.toE8s();
+	const approveAmount = swapAmount +  transferFee;
+
 	try {
 		await approve({
-			tokenAmount,
+			amount: approveAmount,
 			account,
 			...rest
 		});
 
-		await requestSwap({ tokenAmount, account });
+		await requestSwap({ amount: swapAmount, account });
 
 		return { success: true };
 	} catch (err: unknown) {
@@ -84,17 +90,17 @@ export const approveAndRequest = async ({
 };
 
 const requestSwap = async ({
-	tokenAmount,
+	amount,
 	account: { owner: wallet_owner }
 }: {
-	tokenAmount: TokenAmountV2;
+	amount: bigint;
 	account: IcrcAccount;
 }) => {
 	const doc: Doc<RequestData> = {
 		key: crypto.randomUUID(),
 		data: {
 			status: 'submitted',
-			icp_amount: tokenAmount.toE8s(),
+			icp_amount: amount,
 			wallet_owner
 		}
 	};
@@ -106,10 +112,10 @@ const requestSwap = async ({
 };
 
 const approve = async ({
-	tokenAmount,
+	amount,
 	wallet,
 	account
-}: { tokenAmount: TokenAmountV2 } & Omit<ApproveAndRequestParams, 'userAmount' | 'balance'>) => {
+}: { amount: bigint } & Omit<ApproveAndRequestParams, 'userAmount' | 'balance'>) => {
 	const FIVE_MINUTES = 5n * 60n * 1000n * 1000n * 1000n;
 
 	const request: Icrc2ApproveRequest = {
@@ -117,7 +123,7 @@ const approve = async ({
 			owner: Principal.fromText(SATELLITE_ID),
 			subaccount: []
 		},
-		amount: tokenAmount.toE8s(),
+		amount,
 		expires_at: nowInBigIntNanoSeconds() + FIVE_MINUTES
 	};
 

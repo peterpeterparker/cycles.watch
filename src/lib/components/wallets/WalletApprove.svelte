@@ -30,11 +30,6 @@
 	let userAmount: string = $state('');
 	let balance: bigint | undefined = $state(undefined);
 
-	// TODO: next week
-	// - Implement the request
-	// - Initialize the server functions
-	// - Do the effective transfer of the amount of icp
-
 	const approve = async () => {
 		const { success } = await approveAndRequest({
 			balance,

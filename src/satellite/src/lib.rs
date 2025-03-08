@@ -22,6 +22,8 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
     let from_account: Account = Account::from(data.wallet_owner.value);
 
+    let request_amount =  data.icp_amount.value;
+
     let ledger_id = icp_ledger_id()?;
 
     // ###############
@@ -30,12 +32,10 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
     let balance = icrc_balance_of(&ledger_id, &from_account).await?;
 
-    // TODO: if balance < icp_amount => error
+    // TODO: if balance < request_amount => error
 
     print(format!("Balance of the caller is {:?}", balance));
 
-    // TODO: `?!?!?!
-    let smaller_amount = data.icp_amount.value - 10_000;
 
     let to_account: Account = Account::from(id());
 
@@ -43,7 +43,7 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
         &ledger_id,
         &from_account,
         &to_account,
-        &Nat::from(smaller_amount),
+        &Nat::from(request_amount),
     )
     .await
     .map_err(|e| {
@@ -63,12 +63,15 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
         satellite_balance
     ));
 
-    // TODO: next week
-    // 1. Clean include fee in allowed amount
-    // 2. Clean up code
-    // 3. Update some sort of status booking to keep track of the request and transfer
-    // 4. Effectively gonna implement ICP -> cycles
-    // 5. Update some sort of status (if it succeed or if error)
+    // TODO: next week - to be shown
+    // 1. Show clean-up
+    // 2. Show amount and fee
+
+    // TODO: next week implement
+    // 1. onDisconnect
+    // 2. Update some sort of status booking to keep track of the request and transfer
+    // 3. Effectively gonna implement ICP -> cycles
+    // 4. Update some sort of status (if it succeed or if error)
 
     Ok(())
 }
