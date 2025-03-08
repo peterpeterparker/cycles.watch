@@ -17,14 +17,15 @@ pub async fn icrc_transfer_from(
     ledger_id: &Principal,
     from_account: &Account,
     to_account: &Account,
-    icp_amount: &Nat,
+    amount: &Nat,
+    fee: &Option<Nat>,
 ) -> CallResult<Result<Nat, TransferFromError>> {
     let args: TransferFromArgs = TransferFromArgs {
-        amount: icp_amount.clone(),
+        amount: amount.clone(),
         from: from_account.clone(),
         to: to_account.clone(),
         created_at_time: None,
-        fee: None,
+        fee: fee.clone(),
         memo: None,
         spender_subaccount: None,
     };

@@ -4,8 +4,14 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize)]
 pub struct RequestData {
     pub status: String,
-    pub icp_amount: DocDataBigInt,
     pub wallet_owner: DocDataPrincipal,
+    pub swap: RequestDataSwap,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct RequestDataSwap {
+    pub amount: DocDataBigInt,
+    pub fee: Option<DocDataBigInt>,
 }
 
 #[derive(Serialize, Deserialize)]

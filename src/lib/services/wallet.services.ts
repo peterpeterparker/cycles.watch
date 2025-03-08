@@ -100,8 +100,10 @@ const requestSwap = async ({
 		key: crypto.randomUUID(),
 		data: {
 			status: 'submitted',
-			icp_amount: amount,
-			wallet_owner
+			wallet_owner,
+			swap: {
+				amount
+			}
 		}
 	};
 
