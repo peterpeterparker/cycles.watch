@@ -1,15 +1,14 @@
-mod assert;
 mod env;
 mod ledger;
+mod services;
 mod types;
 mod utils;
 
-use crate::assert::assert_wallet_balance;
-use crate::ledger::{icrc_balance_of, icrc_transfer_from};
+use crate::ledger::icrc_balance_of;
+use crate::services::{assert_wallet_balance, transfer_icp};
 use crate::types::RequestData;
 use crate::utils::icp_ledger_id;
-use candid::Nat;
-use ic_cdk::{id, print, trap};
+use ic_cdk::{id, print};
 use icrc_ledger_types::icrc1::account::Account;
 use junobuild_macros::on_set_doc;
 use junobuild_satellite::{include_satellite, OnSetDocContext};
@@ -41,23 +40,18 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
     let to_account: Account = Account::from(id());
 
-    let result = icrc_transfer_from(
+    transfer_icp(
         &ledger_id,
         &from_account,
         &to_account,
-        &Nat::from(request_amount),
-        &fee.map(|fee| Nat::from(fee)),
+        &request_amount,
+        &fee,
     )
-    .await
-    .map_err(|e| {
-        trap(&format!(
-            "Failed to call ICRC ledger icrc_transfer_from: {:?}",
-            e
-        ))
-    })
-    .map_err(|e| trap(&format!("Failed to execute the transfer from: {:?}", e)));
+    .await?;
 
-    print(format!("Result of the transfer from is {:?}", result));
+    // ###############
+    // Just a print out to check the balance while developing.
+    // ###############
 
     let satellite_balance = icrc_balance_of(&ledger_id, &to_account).await?;
 
