@@ -1,12 +1,14 @@
+mod assert;
 mod env;
 mod ledger;
 mod types;
 mod utils;
 
+use crate::assert::assert_wallet_balance;
 use crate::ledger::{icrc_balance_of, icrc_transfer_from};
 use crate::types::RequestData;
 use crate::utils::icp_ledger_id;
-use candid::{Nat};
+use candid::Nat;
 use ic_cdk::{id, print, trap};
 use icrc_ledger_types::icrc1::account::Account;
 use junobuild_macros::on_set_doc;
@@ -22,8 +24,8 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
     let from_account: Account = Account::from(data.wallet_owner.value);
 
-    let request_amount =  data.swap.amount.value;
-    let fee =  data.swap.fee.map(|fee| fee.value);
+    let request_amount = data.swap.amount.value;
+    let fee = data.swap.fee.map(|fee| fee.value);
 
     let ledger_id = icp_ledger_id()?;
 
@@ -31,13 +33,7 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     // Check current account balance. This way the process can stop early on
     // ###############
 
-    let balance = icrc_balance_of(&ledger_id, &from_account).await?;
-
-    let total = request_amount.saturating_add(fee.unwrap_or(0u64));
-
-    if balance < total {
-        return Err(format!("Balance {} is smaller than {}", balance, total));
-    }
+    assert_wallet_balance(&ledger_id, &from_account, &request_amount, &fee).await?;
 
     // ###############
     // Transfer from wallet to satellite.
@@ -50,7 +46,7 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
         &from_account,
         &to_account,
         &Nat::from(request_amount),
-        &fee.map(|fee|Nat::from(fee)),
+        &fee.map(|fee| Nat::from(fee)),
     )
     .await
     .map_err(|e| {
