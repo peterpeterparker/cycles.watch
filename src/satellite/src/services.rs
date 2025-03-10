@@ -11,7 +11,7 @@ pub async fn assert_wallet_balance(
 ) -> Result<(), String> {
     let balance = icrc_balance_of(&ledger_id, &from_account).await?;
 
-    let total = amount.saturating_add(fee.unwrap_or(0u64));
+    let total = amount.saturating_add(fee.unwrap_or(10_000u64));
 
     if balance < total {
         return Err(format!("Balance {} is smaller than {}", balance, total));
