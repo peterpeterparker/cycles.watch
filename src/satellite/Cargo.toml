@@ -16,3 +16,4 @@ junobuild-satellite = {version = "0.0.22", default-features = false, features = 
 junobuild-macros = "0.0.4"
 junobuild-utils = "0.0.4"
 icrc-ledger-types = "0.1.8"
+ic-ledger-types = "0.14.0"

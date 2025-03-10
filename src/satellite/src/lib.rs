@@ -6,7 +6,7 @@ mod utils;
 mod bookkeeping;
 
 use crate::ledger::icrc_balance_of;
-use crate::services::{assert_wallet_balance, transfer_icp};
+use crate::services::{assert_wallet_balance, transfer_icp_from_wallet, transfer_icp_to_cmc};
 use crate::types::RequestData;
 use crate::utils::icp_ledger_id;
 use ic_cdk::{id, print};
@@ -44,7 +44,7 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
     let to_account: Account = Account::from(id());
 
-    transfer_icp(
+    transfer_icp_from_wallet(
         &ledger_id,
         &from_account,
         &to_account,
@@ -64,6 +64,11 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     // ###############
 
     ic_cdk::print(format!("This is the target ------> {:?}", target_canister_id));
+
+    transfer_icp_to_cmc( &ledger_id, &target_canister_id, &request_amount,).await?;
+
+    // TODO: call cmc notify_top_up
+    // TODO: improve bookkeeping with those operations
 
 
     // ###############
