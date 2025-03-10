@@ -45,12 +45,14 @@ export interface ApproveAndRequestParams {
 	balance: bigint | undefined;
 	wallet: IcpWallet;
 	account: IcrcAccount;
+	targetCanisterId: Principal;
 }
 
 export const approveAndRequest = async ({
 	userAmount,
 	balance,
 	account,
+	targetCanisterId,
 	...rest
 }: ApproveAndRequestParams): Promise<{ success: boolean }> => {
 	const transferFee = IC_TRANSACTION_FEE_ICP;
@@ -76,7 +78,7 @@ export const approveAndRequest = async ({
 			...rest
 		});
 
-		await requestSwap({ amount: swapAmount, account });
+		await requestSwap({ amount: swapAmount, account, targetCanisterId });
 
 		return { success: true };
 	} catch (err: unknown) {
@@ -91,16 +93,19 @@ export const approveAndRequest = async ({
 
 const requestSwap = async ({
 	amount,
-	account: { owner: wallet_owner }
+	account: { owner: wallet_owner },
+							   targetCanisterId: target_canister_id
 }: {
 	amount: bigint;
 	account: IcrcAccount;
+	targetCanisterId: Principal;
 }) => {
 	const doc: Doc<RequestData> = {
 		key: crypto.randomUUID(),
 		data: {
 			status: 'submitted',
 			wallet_owner,
+			target_canister_id,
 			swap: {
 				amount
 			}
@@ -117,7 +122,7 @@ const approve = async ({
 	amount,
 	wallet,
 	account
-}: { amount: bigint } & Omit<ApproveAndRequestParams, 'userAmount' | 'balance'>) => {
+}: { amount: bigint } & Omit<ApproveAndRequestParams, 'userAmount' | 'balance' | 'targetCanisterId'>) => {
 	const FIVE_MINUTES = 5n * 60n * 1000n * 1000n * 1000n;
 
 	const request: Icrc2ApproveRequest = {

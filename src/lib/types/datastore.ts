@@ -1,4 +1,4 @@
-import type {Principal} from "@dfinity/principal";
+import type { Principal } from '@dfinity/principal';
 
 export interface RequestDataSwap {
 	amount: bigint;
@@ -7,6 +7,7 @@ export interface RequestDataSwap {
 
 export interface RequestData {
 	status: 'submitted' | 'swapped' | 'failed';
-	wallet_owner: Principal,
+	wallet_owner: Principal;
 	swap: RequestDataSwap;
+	target_canister_id: Principal;
 }

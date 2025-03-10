@@ -3,6 +3,7 @@ mod ledger;
 mod services;
 mod types;
 mod utils;
+mod bookkeeping;
 
 use crate::ledger::icrc_balance_of;
 use crate::services::{assert_wallet_balance, transfer_icp};
@@ -13,6 +14,7 @@ use icrc_ledger_types::icrc1::account::Account;
 use junobuild_macros::on_set_doc;
 use junobuild_satellite::{include_satellite, OnSetDocContext};
 use junobuild_utils::decode_doc_data;
+use crate::bookkeeping::save_icp_transferred;
 
 #[on_set_doc(collections = ["request"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
@@ -25,6 +27,8 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
 
     let request_amount = data.swap.amount.value;
     let fee = data.swap.fee.map(|fee| fee.value);
+
+    let target_canister_id = data.target_canister_id.value;
 
     let ledger_id = icp_ledger_id()?;
 
@@ -50,6 +54,19 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     .await?;
 
     // ###############
+    // We keep an internal track of the transferred ICP
+    // ###############
+
+    save_icp_transferred(context.data.key)?;
+
+    // ###############
+    // Do Top-Up own Satellite cycles to targeted canister
+    // ###############
+
+    ic_cdk::print(format!("This is the target ------> {:?}", target_canister_id));
+
+
+    // ###############
     // Just a print out to check the balance while developing.
     // ###############
 
@@ -59,11 +76,6 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
         "This is now the balance of the satellite {:?}",
         satellite_balance
     ));
-
-    // TODO: next week - to be shown
-    // 1. Show clean-up
-    // 2. Show amount and fee
-    // 3. Saturation add
 
     // TODO: next week implement
     // 1. Update some sort of status booking to keep track of the request and transfer

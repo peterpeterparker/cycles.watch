@@ -3,14 +3,17 @@
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Canister } from '$lib/types/canister';
 	import Wallet from '$lib/components/wallets/Wallet.svelte';
+	import {Principal} from "@dfinity/principal";
 
 	interface Props {
 		canister: Canister;
 	}
 
-	let { canister: _ }: Props = $props();
+	let { canister }: Props = $props();
 
 	let visible = $state(false);
+
+	let targetCanisterId = $derived(Principal.fromText(canister.id))
 </script>
 
 <button
@@ -26,7 +29,7 @@
 
 <Popover bind:visible center>
 	<div class="container">
-		<Wallet />
+		<Wallet {targetCanisterId} />
 	</div>
 </Popover>
 

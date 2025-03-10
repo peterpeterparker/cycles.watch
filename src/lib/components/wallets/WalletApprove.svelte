@@ -16,9 +16,10 @@
 		wallet: IcpWallet;
 		account: IcrcAccount;
 		onsuccess: () => void;
+		targetCanisterId: Principal;
 	}
 
-	let { wallet, account, onsuccess }: Props = $props();
+	let { wallet, account, onsuccess, targetCanisterId }: Props = $props();
 
 	let icrcAccount = $derived<IcrcAccountLib>({
 		owner: Principal.fromText(account.owner),
@@ -35,7 +36,8 @@
 			balance,
 			userAmount,
 			account: icrcAccount,
-			wallet
+			wallet,
+			targetCanisterId
 		});
 
 		if (!success) {

@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 pub struct RequestData {
     pub status: String,
     pub wallet_owner: DocDataPrincipal,
+    pub target_canister_id: DocDataPrincipal,
     pub swap: RequestDataSwap,
 }
 
@@ -18,6 +19,19 @@ pub struct RequestDataSwap {
 #[serde(rename_all = "snake_case")]
 pub enum RequestStatus {
     Submitted,
+    Swapped,
+    Failed,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct BookKeepingData {
+    pub status: BookKeepingStatus
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum BookKeepingStatus {
+    TransferFromDone,
     Swapped,
     Failed,
 }

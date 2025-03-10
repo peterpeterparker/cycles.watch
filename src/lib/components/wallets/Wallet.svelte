@@ -5,6 +5,13 @@
 	import { onDestroy } from 'svelte';
 	import { isNullish } from '$lib/utils/utils';
 	import WalletApprove from '$lib/components/wallets/WalletApprove.svelte';
+	import {Principal} from "@dfinity/principal";
+
+	interface Props {
+		targetCanisterId: Principal;
+	}
+
+	let { targetCanisterId }: Props = $props();
 
 	let wallet: IcpWallet | undefined | null = $state(undefined);
 	let account: IcrcAccount | undefined | null = $state(undefined);
@@ -21,5 +28,5 @@
 {#if isNullish(account) || isNullish(wallet)}
 	<WalletConnect bind:wallet bind:account />
 {:else}
-	<WalletApprove {wallet} {account} onsuccess={disconnect} />
+	<WalletApprove {wallet} {account} {targetCanisterId} onsuccess={disconnect} />
 {/if}
