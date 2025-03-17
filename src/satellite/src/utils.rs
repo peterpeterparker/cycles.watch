@@ -8,8 +8,7 @@ pub fn icp_ledger_id() -> Result<Principal, String> {
 }
 
 pub fn cmc_id() -> Result<Principal, String> {
-    Principal::from_text(CMC)
-        .map_err(|_| "Cannot convert CMC ID to Principal".to_string())
+    Principal::from_text(CMC).map_err(|_| "Cannot convert CMC ID to Principal".to_string())
 }
 
 pub fn convert_principal_to_sub_account(principal_id: &[u8]) -> Subaccount {

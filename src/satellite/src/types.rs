@@ -25,7 +25,7 @@ pub enum RequestStatus {
 
 #[derive(Serialize, Deserialize)]
 pub struct BookKeepingData {
-    pub status: BookKeepingStatus
+    pub status: BookKeepingStatus,
 }
 
 #[derive(Serialize, Deserialize)]

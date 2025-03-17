@@ -1,12 +1,16 @@
+mod bookkeeping;
 mod env;
-mod ledger;
+mod ledger_icp;
+mod ledger_icrc;
 mod services;
 mod types;
 mod utils;
-mod bookkeeping;
 
-use crate::ledger::icrc_balance_of;
-use crate::services::{assert_wallet_balance, transfer_icp_from_wallet, transfer_icp_to_cmc};
+use crate::bookkeeping::save_icp_transferred;
+use crate::ledger_icrc::icrc_balance_of;
+use crate::services::{
+    assert_wallet_balance, notify_top_up_to_cmc, transfer_icp_from_wallet, transfer_icp_to_cmc,
+};
 use crate::types::RequestData;
 use crate::utils::icp_ledger_id;
 use ic_cdk::{id, print};
@@ -14,7 +18,6 @@ use icrc_ledger_types::icrc1::account::Account;
 use junobuild_macros::on_set_doc;
 use junobuild_satellite::{include_satellite, OnSetDocContext};
 use junobuild_utils::decode_doc_data;
-use crate::bookkeeping::save_icp_transferred;
 
 #[on_set_doc(collections = ["request"])]
 async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
@@ -63,13 +66,16 @@ async fn on_set_doc(context: OnSetDocContext) -> Result<(), String> {
     // Do Top-Up own Satellite cycles to targeted canister
     // ###############
 
-    ic_cdk::print(format!("This is the target ------> {:?}", target_canister_id));
+    print(format!(
+        "This is the target ------> {:?}",
+        target_canister_id.to_text()
+    ));
 
-    transfer_icp_to_cmc( &ledger_id, &target_canister_id, &request_amount,).await?;
+    let block_index = transfer_icp_to_cmc(&ledger_id, &target_canister_id, &request_amount).await?;
 
-    // TODO: call cmc notify_top_up
+    let _ = notify_top_up_to_cmc(&target_canister_id, &block_index).await;
+
     // TODO: improve bookkeeping with those operations
-
 
     // ###############
     // Just a print out to check the balance while developing.
