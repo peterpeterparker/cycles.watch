@@ -3,8 +3,10 @@
 	import IconOisy from '$lib/components/icons/IconOisy.svelte';
 	import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
-	import { CONTAINER } from '$lib/constants/constants';
+	import { CONTAINER, JUNO_SIGN_URL, OISY_SIGN_URL } from '$lib/constants/constants';
 	import IconJuno from '$lib/components/icons/IconJuno.svelte';
+	import { isNullish } from '@dfinity/utils';
+	import { toasts } from '$lib/stores/toasts.store';
 
 	interface Props {
 		wallet: IcpWallet | undefined | null;
@@ -14,29 +16,46 @@
 	let { wallet = $bindable(undefined), account = $bindable(undefined) }: Props = $props();
 
 	const connectOISY = async () => {
-		await connect('http://localhost:5175/sign/');
+		await connect(OISY_SIGN_URL);
 	};
 
 	const connectJuno = async () => {
-		await connect('http://localhost:5173/sign/');
+		await connect(JUNO_SIGN_URL);
 	};
 
 	const connect = async (url: string) => {
+		await disconnect();
+
 		wallet = await IcpWallet.connect({
 			url,
-			host: CONTAINER
+			host: CONTAINER,
+			onDisconnect
 		});
 
 		const { allPermissionsGranted } = await wallet.requestPermissionsNotGranted();
 
 		if (!allPermissionsGranted) {
-			// TODO: Inform the user that all permissions are required to continue
+			toasts.warn('Permissions have not been granted.');
 			return;
 		}
 
 		const accounts = await wallet.accounts();
 
 		account = accounts?.[0];
+
+		if (isNullish(account)) {
+			toasts.error({ text: 'The wallet did not provide any account.' });
+			await disconnect();
+		}
+	};
+
+	const onDisconnect = () => {
+		account = null;
+		wallet = null;
+	};
+
+	const disconnect = async () => {
+		await wallet?.disconnect();
 	};
 </script>
 

@@ -7,6 +7,9 @@ export const CONTAINER = import.meta.env.VITE_CONTAINER;
 
 export const ICP_LEDGER_ID = import.meta.env.VITE_ICP_LEDGER_ID as string;
 
+export const OISY_SIGN_URL = import.meta.env.VITE_OISY_SIGN_URL as string;
+export const JUNO_SIGN_URL = import.meta.env.VITE_JUNO_SIGN_URL as string;
+
 export const IDB_KEY_CANISTER_IDS = 'cycles_watch_canister_ids';
 export const IDB_KEY_SNS_ROOT_CANISTER_IDS = 'cycles_watch_sns_root_canister_ids';
 export const IDB_KEY_SETTINGS = 'cycles_watch_settings';

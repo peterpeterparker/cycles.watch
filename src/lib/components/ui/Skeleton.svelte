@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let animationDelay = 0;
-	export let elementTag: 'p' | 'h3' = 'p';
+	export let elementTag: 'p' | 'span' | 'h3' = 'p';
 </script>
 
 <svelte:element
@@ -33,6 +33,10 @@
 
 	h3.element {
 		height: 1.6rem;
+	}
+
+	span.element {
+		height: 1.25rem;
 	}
 
 	span {

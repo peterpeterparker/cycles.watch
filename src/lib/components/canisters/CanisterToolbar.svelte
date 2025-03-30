@@ -24,6 +24,8 @@
 	.toolbar {
 		display: flex;
 		justify-content: flex-start;
+		align-items: center;
 		margin: 0.25rem 0.5rem 0;
+		gap: 0.45rem;
 	}
 </style>

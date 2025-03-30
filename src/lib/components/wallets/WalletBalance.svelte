@@ -6,6 +6,7 @@
 	import { nonNullish } from '@dfinity/utils';
 	import Value from '$lib/components/ui/Value.svelte';
 	import { formatICP } from '$lib/utils/icp.utils';
+	import Skeleton from '$lib/components/ui/Skeleton.svelte';
 
 	interface Props {
 		account: IcrcAccount;
@@ -20,14 +21,22 @@
 	});
 </script>
 
-{#if nonNullish(balance)}
-	<div in:fade>
-		<Value>
-			{#snippet label()}
-				Balance
-			{/snippet}
+<div>
+	<Value>
+		{#snippet label()}
+			Balance
+		{/snippet}
 
-			{formatICP(balance)} ICP
-		</Value>
-	</div>
-{/if}
+		{#if nonNullish(balance)}
+			<span in:fade>{formatICP(balance)} ICP</span>
+		{:else}
+			<span class="loader">&ZeroWidthSpace;<Skeleton elementTag="span" /></span>
+		{/if}
+	</Value>
+</div>
+
+<style lang="scss">
+	.loader {
+		display: flex;
+	}
+</style>

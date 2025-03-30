@@ -4,7 +4,6 @@
 	import { encodeIcrcAccount, type IcrcAccount as IcrcAccountLib } from '@dfinity/ledger-icrc';
 	import { Principal } from '@dfinity/principal';
 	import Button from '$lib/components/ui/Button.svelte';
-	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
 	import Identifier from '$lib/components/ui/Identifier.svelte';
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
@@ -58,7 +57,7 @@
 <WalletInput bind:userAmount />
 
 <div role="toolbar">
-	<Button display="inline" text="Ask approval" icon={IconPublish} on:click={approve} />
+	<Button display="inline" text="Submit" on:click={approve} />
 </div>
 
 <style lang="scss">
@@ -68,7 +67,7 @@
 	}
 
 	div[role='toolbar'] {
-		margin: 0.75rem 0 0;
+		margin: 0.75rem 0;
 		--button-width: 100%;
 	}
 </style>

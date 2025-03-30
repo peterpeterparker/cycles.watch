@@ -31,19 +31,14 @@
 			Amount in ICP
 		{/snippet}
 
-		<input
-			id="icp-amount"
-			bind:value={userAmount}
-			type="text"
-			placeholder="How many ICP to convert?"
-		/>
+		<input id="icp-amount" bind:value={userAmount} type="text" placeholder="How many?" />
 	</Value>
 </div>
 
 <div>
 	<Value>
 		{#snippet label()}
-			Converted to Cycles
+			Expected Top-up
 		{/snippet}
 
 		{displayTCycles} T Cycles
@@ -53,5 +48,9 @@
 <style lang="scss">
 	div {
 		margin: 1.25rem 0 0;
+	}
+
+	input {
+		width: 100%;
 	}
 </style>

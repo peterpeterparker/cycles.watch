@@ -69,7 +69,7 @@ export const approveAndRequest = async ({
 
 	// The wallet will pay for the fee of the transfer
 	const swapAmount = tokenAmount.toE8s();
-	const approveAmount = swapAmount +  transferFee;
+	const approveAmount = swapAmount + transferFee;
 
 	try {
 		await approve({
@@ -94,7 +94,7 @@ export const approveAndRequest = async ({
 const requestSwap = async ({
 	amount,
 	account: { owner: wallet_owner },
-							   targetCanisterId: target_canister_id
+	targetCanisterId: target_canister_id
 }: {
 	amount: bigint;
 	account: IcrcAccount;
@@ -122,7 +122,10 @@ const approve = async ({
 	amount,
 	wallet,
 	account
-}: { amount: bigint } & Omit<ApproveAndRequestParams, 'userAmount' | 'balance' | 'targetCanisterId'>) => {
+}: { amount: bigint } & Omit<
+	ApproveAndRequestParams,
+	'userAmount' | 'balance' | 'targetCanisterId'
+>) => {
 	const FIVE_MINUTES = 5n * 60n * 1000n * 1000n * 1000n;
 
 	const request: Icrc2ApproveRequest = {
