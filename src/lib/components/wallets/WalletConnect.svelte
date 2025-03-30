@@ -4,6 +4,7 @@
 	import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
 	import { CONTAINER } from '$lib/constants/constants';
+	import IconJuno from '$lib/components/icons/IconJuno.svelte';
 
 	interface Props {
 		wallet: IcpWallet | undefined | null;
@@ -13,8 +14,16 @@
 	let { wallet = $bindable(undefined), account = $bindable(undefined) }: Props = $props();
 
 	const connectOISY = async () => {
+		await connect('http://localhost:5175/sign/');
+	};
+
+	const connectJuno = async () => {
+		await connect('http://localhost:5173/sign/');
+	};
+
+	const connect = async (url: string) => {
 		wallet = await IcpWallet.connect({
-			url: 'http://localhost:5175/sign/',
+			url,
 			host: CONTAINER
 		});
 
@@ -32,17 +41,19 @@
 </script>
 
 <div>
-	<span>Connect a Wallet</span>
+	<h3>Top-up</h3>
+	<p>Connect a Wallet to get started.</p>
+	<Button display="inline" text="Juno" icon={IconJuno} on:click={connectJuno} />
 	<Button display="inline" text="OISY" icon={IconOisy} on:click={connectOISY} />
 </div>
 
 <style lang="scss">
-	span {
-		font-weight: bold;
-		margin: 0;
+	p {
+		max-width: 240px;
 	}
 
 	div {
 		--button-width: 100%;
+		padding: 0 0 1.75rem;
 	}
 </style>
