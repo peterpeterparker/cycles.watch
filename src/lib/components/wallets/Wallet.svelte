@@ -14,19 +14,19 @@
 	let { targetCanisterId }: Props = $props();
 
 	let wallet: IcpWallet | undefined | null = $state(undefined);
-	let account: IcrcAccount | undefined | null = $state(undefined);
+	let accounts: IcrcAccount[] | undefined | null = $state(undefined);
 
 	const disconnect = () => {
 		wallet?.disconnect();
-		account = null;
+		accounts = null;
 		wallet = null;
 	};
 
 	onDestroy(disconnect);
 </script>
 
-{#if isNullish(account) || isNullish(wallet)}
-	<WalletConnect bind:wallet bind:account />
+{#if isNullish(accounts) || isNullish(wallet)}
+	<WalletConnect bind:wallet bind:accounts />
 {:else}
-	<WalletApprove {wallet} {account} {targetCanisterId} onsuccess={disconnect} />
+	<WalletApprove {wallet} {accounts} {targetCanisterId} onsuccess={disconnect} />
 {/if}

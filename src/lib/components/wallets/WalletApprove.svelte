@@ -4,37 +4,40 @@
 	import { encodeIcrcAccount, type IcrcAccount as IcrcAccountLib } from '@dfinity/ledger-icrc';
 	import { Principal } from '@dfinity/principal';
 	import Button from '$lib/components/ui/Button.svelte';
-	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
+	import { base64ToUint8Array, isNullish, nonNullish } from '@dfinity/utils';
 	import Identifier from '$lib/components/ui/Identifier.svelte';
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
 	import WalletInput from '$lib/components/wallets/WalletInput.svelte';
 	import { approveAndRequest } from '$lib/services/wallet.services';
 	import { toasts } from '$lib/stores/toasts.store';
+	import WalletAccounts from '$lib/components/wallets/WalletAccounts.svelte';
 
 	interface Props {
 		wallet: IcpWallet;
-		account: IcrcAccount;
+		accounts: IcrcAccount[];
 		onsuccess: () => void;
 		targetCanisterId: Principal;
 	}
 
-	let { wallet, account, onsuccess, targetCanisterId }: Props = $props();
+	let { wallet, accounts, onsuccess, targetCanisterId }: Props = $props();
 
-	let icrcAccount = $derived<IcrcAccountLib>({
-		owner: Principal.fromText(account.owner),
-		subaccount: nonNullish(account.subaccount) ? base64ToUint8Array(account.subaccount) : undefined
-	});
-
-	let accountAsText = $derived(encodeIcrcAccount(icrcAccount));
+	let selectedAccount = $state<IcrcAccountLib | undefined>(undefined);
 
 	let userAmount: string = $state('');
 	let balance: bigint | undefined = $state(undefined);
 
 	const approve = async () => {
+		if (isNullish(selectedAccount)) {
+			toasts.error({
+				text: 'An account must be selected.'
+			});
+			return;
+		}
+
 		const { success } = await approveAndRequest({
 			balance,
 			userAmount,
-			account: icrcAccount,
+			account: selectedAccount,
 			wallet,
 			targetCanisterId
 		});
@@ -49,10 +52,9 @@
 	};
 </script>
 
-<span>Account:</span>
-<Identifier identifier={accountAsText} ariaLabel="Copy the account ID to clipboard" />
+<WalletAccounts {accounts} bind:selectedAccount />
 
-<WalletBalance account={icrcAccount} bind:balance />
+<WalletBalance account={selectedAccount} bind:balance />
 
 <WalletInput bind:userAmount />
 

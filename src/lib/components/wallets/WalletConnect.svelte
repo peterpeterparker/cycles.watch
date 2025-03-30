@@ -10,10 +10,10 @@
 
 	interface Props {
 		wallet: IcpWallet | undefined | null;
-		account: IcrcAccount | undefined | null;
+		accounts: IcrcAccount[] | undefined | null;
 	}
 
-	let { wallet = $bindable(undefined), account = $bindable(undefined) }: Props = $props();
+	let { wallet = $bindable(undefined), accounts = $bindable(undefined) }: Props = $props();
 
 	const connectOISY = async () => {
 		await connect(OISY_SIGN_URL);
@@ -39,18 +39,16 @@
 			return;
 		}
 
-		const accounts = await wallet.accounts();
+		accounts = await wallet.accounts();
 
-		account = accounts?.[0];
-
-		if (isNullish(account)) {
+		if (isNullish(accounts) || accounts.length === 0) {
 			toasts.error({ text: 'The wallet did not provide any account.' });
 			await disconnect();
 		}
 	};
 
 	const onDisconnect = () => {
-		account = null;
+		accounts = null;
 		wallet = null;
 	};
 
