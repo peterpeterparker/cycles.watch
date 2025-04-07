@@ -4,7 +4,6 @@
 	import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
 	import { CONTAINER, JUNO_SIGN_URL, OISY_SIGN_URL } from '$lib/constants/constants';
-	import IconJuno from '$lib/components/icons/IconJuno.svelte';
 	import { isNullish } from '@dfinity/utils';
 	import { toasts } from '$lib/stores/toasts.store';
 
@@ -17,10 +16,6 @@
 
 	const connectOISY = async () => {
 		await connect(OISY_SIGN_URL);
-	};
-
-	const connectJuno = async () => {
-		await connect(JUNO_SIGN_URL);
 	};
 
 	const connect = async (url: string) => {
@@ -60,7 +55,6 @@
 <div>
 	<h3>Top-up</h3>
 	<p>Connect a Wallet to get started.</p>
-	<Button display="inline" text="Juno" icon={IconJuno} on:click={connectJuno} />
 	<Button display="inline" text="OISY" icon={IconOisy} on:click={connectOISY} />
 </div>
 
