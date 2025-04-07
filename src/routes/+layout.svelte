@@ -13,15 +13,9 @@
 	import { onMount } from 'svelte';
 	import Busy from '$lib/components/ui/Busy.svelte';
 	import { initSatellite } from '@junobuild/core';
-	import { CONTAINER, SATELLITE_ID } from '$lib/constants/constants';
 	import Toasts from '$lib/components/ui/Toasts.svelte';
 
-	onMount(async () => {
-		await initSatellite({
-			satelliteId: SATELLITE_ID,
-			container: CONTAINER
-		});
-	});
+	onMount(initSatellite);
 </script>
 
 <Worker>
