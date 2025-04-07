@@ -15,5 +15,6 @@
 	button {
 		padding: 2px;
 		vertical-align: bottom;
+		width: var(--button-copy-width);
 	}
 </style>

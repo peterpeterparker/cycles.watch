@@ -9,7 +9,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"upgrade": "node /Users/daviddalbusco/projects/juno/cli/dist/index.js upgrade -ns -t s -s target/deploy/satellite.wasm.gz -m development"
 	},
 	"devDependencies": {
 		"@junobuild/config": "^0.1.2",
@@ -36,6 +37,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@dfinity/ledger-icrc": "^2.7.5",
+		"@dfinity/oisy-wallet-signer": "^0.1.6",
+		"@dfinity/utils": "^2.10.1",
 		"@junobuild/core": "^0.1.8",
 		"idb-keyval": "^6.2.1"
 	},

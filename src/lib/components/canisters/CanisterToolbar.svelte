@@ -2,6 +2,7 @@
 	import CanisterEdit from '$lib/components/canisters/CanisterEdit.svelte';
 	import CanisterHighlight from '$lib/components/canisters/CanisterHighlight.svelte';
 	import type { Canister } from '$lib/types/canister';
+	import CanisterTopUp from '$lib/components/canisters/CanisterTopUp.svelte';
 
 	export let canister: Canister;
 	export let hidden: boolean;
@@ -13,6 +14,8 @@
 			<CanisterEdit {canister} />
 		{/if}
 
+		<CanisterTopUp {canister} />
+
 		<CanisterHighlight {canister} />
 	</div>
 {/if}
@@ -21,6 +24,8 @@
 	.toolbar {
 		display: flex;
 		justify-content: flex-start;
+		align-items: center;
 		margin: 0.25rem 0.5rem 0;
+		gap: 0.45rem;
 	}
 </style>

@@ -74,12 +74,23 @@ const syncCanisters = async ({
 	identity: Identity | undefined;
 	settings: Settings;
 }) => {
-	const trillionRatio: bigint = await icpXdrConversionRate();
+	const trillionRatio: bigint = await syncIcpXdrConversionRate();
 
 	await Promise.all([
 		syncNnsCanisters({ identity, settings, trillionRatio }),
 		syncSnsCanisters({ settings, trillionRatio })
 	]);
+};
+
+const syncIcpXdrConversionRate = async (): Promise<bigint> => {
+	const trillionRatio = await icpXdrConversionRate();
+
+	postMessage({
+		msg: 'syncIcpXdrConversionRate',
+		data: { icpXdrConversionRate: trillionRatio }
+	});
+
+	return trillionRatio;
 };
 
 const syncNnsCanisters = async ({
@@ -252,7 +263,7 @@ const addNnsCanister = async ({
 	try {
 		const [canisterInfo, trillionRatio] = await Promise.all([
 			canisterStatus({ canisterId, identity }),
-			icpXdrConversionRate()
+			syncIcpXdrConversionRate()
 		]);
 
 		await syncCanister({
@@ -341,7 +352,7 @@ const addSnsCanister = async ({
 	try {
 		const [canisterInfos, trillionRatio] = await Promise.all([
 			snsCanisters({ rootCanisterId: canisterId }),
-			icpXdrConversionRate()
+			syncIcpXdrConversionRate()
 		]);
 
 		await Promise.all(

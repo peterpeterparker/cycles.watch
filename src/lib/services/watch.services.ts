@@ -2,6 +2,7 @@ import {
 	addCanisters as addCanistersJuno,
 	removeCanister as removeCanisterJuno
 } from '$lib/services/juno.services';
+import { icpXdrConversionRateStore } from '$lib/stores/cmc.store';
 import {
 	COLLECTION_CANISTER_IDS,
 	COLLECTION_SNS_ROOT_CANISTER_IDS,
@@ -136,19 +137,22 @@ const syncCanister = async ({ canister }: PostMessageDataResponse) => {
 	await notifyCanisterCycles(canister);
 };
 
+const syncIcpXdrConversionRate = ({ icpXdrConversionRate }: PostMessageDataResponse) => {
+	icpXdrConversionRateStore.set(icpXdrConversionRate);
+};
+
 export const onWorkerMessage = async ({
 	data: { msg, data }
 }: MessageEvent<PostMessageSync<PostMessageDataResponse>>) => {
-	if (!['syncCanister', 'initCanisters'].includes(msg)) {
-		return;
-	}
-
 	switch (msg) {
 		case 'syncCanister':
 			await syncCanister(data);
 			return;
 		case 'initCanisters':
 			setCanistersStore(data);
+			return;
+		case 'syncIcpXdrConversionRate':
+			syncIcpXdrConversionRate(data);
 			return;
 	}
 };

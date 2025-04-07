@@ -23,7 +23,11 @@ h5 {
 	margin: 0 0 var(--padding);
 }
 
-input,
+input {
+	font-family: inherit;
+	font-size: inherit;
+}
+
 button,
 select,
 textarea {

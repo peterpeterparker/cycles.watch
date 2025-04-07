@@ -62,7 +62,7 @@
 			disabled={saving}
 		/>
 
-		<div class="toolbar">
+		<div class="toolbar submit">
 			<button type="submit" disabled={saving || !validConfirm}> Save </button>
 		</div>
 	</form>
@@ -73,6 +73,8 @@
 		display: flex;
 		flex-direction: column;
 		padding: 1rem 1.75rem 0;
+
+		width: 100%;
 	}
 
 	label {
@@ -80,10 +82,10 @@
 		margin: 0;
 	}
 
-	.toolbar {
+	.submit {
 		display: flex;
 		justify-content: center;
-		margin: 0.45rem 0.15rem;
+		margin: 0.75rem 0.15rem 0;
 	}
 
 	button {
