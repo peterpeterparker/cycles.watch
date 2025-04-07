@@ -5,8 +5,6 @@ export const APP_VERSION = VITE_APP_VERSION;
 export const SATELLITE_ID = import.meta.env.VITE_SATELLITE_ID;
 export const CONTAINER = import.meta.env.VITE_CONTAINER;
 
-console.log(SATELLITE_ID)
-
 export const ICP_LEDGER_ID = import.meta.env.VITE_ICP_LEDGER_ID as string;
 
 export const OISY_SIGN_URL = import.meta.env.VITE_OISY_SIGN_URL as string;
