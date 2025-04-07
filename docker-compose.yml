@@ -1,0 +1,14 @@
+services:
+  juno-skylab:
+    image: junobuild/skylab:latest
+    ports:
+      - 5987:5987
+      - 5999:5999
+      - 5866:5866
+    volumes:
+      - juno_skylab:/juno/.juno
+      - ./juno.dev.config.ts:/juno/juno.dev.config.ts
+      - ./target/deploy:/juno/target/deploy/
+
+volumes:
+  juno_skylab:
