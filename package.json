@@ -13,6 +13,7 @@
 		"upgrade": "node /Users/daviddalbusco/projects/juno/cli/dist/index.js upgrade -ns -t s -s target/deploy/satellite.wasm.gz -m development"
 	},
 	"devDependencies": {
+		"@dfinity/ledger-icrc": "^2.7.6",
 		"@junobuild/config": "^0.1.5",
 		"@junobuild/functions": "^0.0.15",
 		"@junobuild/vite-plugin": "^3.1.0",
@@ -38,7 +39,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@dfinity/ledger-icrc": "^2.7.5",
 		"@dfinity/oisy-wallet-signer": "^0.1.6",
 		"@dfinity/utils": "^2.10.1",
 		"@junobuild/core": "^0.1.11",
