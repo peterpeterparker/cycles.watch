@@ -5,6 +5,7 @@ import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
 import { assertWalletBalance, transferIcpFromWallet } from './services';
 import {icrcBalanceOf} from "./ledgerIcrc";
+import {saveIcpTransferred} from "./bookkeeping";
 
 export const onSetDoc = defineHook<OnSetDoc>({
 	collections: ['request'],
@@ -54,6 +55,12 @@ export const onSetDoc = defineHook<OnSetDoc>({
 			amount: requestAmount,
 			fee
 		});
+
+		// ###############
+		// We keep an internal track of the transferred ICP
+		// ###############
+
+		await saveIcpTransferred(context.data.key);
 
 		// ###############
 		// Just a print out to check the balance while developing.
