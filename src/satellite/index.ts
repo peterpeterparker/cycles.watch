@@ -1,8 +1,10 @@
 import type { RequestData } from '$lib/types/datastore';
 import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import { defineHook, type OnSetDoc } from '@junobuild/functions';
+import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
-import { assertWalletBalance } from './services';
+import { assertWalletBalance, transferIcpFromWallet } from './services';
+import {icrcBalanceOf} from "./ledgerIcrc";
 
 export const onSetDoc = defineHook<OnSetDoc>({
 	collections: ['request'],
@@ -26,8 +28,6 @@ export const onSetDoc = defineHook<OnSetDoc>({
 		// TODO: process.env.ICP_LEDGER_ID
 		const ledgerId = 'ryjl3-tyaaa-aaaaa-aaaba-cai';
 
-		console.log(requestAmount, fee, targetCanisterId, ledgerId);
-
 		// ###############
 		// Check current account balance. This way the process can stop early on
 		// ###############
@@ -37,5 +37,33 @@ export const onSetDoc = defineHook<OnSetDoc>({
 			amount: requestAmount,
 			fee
 		});
+
+		// ###############
+		// Transfer from wallet to satellite.
+		// ###############
+
+		const toAccount: Account = {
+			owner: id(),
+			subaccount: []
+		};
+
+		await transferIcpFromWallet({
+			ledgerId,
+			fromAccount,
+			toAccount,
+			amount: requestAmount,
+			fee
+		});
+
+		// ###############
+		// Just a print out to check the balance while developing.
+		// ###############
+
+		const balance = await icrcBalanceOf({
+			ledgerId,
+			account: toAccount
+		});
+
+		console.log("This is now the balance of the satellite:", balance);
 	}
 });
