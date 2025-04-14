@@ -11,3 +11,7 @@ export interface RequestData {
 	swap: RequestDataSwap;
 	target_canister_id: Principal;
 }
+
+export interface BookKeepingData {
+	status: "transfer-from-done" | "swapped" | "failed";
+}
