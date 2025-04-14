@@ -1,6 +1,11 @@
 {
 	"name": "cycles-watch",
 	"version": "0.0.10",
+	"juno": {
+		"functions": {
+			"version": "0.0.1-demo"
+		}
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "tsc --noEmit && vite build",
@@ -13,7 +18,7 @@
 		"upgrade": "node /Users/daviddalbusco/projects/juno/cli/dist/index.js upgrade -ns -t s -s target/deploy/satellite.wasm.gz -m development"
 	},
 	"devDependencies": {
-		"@dfinity/ledger-icrc": "^2.7.6",
+		"@dfinity/ledger-icrc": "^2.8.0",
 		"@junobuild/config": "^0.1.6",
 		"@junobuild/functions": "^0.0.15",
 		"@junobuild/vite-plugin": "^3.3.0",
