@@ -13,5 +13,5 @@ export interface RequestData {
 }
 
 export interface BookKeepingData {
-	status: "transfer-from-done" | "swapped" | "failed";
+	status: 'transfer-from-done' | 'swapped' | 'failed';
 }
