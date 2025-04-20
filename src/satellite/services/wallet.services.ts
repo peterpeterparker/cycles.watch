@@ -1,7 +1,7 @@
 import { encodeIcrcAccount } from '@dfinity/ledger-icrc';
 import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import type { Principal } from '@dfinity/principal';
-import { fromNullable } from '@dfinity/utils';
+import { fromNullable, jsonReplacer } from '@dfinity/utils';
 import { icrcBalanceOf, icrcTransferFrom } from '../api/ledger-icrc.api';
 import { IC_TRANSACTION_FEE_ICP } from '../constants/functions.constants';
 
@@ -41,8 +41,12 @@ export const transferIcpFromWallet = async (params: {
 	toAccount: Account;
 	amount: bigint;
 	fee: bigint | undefined;
-}): Promise<void> => {
+}): Promise<bigint> => {
 	const result = await icrcTransferFrom(params);
 
-	console.log('Result of the transfer from is:', result);
+	if ('Err' in result) {
+		throw new Error(`Failed to transfer ICP from wallet: ${JSON.stringify(result, jsonReplacer)}`);
+	}
+
+	return result.Ok;
 };
