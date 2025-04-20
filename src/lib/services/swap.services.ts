@@ -32,7 +32,7 @@ export const pollSwapResult = async ({ requestKey }: { requestKey: string }) => 
 
 	const result = await retryUntilReady<SwapResult>({
 		fn: findSwapResult,
-		retries: 15
+		retries: 30
 	});
 
 	if ('timeout' in result) {
