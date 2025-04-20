@@ -1,13 +1,21 @@
-import type { RequestData } from '$lib/types/datastore';
+import { type RequestData, RequestDataSchema } from '$lib/types/datastore';
 import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
-import { defineHook, type OnSetDoc } from '@junobuild/functions';
+import { type AssertSetDoc, defineAssert, defineHook, type OnSetDoc } from '@junobuild/functions';
 import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
 import { icrcBalanceOf } from './api/ledger-icrc.api';
-import { saveIcpTransferred } from './services/bookkeeping.services';
 import { ICP_LEDGER_ID } from './constants/functions.constants';
+import { saveIcpTransferred } from './services/bookkeeping.services';
 import { notifyTopUp, transferIcpToCmc } from './services/cmc.services';
 import { assertWalletBalance, transferIcpFromWallet } from './services/wallet.services';
+
+export const assertSetDoc = defineAssert<AssertSetDoc>({
+	collections: ['request'],
+	assert: (context) => {
+		const data = decodeDocData(context.data.data.proposed.data);
+		RequestDataSchema.parse(data);
+	}
+});
 
 export const onSetDoc = defineHook<OnSetDoc>({
 	collections: ['request'],
