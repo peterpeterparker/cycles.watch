@@ -54,7 +54,9 @@ export const approveAndRequest = async ({
 	account,
 	targetCanisterId,
 	...rest
-}: ApproveAndRequestParams): Promise<{ success: boolean }> => {
+}: ApproveAndRequestParams): Promise<
+	{ success: true; requestKey: string } | { success: false }
+> => {
 	const transferFee = IC_TRANSACTION_FEE_ICP;
 
 	const { valid, tokenAmount } = assertAndConvertAmountToICPToken({
@@ -78,9 +80,9 @@ export const approveAndRequest = async ({
 			...rest
 		});
 
-		await requestSwap({ amount: swapAmount, account, targetCanisterId });
+		const { requestKey } = await requestSwap({ amount: swapAmount, account, targetCanisterId });
 
-		return { success: true };
+		return { success: true, requestKey };
 	} catch (err: unknown) {
 		toasts.error({
 			text: 'Approve and request failed.',
@@ -99,9 +101,11 @@ const requestSwap = async ({
 	amount: bigint;
 	account: IcrcAccount;
 	targetCanisterId: Principal;
-}) => {
+}): Promise<{ requestKey: string }> => {
+	const requestKey = crypto.randomUUID();
+
 	const doc: Doc<RequestData> = {
-		key: crypto.randomUUID(),
+		key: requestKey,
 		data: {
 			status: 'submitted',
 			wallet_owner,
@@ -116,6 +120,8 @@ const requestSwap = async ({
 		collection: 'request',
 		doc
 	});
+
+	return { requestKey };
 };
 
 const approve = async ({

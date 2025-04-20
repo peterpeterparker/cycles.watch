@@ -15,14 +15,14 @@ import {
 import { notifyTopUp, transferIcpToCmc } from './cmc.services';
 import { assertWalletBalance, transferIcpFromWallet } from './wallet.services';
 
-export const swapIcpToCycles = async (context: OnSetDocContext) => {
+export const swapIcpToCycles = async ({ caller, data: contextData }: OnSetDocContext) => {
 	// ###############
 	// Init data
 	// ###############
 
-	const requestKey = context.data.key;
+	const requestKey = contextData.key;
 
-	const data = decodeDocData<RequestData>(context.data.data.after.data);
+	const data = decodeDocData<RequestData>(contextData.data.after.data);
 
 	const fromAccount: Account = {
 		owner: data.wallet_owner,
@@ -56,7 +56,8 @@ export const swapIcpToCycles = async (context: OnSetDocContext) => {
 		fromAccount,
 		ledgerId,
 		targetCanisterId,
-		requestKey
+		requestKey,
+		caller
 	});
 
 	// ###############
@@ -66,14 +67,16 @@ export const swapIcpToCycles = async (context: OnSetDocContext) => {
 	if (!result.success) {
 		saveIcpToCyclesFailed({
 			requestKey,
-			error: result.err
+			error: result.err,
+			caller
 		});
 		return;
 	}
 
 	saveIcpToCyclesSwapped({
 		requestKey,
-		cycles: result.cycles
+		cycles: result.cycles,
+		caller
 	});
 };
 
@@ -82,7 +85,8 @@ type ExecuteSwapParams = {
 	ledgerId: Principal;
 	fromAccount: Account;
 	requestKey: string;
-} & RequestDataSwap;
+} & RequestDataSwap &
+	Pick<OnSetDocContext, 'caller'>;
 
 const executeSwap = async (
 	params: ExecuteSwapParams
@@ -109,7 +113,8 @@ const tryExecuteSwap = async ({
 	fromAccount,
 	amount: requestAmount,
 	fee,
-	requestKey
+	requestKey,
+	caller
 }: ExecuteSwapParams): Promise<{ cycles: bigint }> => {
 	// ###############
 	// Transfer from wallet to satellite.
@@ -134,7 +139,8 @@ const tryExecuteSwap = async ({
 
 	saveIcpTransferredFromWallet({
 		requestKey,
-		blockIndex: blockIndexWallet
+		blockIndex: blockIndexWallet,
+		caller
 	});
 
 	// ###############
@@ -150,7 +156,8 @@ const tryExecuteSwap = async ({
 	// We keep an internal track of the transferred ICP to the CMC
 	saveIcpTransferredToCmc({
 		requestKey,
-		blockIndex
+		blockIndex,
+		caller
 	});
 
 	const cycles = await notifyTopUp({

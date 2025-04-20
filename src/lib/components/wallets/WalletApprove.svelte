@@ -10,6 +10,7 @@
 	import { approveAndRequest } from '$lib/services/wallet.services';
 	import { toasts } from '$lib/stores/toasts.store';
 	import WalletAccounts from '$lib/components/wallets/WalletAccounts.svelte';
+	import { pollSwapResult } from '$lib/services/swap.services';
 
 	interface Props {
 		wallet: IcpWallet;
@@ -33,7 +34,7 @@
 			return;
 		}
 
-		const { success } = await approveAndRequest({
+		const result = await approveAndRequest({
 			balance,
 			userAmount,
 			account: selectedAccount,
@@ -41,9 +42,12 @@
 			targetCanisterId
 		});
 
-		if (!success) {
+		if (!result.success) {
 			return;
 		}
+
+		// We on purpose do not await here
+		pollSwapResult({ requestKey: result.requestKey });
 
 		toasts.success('Swapping ICP to cycles submitted...');
 
