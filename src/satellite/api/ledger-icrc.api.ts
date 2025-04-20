@@ -54,11 +54,11 @@ export const icrcBalanceOf = ({
 	ledgerId,
 	account
 }: {
-	ledgerId: string;
+	ledgerId: Principal;
 	account: Account;
 }): Promise<bigint> =>
 	call<bigint>({
-		canisterId: Principal.fromText(ledgerId),
+		canisterId: ledgerId,
 		method: 'icrc1_balance_of',
 		args: [[Account, account]],
 		result: Tokens
@@ -71,7 +71,7 @@ export const icrcTransferFrom = async ({
 	amount,
 	fee
 }: {
-	ledgerId: string;
+	ledgerId: Principal;
 	fromAccount: Account;
 	toAccount: Account;
 	amount: bigint;
@@ -88,7 +88,7 @@ export const icrcTransferFrom = async ({
 	};
 
 	return await call<TransferFromResultType>({
-		canisterId: Principal.fromText(ledgerId),
+		canisterId: ledgerId,
 		method: 'icrc2_transfer_from',
 		args: [[TransferFromArgs, args]],
 		result: TransferFromResult

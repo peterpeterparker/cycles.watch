@@ -1,7 +1,9 @@
+import { IC_TRANSACTION_FEE_ICP } from '$lib/constants/constants';
 import { encodeIcrcAccount } from '@dfinity/ledger-icrc';
 import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import { fromNullable } from '@dfinity/utils';
 import { icrcBalanceOf, icrcTransferFrom } from '../api/ledger-icrc.api';
+import type { Principal } from '@dfinity/principal';
 
 export const assertWalletBalance = async ({
 	ledgerId,
@@ -9,7 +11,7 @@ export const assertWalletBalance = async ({
 	amount,
 	fee
 }: {
-	ledgerId: string;
+	ledgerId: Principal;
 	fromAccount: Account;
 	amount: bigint;
 	fee: bigint | undefined;
@@ -19,7 +21,7 @@ export const assertWalletBalance = async ({
 		account: fromAccount
 	});
 
-	const total = amount + (fee ?? 10_000n);
+	const total = amount + (fee ?? IC_TRANSACTION_FEE_ICP);
 
 	if (balance < total) {
 		const encodedAccountText = encodeIcrcAccount({
@@ -34,7 +36,7 @@ export const assertWalletBalance = async ({
 };
 
 export const transferIcpFromWallet = async (params: {
-	ledgerId: string;
+	ledgerId: Principal;
 	fromAccount: Account;
 	toAccount: Account;
 	amount: bigint;

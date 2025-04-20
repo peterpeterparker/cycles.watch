@@ -3,9 +3,11 @@ import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import { defineHook, type OnSetDoc } from '@junobuild/functions';
 import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
+import { icrcBalanceOf } from './api/ledger-icrc.api';
+import { saveIcpTransferred } from './bookkeeping';
+import { ICP_LEDGER_ID } from './constants/functions.constants';
+import { notifyTopUp, transferIcpToCmc } from './services/cmc.services';
 import { assertWalletBalance, transferIcpFromWallet } from './services/wallet.services';
-import {icrcBalanceOf} from "./api/ledger-icrc.api";
-import {saveIcpTransferred} from "./bookkeeping";
 
 export const onSetDoc = defineHook<OnSetDoc>({
 	collections: ['request'],
@@ -26,8 +28,7 @@ export const onSetDoc = defineHook<OnSetDoc>({
 			target_canister_id: targetCanisterId
 		} = data;
 
-		// TODO: process.env.ICP_LEDGER_ID
-		const ledgerId = 'ryjl3-tyaaa-aaaaa-aaaba-cai';
+		const ledgerId = ICP_LEDGER_ID;
 
 		// ###############
 		// Check current account balance. This way the process can stop early on
@@ -63,6 +64,25 @@ export const onSetDoc = defineHook<OnSetDoc>({
 		await saveIcpTransferred(context.data.key);
 
 		// ###############
+		// Use ICP to topup the targeted canister with the provided ICP
+		// ###############
+
+		const blockIndex = await transferIcpToCmc({
+			ledgerId,
+			targetCanisterId,
+			amount: requestAmount
+		});
+
+		// TODO: save ICP transferred to CMC
+
+		await notifyTopUp({
+			blockIndex,
+			targetCanisterId
+		});
+
+		// TODO: save DONE
+
+		// ###############
 		// Just a print out to check the balance while developing.
 		// ###############
 
@@ -71,6 +91,6 @@ export const onSetDoc = defineHook<OnSetDoc>({
 			account: toAccount
 		});
 
-		console.log("This is now the balance of the satellite:", balance);
+		console.log('This is now the balance of the satellite:', balance);
 	}
 });
