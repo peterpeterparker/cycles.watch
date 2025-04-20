@@ -1,5 +1,5 @@
 import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
-import { icrcBalanceOf, icrcTransferFrom } from './ledgerIcrc';
+import { icrcBalanceOf, icrcTransferFrom } from '../api/ledger-icrc.api';
 
 export const assertWalletBalance = async ({
 	ledgerId,

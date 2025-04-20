@@ -3,8 +3,8 @@ import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import { defineHook, type OnSetDoc } from '@junobuild/functions';
 import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
-import { assertWalletBalance, transferIcpFromWallet } from './services';
-import {icrcBalanceOf} from "./ledgerIcrc";
+import { assertWalletBalance, transferIcpFromWallet } from './services/wallet.services';
+import {icrcBalanceOf} from "./api/ledger-icrc.api";
 import {saveIcpTransferred} from "./bookkeeping";
 
 export const onSetDoc = defineHook<OnSetDoc>({
