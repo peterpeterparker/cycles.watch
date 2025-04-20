@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import type { IcrcAccount } from '@dfinity/ledger-icrc';
-	import { onMount } from 'svelte';
 	import { getBalance } from '$lib/services/wallet.services';
 	import { debounce, isNullish, nonNullish } from '@dfinity/utils';
 	import Value from '$lib/components/ui/Value.svelte';

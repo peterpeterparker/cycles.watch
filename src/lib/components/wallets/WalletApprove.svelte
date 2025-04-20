@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
-	import { encodeIcrcAccount, type IcrcAccount as IcrcAccountLib } from '@dfinity/ledger-icrc';
+	import { type IcrcAccount as IcrcAccountLib } from '@dfinity/ledger-icrc';
 	import { Principal } from '@dfinity/principal';
 	import Button from '$lib/components/ui/Button.svelte';
-	import { base64ToUint8Array, isNullish, nonNullish } from '@dfinity/utils';
-	import Identifier from '$lib/components/ui/Identifier.svelte';
+	import { isNullish } from '@dfinity/utils';
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';
 	import WalletInput from '$lib/components/wallets/WalletInput.svelte';
 	import { approveAndRequest } from '$lib/services/wallet.services';

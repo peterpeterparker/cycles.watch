@@ -3,7 +3,7 @@
 	import IconOisy from '$lib/components/icons/IconOisy.svelte';
 	import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
-	import { CONTAINER, JUNO_SIGN_URL, OISY_SIGN_URL } from '$lib/constants/constants';
+	import { CONTAINER, OISY_SIGN_URL } from '$lib/constants/constants';
 	import { isNullish } from '@dfinity/utils';
 	import { toasts } from '$lib/stores/toasts.store';
 
