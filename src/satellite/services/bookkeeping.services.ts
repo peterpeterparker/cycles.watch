@@ -1,53 +1,67 @@
 import type { BookKeepingData, BookKeepingStatus } from '$lib/types/datastore';
 import { nonNullish } from '@dfinity/utils';
-import type { SetDoc } from '@junobuild/functions';
-import { id } from '@junobuild/functions/ic-cdk';
+import type { OnSetDocContext, SetDoc } from '@junobuild/functions';
 import { encodeDocData, setDocStore } from '@junobuild/functions/sdk';
 
-export const saveIcpTransferredFromWallet = (params: {
-	requestKey: string;
-	blockIndex: bigint;
-}) => {
+export const saveIcpTransferredFromWallet = (
+	params: {
+		requestKey: string;
+		blockIndex: bigint;
+	} & Pick<OnSetDocContext, 'caller'>
+) => {
 	saveBookKeeping({
 		...params,
-		status: 'transfer-from-wallet-done'
+		status: 'transfer-from-wallet-done',
+		keySuffix: 'transfer-from-wallet'
 	});
 };
 
-export const saveIcpTransferredToCmc = (params: { requestKey: string; blockIndex: bigint }) => {
+export const saveIcpTransferredToCmc = (
+	params: { requestKey: string; blockIndex: bigint } & Pick<OnSetDocContext, 'caller'>
+) => {
 	saveBookKeeping({
 		...params,
-		status: 'transfer-to-cmc-done'
+		status: 'transfer-to-cmc-done',
+		keySuffix: 'transfer-to-cmc'
 	});
 };
 
-export const saveIcpToCyclesSwapped = (params: { requestKey: string; cycles: bigint }) => {
+export const saveIcpToCyclesSwapped = (
+	params: { requestKey: string; cycles: bigint } & Pick<OnSetDocContext, 'caller'>
+) => {
 	saveBookKeeping({
 		...params,
-		status: 'swapped'
+		status: 'swapped',
+		keySuffix: 'swap-result'
 	});
 };
 
-export const saveIcpToCyclesFailed = (params: { requestKey: string; error: unknown }) => {
+export const saveIcpToCyclesFailed = (
+	params: { requestKey: string; error: unknown } & Pick<OnSetDocContext, 'caller'>
+) => {
 	saveBookKeeping({
 		...params,
-		status: 'failed'
+		status: 'failed',
+		keySuffix: 'swap-result'
 	});
 };
 
 const saveBookKeeping = ({
 	requestKey,
+	keySuffix,
 	blockIndex,
 	cycles,
 	status,
-	error
+	error,
+	caller
 }: {
 	requestKey: string;
+	keySuffix: 'transfer-from-wallet' | 'transfer-to-cmc' | 'swap-result';
 	blockIndex?: bigint;
 	cycles?: bigint;
 	error?: unknown;
 	status: BookKeepingStatus;
-}) => {
+} & Pick<OnSetDocContext, 'caller'>) => {
 	const bookData: BookKeepingData = {
 		status,
 		...(nonNullish(blockIndex) && { block_index: blockIndex }),
@@ -61,10 +75,10 @@ const saveBookKeeping = ({
 		data
 	};
 
-	const key = `${requestKey}#${status}`;
+	const key = `${requestKey}#${keySuffix}`;
 
 	setDocStore({
-		caller: id(),
+		caller,
 		key,
 		collection: 'bookkeeping',
 		doc
