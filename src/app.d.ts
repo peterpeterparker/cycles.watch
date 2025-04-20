@@ -18,6 +18,7 @@ declare namespace svelteHTML {
 		onopenAddCanister?: (event: CustomEvent<any>) => void;
 		onaddCanister?: (event: CustomEvent<any>) => void;
 		onaddSnsCanister?: (event: CustomEvent<any>) => void;
+		onrestartTimer?: (event: CustomEvent<any>) => void;
 	}
 }
 

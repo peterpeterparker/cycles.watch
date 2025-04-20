@@ -1,5 +1,7 @@
 import { toasts } from '$lib/stores/toasts.store';
 import type { BookKeepingData } from '$lib/types/datastore';
+import type { PostMessageDataRequest } from '$lib/types/post-message';
+import { emit } from '$lib/utils/events.utils';
 import { retryUntilReady } from '$lib/utils/timeout.utils';
 import { isNullish } from '@dfinity/utils';
 import { getDoc } from '@junobuild/core';
@@ -12,8 +14,6 @@ export const pollSwapResult = async ({ requestKey }: { requestKey: string }) => 
 			collection: 'bookkeeping',
 			key: `${requestKey}#swap-result`
 		});
-
-		console.log(doc, `${requestKey}#swap-result`);
 
 		if (isNullish(doc)) {
 			return { pending: null };
@@ -43,6 +43,8 @@ export const pollSwapResult = async ({ requestKey }: { requestKey: string }) => 
 	const { result: resultData } = result;
 
 	if (resultData.success) {
+		setTimeout(() => emit<PostMessageDataRequest>({ message: 'restartTimer' }), 2500);
+
 		toasts.success('ICP successfully swapped to cycles.');
 		return;
 	}

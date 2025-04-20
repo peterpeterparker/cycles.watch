@@ -32,6 +32,11 @@
 	const addSnsCanister = ({ detail }: CustomEvent<string>) =>
 		syncWorker?.postMessage({ msg: 'addSnsCanister', data: detail });
 
+	const restartTimer = async () => {
+		stopTimer();
+		await startTimer();
+	};
+
 	$: $authSignedInStore,
 		(async () => {
 			if (!$authSignedInStore) {
@@ -45,6 +50,10 @@
 		})();
 </script>
 
-<svelte:window onaddCanister={addCanister} onaddSnsCanister={addSnsCanister} />
+<svelte:window
+	onaddCanister={addCanister}
+	onaddSnsCanister={addSnsCanister}
+	onrestartTimer={restartTimer}
+/>
 
 <slot />
