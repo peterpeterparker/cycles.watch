@@ -1,6 +1,7 @@
 import { type RequestData, type RequestDataSwap } from '$lib/types/datastore';
 import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import type { Principal } from '@dfinity/principal';
+import { jsonReplacer } from '@dfinity/utils';
 import type { OnSetDocContext } from '@junobuild/functions';
 import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
@@ -90,7 +91,15 @@ const executeSwap = async (
 		const { cycles } = await tryExecuteSwap(params);
 		return { success: true, cycles };
 	} catch (err: unknown) {
-		return { success: false, err };
+		const parsedError =
+			err instanceof Error && 'message' in err ? err.message : JSON.stringify(err, jsonReplacer);
+
+		console.error('Error executing Swap:', parsedError);
+
+		return {
+			success: false,
+			err: parsedError
+		};
 	}
 };
 
