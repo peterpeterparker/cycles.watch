@@ -10,14 +10,14 @@ export const saveIcpTransferredFromWallet = (params: {
 }) => {
 	saveBookKeeping({
 		...params,
-		status: 'transfer-from-done'
+		status: 'transfer-from-wallet-done'
 	});
 };
 
 export const saveIcpTransferredToCmc = (params: { requestKey: string; blockIndex: bigint }) => {
 	saveBookKeeping({
 		...params,
-		status: 'transfer-from-wallet-done'
+		status: 'transfer-to-cmc-done'
 	});
 };
 

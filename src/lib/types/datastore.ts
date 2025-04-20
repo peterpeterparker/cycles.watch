@@ -19,8 +19,8 @@ export const RequestDataSchema = z.object({
 });
 
 const BookKeepingStatusSchema = z.enum([
-	'transfer-from-done',
 	'transfer-from-wallet-done',
+	'transfer-to-cmc-done',
 	'swapped',
 	'failed'
 ]);
