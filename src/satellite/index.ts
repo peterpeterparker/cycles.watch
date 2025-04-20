@@ -4,7 +4,7 @@ import { defineHook, type OnSetDoc } from '@junobuild/functions';
 import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
 import { icrcBalanceOf } from './api/ledger-icrc.api';
-import { saveIcpTransferred } from './bookkeeping';
+import { saveIcpTransferred } from './services/bookkeeping.services';
 import { ICP_LEDGER_ID } from './constants/functions.constants';
 import { notifyTopUp, transferIcpToCmc } from './services/cmc.services';
 import { assertWalletBalance, transferIcpFromWallet } from './services/wallet.services';
