@@ -1,6 +1,6 @@
 import { Principal } from '@dfinity/principal';
-import { z } from 'zod';
 import { nonNullish } from '@dfinity/utils';
+import { z } from 'zod';
 
 const PrincipalSchema = z.custom<Principal>((val) => val instanceof Principal, {
 	message: 'Expected a Principal'
@@ -30,10 +30,11 @@ const BookKeepingDataSchema = z
 	.object({
 		status: BookKeepingStatusSchema,
 		block_index: z.bigint().optional(),
-		cycles: z.bigint().optional()
+		cycles: z.bigint().optional(),
+		error: z.unknown().optional()
 	})
-	.refine((data) => nonNullish(data.block_index) !== nonNullish(data.cycles), {
-		message: "Exactly one of 'block_index' or 'cycles' must be set."
+	.refine((data) => [data.block_index, data.cycles, data.error].filter(nonNullish).length === 1, {
+		message: "Exactly one of 'block_index', 'cycles', or 'error' can be set."
 	});
 
 export type RequestDataSwap = z.infer<typeof RequestDataSwapSchema>;

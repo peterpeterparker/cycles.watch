@@ -28,21 +28,31 @@ export const saveIcpToCyclesSwapped = (params: { requestKey: string; cycles: big
 	});
 };
 
+export const saveIcpToCyclesFailed = (params: { requestKey: string; error: unknown }) => {
+	saveBookKeeping({
+		...params,
+		status: 'failed'
+	});
+};
+
 const saveBookKeeping = ({
 	requestKey,
 	blockIndex,
 	cycles,
-	status
+	status,
+	error
 }: {
 	requestKey: string;
 	blockIndex?: bigint;
 	cycles?: bigint;
+	error?: unknown;
 	status: BookKeepingStatus;
 }) => {
 	const bookData: BookKeepingData = {
 		status,
 		...(nonNullish(blockIndex) && { block_index: blockIndex }),
-		...(nonNullish(cycles) && { cycles })
+		...(nonNullish(cycles) && { cycles }),
+		...(nonNullish(error) && { error })
 	};
 
 	const data = encodeDocData(bookData);
