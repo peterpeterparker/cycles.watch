@@ -5,7 +5,6 @@
 
 <br/>
 
-
 [![GitHub release](https://img.shields.io/github/release/papyrs/cycles.watch/all?logo=GitHub&style=flat-square)](https://github.com/peterpeterparker/cycles.watch/releases/latest)
 
 </div>
