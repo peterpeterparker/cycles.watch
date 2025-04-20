@@ -14,6 +14,8 @@
 	let visible = $state(false);
 
 	let targetCanisterId = $derived(Principal.fromText(canister.id));
+
+	const onsuccess = () => (visible = false);
 </script>
 
 <button
@@ -29,7 +31,7 @@
 
 <Popover bind:visible center>
 	<div class="container">
-		<Wallet {targetCanisterId} />
+		<Wallet {targetCanisterId} {onsuccess} />
 	</div>
 </Popover>
 

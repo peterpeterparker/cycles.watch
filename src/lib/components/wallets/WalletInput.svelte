@@ -38,7 +38,7 @@
 <div>
 	<Value>
 		{#snippet label()}
-			Expected Top-up
+			Expected Top-up (≈)
 		{/snippet}
 
 		{displayTCycles} T Cycles

@@ -9,9 +9,10 @@
 
 	interface Props {
 		targetCanisterId: Principal;
+		onsuccess: () => void;
 	}
 
-	let { targetCanisterId }: Props = $props();
+	let { targetCanisterId, onsuccess }: Props = $props();
 
 	let wallet: IcpWallet | undefined | null = $state(undefined);
 	let accounts: IcrcAccount[] | undefined | null = $state(undefined);
@@ -22,11 +23,16 @@
 		wallet = null;
 	};
 
+	const close = () => {
+		disconnect();
+		onsuccess();
+	};
+
 	onDestroy(disconnect);
 </script>
 
 {#if isNullish(accounts) || isNullish(wallet)}
 	<WalletConnect bind:wallet bind:accounts />
 {:else}
-	<WalletApprove {wallet} {accounts} {targetCanisterId} onsuccess={disconnect} />
+	<WalletApprove {wallet} {accounts} {targetCanisterId} onsuccess={close} />
 {/if}
