@@ -3,7 +3,8 @@
     <img src="https://github.com/peterpeterparker/cycles.watch/raw/main/static/images/social-image.jpg"alt="Cycles.watch" role="presentation" />
   </a>
 
-<br/><br/>
+<br/>
+
 
 [![GitHub release](https://img.shields.io/github/release/papyrs/cycles.watch/all?logo=GitHub&style=flat-square)](https://github.com/peterpeterparker/cycles.watch/releases/latest)
 
