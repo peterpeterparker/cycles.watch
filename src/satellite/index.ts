@@ -5,7 +5,11 @@ import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
 import { icrcBalanceOf } from './api/ledger-icrc.api';
 import { ICP_LEDGER_ID } from './constants/functions.constants';
-import { saveIcpTransferred } from './services/bookkeeping.services';
+import {
+	saveIcpToCyclesSwapped,
+	saveIcpTransferredFromWallet,
+	saveIcpTransferredToCmc
+} from './services/bookkeeping.services';
 import { notifyTopUp, transferIcpToCmc } from './services/cmc.services';
 import { assertWalletBalance, transferIcpFromWallet } from './services/wallet.services';
 
@@ -23,6 +27,8 @@ export const onSetDoc = defineHook<OnSetDoc>({
 		// ###############
 		// Init data
 		// ###############
+
+		const requestKey = context.data.key;
 
 		const data = decodeDocData<RequestData>(context.data.data.after.data);
 
@@ -57,7 +63,7 @@ export const onSetDoc = defineHook<OnSetDoc>({
 			subaccount: []
 		};
 
-		await transferIcpFromWallet({
+		const blockIndexWallet = await transferIcpFromWallet({
 			ledgerId,
 			fromAccount,
 			toAccount,
@@ -66,10 +72,13 @@ export const onSetDoc = defineHook<OnSetDoc>({
 		});
 
 		// ###############
-		// We keep an internal track of the transferred ICP
+		// We keep an internal track of the transferred ICP from the wallet
 		// ###############
 
-		await saveIcpTransferred(context.data.key);
+		saveIcpTransferredFromWallet({
+			requestKey,
+			blockIndex: blockIndexWallet
+		});
 
 		// ###############
 		// Use ICP to topup the targeted canister with the provided ICP
@@ -81,14 +90,25 @@ export const onSetDoc = defineHook<OnSetDoc>({
 			amount: requestAmount
 		});
 
-		// TODO: save ICP transferred to CMC
+		// We keep an internal track of the transferred ICP to the CMC
+		saveIcpTransferredToCmc({
+			requestKey,
+			blockIndex
+		});
 
-		await notifyTopUp({
+		const cycles = await notifyTopUp({
 			blockIndex,
 			targetCanisterId
 		});
 
-		// TODO: save DONE
+		// ###############
+		// We keep an internal track of the success swap.
+		// ###############
+
+		saveIcpToCyclesSwapped({
+			requestKey,
+			cycles
+		});
 
 		// ###############
 		// Just a print out to check the balance while developing.

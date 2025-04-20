@@ -41,7 +41,7 @@ export const transferIcpToCmc = async ({
 export const notifyTopUp = async (params: {
 	blockIndex: bigint;
 	targetCanisterId: Principal;
-}): Promise<void> => {
+}): Promise<bigint> => {
 	const result = await cmcNotifyTopUp(params);
 
 	if ('Err' in result) {
@@ -49,4 +49,6 @@ export const notifyTopUp = async (params: {
 			`Failed to notify the CMC to topup canister with params ${JSON.stringify(params, jsonReplacer)}: ${JSON.stringify(result, jsonReplacer)}`
 		);
 	}
+
+	return result.Ok;
 };
