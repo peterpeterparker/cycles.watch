@@ -1,6 +1,11 @@
 {
 	"name": "cycles-watch",
 	"version": "0.0.10",
+	"juno": {
+		"functions": {
+			"version": "0.0.1-demo"
+		}
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "tsc --noEmit && vite build",
@@ -13,8 +18,9 @@
 		"upgrade": "node /Users/daviddalbusco/projects/juno/cli/dist/index.js upgrade -ns -t s -s target/deploy/satellite.wasm.gz -m development"
 	},
 	"devDependencies": {
-		"@junobuild/config": "^0.1.5",
-		"@junobuild/vite-plugin": "^3.1.0",
+		"@dfinity/ledger-icrc": "^2.8.0",
+		"@junobuild/config": "^0.1.6",
+		"@junobuild/vite-plugin": "^3.3.0",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.17.3",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
@@ -37,10 +43,12 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@dfinity/ledger-icrc": "^2.7.5",
+		"@dfinity/cmc": "^5.0.4",
+		"@dfinity/ledger-icp": "^2.6.12",
 		"@dfinity/oisy-wallet-signer": "^0.1.6",
 		"@dfinity/utils": "^2.10.1",
 		"@junobuild/core": "^0.1.11",
+		"@junobuild/functions": "^0.1.0",
 		"idb-keyval": "^6.2.1"
 	},
 	"overrides": {
