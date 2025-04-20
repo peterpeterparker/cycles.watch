@@ -1,9 +1,7 @@
 <div align="center" style="display:flex;flex-direction:column;">
   <a href="https://cycles.watch">
-    <img src="https://github.com/peterpeterparker/cycles.watch/raw/main/static/icons/icon-256x256.png" width="140px" alt="Cycles.watch" role="presentation" />
+    <img src="https://github.com/peterpeterparker/cycles.watch/raw/main/static/images/social-image.jpg"alt="Cycles.watch" role="presentation" />
   </a>
-
-<h3>Cycles.watch</h3>
 
   <br/>
 
@@ -13,25 +11,31 @@
 
 ## Cycles.watch
 
-[Cycles.watch] tracks the cycles' consumption of your canisters (on the [Internet Computer](https://internetcomputer.org/)). It refreshes periodically their state and notifies you when they are about to get out of resources.
+[Cycles.watch] shows the current cycle balance of your canisters on the [Internet Computer](https://internetcomputer.org/) and monitors their status over time. It periodically refreshes the data and displays a local notification if any canister drops below a defined threshold.
 
-Its usage is anonymous and settings are saved offline - i.e. in your browser ([IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)).
+It also offers an **ICP-to-cycles swap** feature to top up your canister using an external wallet 👛. Currently, this is supported through [OISY](https://oisy.com) .
 
-Notifications are optional and thrown locally ([Notifications API](https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API)). Please note that on the contrary to "Push Notifications", these are emitted only if the dapp is opened on your device (regardless if active, idle or in the background).
+The dapp is built with [Juno](https://juno.build) 👨‍💻.
+
+[!NOTE]
+Notifications are shown only while the app is open — even if it's running in the background. These are not push notifications.
 
 ## Hacking
 
-How to run locally the application.
+Want to contribute or run it locally? Here's how.
 
-### Prerequisite
+### Prerequisites
 
-Make sure you have a recent version of [Node.js installed](https://nodejs.org/en/) (LTS recommended).
+- [Node.js](https://nodejs.org/en/) (LTS recommended).
+- [Juno CLI](https://juno.build/docs/reference/cli) installed globally:
+
+```bash
+npm install -g @junobuild/cli
+```
 
 ### Clone the repo
 
-Clone the repo (or a fork) and install the dependencies.
-
-```
+```bash
 git clone https://github.com/peterpeterparker/cycles.watch
 cd cycles.watch
 npm ci
@@ -39,13 +43,23 @@ npm ci
 
 ### Run locally
 
-To start the local dev server, run following command:
+Start local development
 
+In one terminal, start the Juno emulator:
+
+```bash
+juno dev start
 ```
+
+In another terminal, start the frontend:
+
+```bash
 npm run dev
 ```
 
-Per default, it will interact with `mainnet`.
+This will launch the app in development mode and connect it to your local emulator environment.
+
+The frontend starts on port `5173`. You’ll need the local Juno Console UI to create canisters — it’s available on port `5866`.
 
 ## License
 
