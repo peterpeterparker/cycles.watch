@@ -92,5 +92,7 @@ export const onSetDoc = defineHook<OnSetDoc>({
 		});
 
 		console.log('This is now the balance of the satellite:', balance);
+
+		// TODO: save errors
 	}
 });
