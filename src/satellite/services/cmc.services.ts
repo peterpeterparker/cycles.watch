@@ -1,10 +1,9 @@
-import { IC_TRANSACTION_FEE_ICP } from '$lib/constants/constants';
 import { SubAccount } from '@dfinity/ledger-icp';
 import type { Principal } from '@dfinity/principal';
 import { jsonReplacer } from '@dfinity/utils';
 import { cmcNotifyTopUp } from '../api/cmc.api';
 import { icpTransfer } from '../api/ledger-icp.api';
-import { CMC_ID } from '../constants/functions.constants';
+import { CMC_ID, IC_TRANSACTION_FEE_ICP } from '../constants/functions.constants';
 
 export const transferIcpToCmc = async ({
 	ledgerId,

@@ -1,9 +1,9 @@
-import { IC_TRANSACTION_FEE_ICP } from '$lib/constants/constants';
 import { encodeIcrcAccount } from '@dfinity/ledger-icrc';
 import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
+import type { Principal } from '@dfinity/principal';
 import { fromNullable } from '@dfinity/utils';
 import { icrcBalanceOf, icrcTransferFrom } from '../api/ledger-icrc.api';
-import type { Principal } from '@dfinity/principal';
+import { IC_TRANSACTION_FEE_ICP } from '../constants/functions.constants';
 
 export const assertWalletBalance = async ({
 	ledgerId,
