@@ -14,35 +14,27 @@
 
 	let { wallet = $bindable(undefined), accounts = $bindable(undefined) }: Props = $props();
 
-	// Detect PWA
-	// 'standalone' in window.navigator ? window.navigator.standalone : 'undefined'
+	const iOS = /apple/i.test(navigator?.vendor);
+	const installedApp = 'standalone' in window.navigator ? window.navigator.standalone : false;
+
+	// OISY_SIGN_URL = https://oisy.com/sign
 
 	const connectOISY = async () => {
-		if (iOS) {
+		if (iOS && installedApp) {
 			const url = `x-safari-${OISY_SIGN_URL}`;
 
-			console.log('Trying to open:', url);
-
-			await connect(url, '_self');
+			await connect({ url, target: '_self' });
 			return;
 		}
 
-		await connect(OISY_SIGN_URL);
+		await connect({ url: OISY_SIGN_URL });
 	};
 
-	const connect = async (url: string, target?: string) => {
+	const connect = async (params: { url: string; target?: string }) => {
 		await disconnect();
 
-		console.log('Options:', {
-			url,
-			target,
-			windowOptions: ''
-		});
-
 		wallet = await IcpWallet.connect({
-			url,
-			target,
-			windowOptions: '',
+			...params,
 			host: CONTAINER,
 			onDisconnect
 		});
@@ -70,8 +62,6 @@
 	const disconnect = async () => {
 		await wallet?.disconnect();
 	};
-
-	const iOS = /apple/i.test(navigator?.vendor);
 </script>
 
 <div>
