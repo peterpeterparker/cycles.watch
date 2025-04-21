@@ -15,6 +15,11 @@
 	let { wallet = $bindable(undefined), accounts = $bindable(undefined) }: Props = $props();
 
 	const connectOISY = async () => {
+		if (iOS) {
+			await connect(`x-safari-${OISY_SIGN_URL}`);
+			return;
+		}
+
 		await connect(OISY_SIGN_URL);
 	};
 
@@ -50,12 +55,17 @@
 	const disconnect = async () => {
 		await wallet?.disconnect();
 	};
+
+	const iOS = /apple/i.test(navigator?.vendor);
 </script>
 
 <div>
 	<h3>Top-up</h3>
 	<p>Connect a Wallet to get started.</p>
 	<Button display="inline" text="OISY" icon={IconOisy} on:click={connectOISY} />
+
+	<p>Standalone: {'standalone' in window.navigator ? window.navigator.standalone : 'undefined'}</p>
+	<p>Apple: {iOS}</p>
 </div>
 
 <style lang="scss">
