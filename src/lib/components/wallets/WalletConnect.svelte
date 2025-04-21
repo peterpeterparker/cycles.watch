@@ -16,7 +16,11 @@
 
 	const connectOISY = async () => {
 		if (iOS) {
-			await connect(`x-safari-${OISY_SIGN_URL}`);
+			const url = `x-safari-${OISY_SIGN_URL}`;
+
+			console.log('Trying to open:', url);
+
+			await connect(url);
 			return;
 		}
 
