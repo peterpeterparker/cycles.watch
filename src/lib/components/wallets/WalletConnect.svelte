@@ -20,18 +20,19 @@
 
 			console.log('Trying to open:', url);
 
-			await connect(url);
+			await connect(url, '_self');
 			return;
 		}
 
 		await connect(OISY_SIGN_URL);
 	};
 
-	const connect = async (url: string) => {
+	const connect = async (url: string, target?: string) => {
 		await disconnect();
 
 		wallet = await IcpWallet.connect({
 			url,
+			target,
 			host: CONTAINER,
 			onDisconnect
 		});
