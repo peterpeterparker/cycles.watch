@@ -33,9 +33,16 @@
 	const connect = async (url: string, target?: string) => {
 		await disconnect();
 
+		console.log('Options:', {
+			url,
+			target,
+			windowOptions: ''
+		});
+
 		wallet = await IcpWallet.connect({
 			url,
 			target,
+			windowOptions: '',
 			host: CONTAINER,
 			onDisconnect
 		});
