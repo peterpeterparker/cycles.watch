@@ -14,6 +14,9 @@
 
 	let { wallet = $bindable(undefined), accounts = $bindable(undefined) }: Props = $props();
 
+	// Detect PWA
+	// 'standalone' in window.navigator ? window.navigator.standalone : 'undefined'
+
 	const connectOISY = async () => {
 		if (iOS) {
 			const url = `x-safari-${OISY_SIGN_URL}`;
@@ -68,9 +71,6 @@
 	<h3>Top-up</h3>
 	<p>Connect a Wallet to get started.</p>
 	<Button display="inline" text="OISY" icon={IconOisy} on:click={connectOISY} />
-
-	<p>Standalone: {'standalone' in window.navigator ? window.navigator.standalone : 'undefined'}</p>
-	<p>Apple: {iOS}</p>
 </div>
 
 <style lang="scss">
