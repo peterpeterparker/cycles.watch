@@ -14,15 +14,27 @@
 
 	let { wallet = $bindable(undefined), accounts = $bindable(undefined) }: Props = $props();
 
+	const iOS = /apple/i.test(navigator?.vendor);
+	const installedApp = 'standalone' in window.navigator ? window.navigator.standalone : false;
+
+	// OISY_SIGN_URL = https://oisy.com/sign
+
 	const connectOISY = async () => {
-		await connect(OISY_SIGN_URL);
+		if (iOS && installedApp) {
+			const url = `x-safari-${OISY_SIGN_URL}`;
+
+			await connect({ url, target: '_self' });
+			return;
+		}
+
+		await connect({ url: OISY_SIGN_URL });
 	};
 
-	const connect = async (url: string) => {
+	const connect = async (params: { url: string; target?: string }) => {
 		await disconnect();
 
 		wallet = await IcpWallet.connect({
-			url,
+			...params,
 			host: CONTAINER,
 			onDisconnect
 		});
