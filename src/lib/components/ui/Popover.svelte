@@ -15,7 +15,7 @@
 	const initPosition = () =>
 		({ bottom, left } = anchor ? anchor.getBoundingClientRect() : { bottom: 0, left: 0 });
 
-	$: anchor, initPosition();
+	$: (anchor, initPosition());
 
 	const close = () => (visible = false);
 </script>

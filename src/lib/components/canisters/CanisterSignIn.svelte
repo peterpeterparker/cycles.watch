@@ -5,14 +5,14 @@
 
 	const dispatch = createEventDispatcher();
 
-	$: $authSignedInStore,
+	$: ($authSignedInStore,
 		(() => {
 			if (!$authSignedInStore) {
 				return;
 			}
 
 			dispatch('papyCanisterSignedIn');
-		})();
+		})());
 </script>
 
 <p>

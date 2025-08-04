@@ -37,7 +37,7 @@
 		await startTimer();
 	};
 
-	$: $authSignedInStore,
+	$: ($authSignedInStore,
 		(async () => {
 			if (!$authSignedInStore) {
 				return;
@@ -47,7 +47,7 @@
 
 			stopTimer();
 			await startTimer();
-		})();
+		})());
 </script>
 
 <svelte:window
