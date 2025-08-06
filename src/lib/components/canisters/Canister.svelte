@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { Canister } from '$lib/types/canister';
 	import { formatTCycles } from '$lib/utils/cycles.utils';
-	import { formatNumber } from '$lib/utils/number.utils';
 	import CanisterSkeleton from './CanisterSkeleton.svelte';
 	import CanisterInfo from './CanisterInfo.svelte';
 	import { highlightStore } from '$lib/stores/highlight.store';
 	import { fade } from 'svelte/transition';
 	import CanisterToolbar from '$lib/components/canisters/CanisterToolbar.svelte';
+	import CanisterMemory from '$lib/components/canisters/CanisterMemory.svelte';
 
 	interface Props {
 		canister: Canister;
@@ -23,7 +23,6 @@
 
 	let {
 		status,
-		memory_size,
 		cycles,
 		icp: _,
 		cyclesStatus
@@ -53,9 +52,7 @@
 			<CanisterInfo canisterId={id}>
 				<svelte:fragment slot="title">{formatTCycles(cycles)} TCycles{emoji}</svelte:fragment>
 				<svelte:fragment slot="status">{status ?? ''}</svelte:fragment>
-				<svelte:fragment slot="memory"
-					>{formatNumber(Number(memory_size) / 1000000)}mb</svelte:fragment
-				>
+				<svelte:fragment slot="memory"><CanisterMemory {canister} /></svelte:fragment>
 
 				<svelte:fragment slot="type">
 					{#if type !== 'nns'}

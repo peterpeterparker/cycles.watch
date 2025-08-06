@@ -11,7 +11,8 @@
 <h3><slot name="title" /></h3>
 
 <p class="status"><slot name="status" /></p>
-<p><slot name="memory" /></p>
+
+<slot name="memory" />
 
 <p class="type"><slot name="type" /></p>
 
