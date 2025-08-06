@@ -11,6 +11,9 @@ export default defineConfig({
 			heapMemoryLimit: 1073741824n,
 			logVisibility: 'controllers'
 		},
-		predeploy: ['npm run build']
+		predeploy: ['npm run build'],
+		assertions: {
+			heapMemory: 8000000
+		}
 	}
 });
