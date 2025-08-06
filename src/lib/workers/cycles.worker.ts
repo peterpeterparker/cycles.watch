@@ -134,7 +134,7 @@ const syncNnsCanisters = async ({
 	await Promise.allSettled(
 		canisterIds.map(async ({ id: canisterId, ...rest }) => {
 			try {
-				const canisterInfo: CanisterInfo = await canisterStatus({ canisterId, identity });
+				const canisterInfo = await canisterStatus({ canisterId, identity });
 
 				await syncCanister({
 					canisterId,
@@ -293,7 +293,7 @@ const syncCanister = async ({
 	meta: { id, ...rest },
 	settings: { warnTCycles },
 	trillionRatio,
-	canisterInfo: { cycles, status, memory_size },
+	canisterInfo: { cycles, status, memory_size, memory_metrics },
 	group
 }: {
 	canisterId: string;
@@ -311,6 +311,7 @@ const syncCanister = async ({
 		data: {
 			status,
 			memory_size,
+			memory_metrics,
 			cycles,
 			icp: cyclesToICP({ cycles, trillionRatio }),
 			cyclesStatus: tCycles < 0 ? 'error' : tCycles < warnTCycles ? 'warn' : 'ok'

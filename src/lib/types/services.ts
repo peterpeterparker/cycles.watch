@@ -1,8 +1,8 @@
+import type { CanisterStatusResponse } from '@dfinity/ic-management';
 import type { CanisterStatus } from './canister';
 
-export interface CanisterInfo {
-	cycles: bigint;
-	memory_size: bigint;
+export interface CanisterInfo
+	extends Pick<CanisterStatusResponse, 'cycles' | 'memory_size' | 'memory_metrics'> {
 	status: CanisterStatus;
 	canisterId: string;
 }
