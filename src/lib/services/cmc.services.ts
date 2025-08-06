@@ -1,24 +1,20 @@
-import type { _SERVICE as CMCActor } from '../canisters/cmc/cmc.did';
-import { idlFactory } from '../canisters/cmc/cmc.utils.did';
-import { createActor } from '../utils/actor.utils';
+import { createAgent } from '$lib/api/api.agent';
+import { CMCCanister } from '@dfinity/cmc';
+import { Principal } from '@dfinity/principal';
 
 const CMC_CANISTER_ID = import.meta.env.VITE_CMC_ID as string;
-
-const createCMCActor = (): Promise<CMCActor> =>
-	createActor<CMCActor>({
-		config: {
-			canisterId: CMC_CANISTER_ID
-		},
-		idlFactory
-	});
 
 const NUMBER_XDR_PER_ONE_ICP = 10_000;
 
 export const icpXdrConversionRate = async (): Promise<bigint> => {
-	const actor: CMCActor = await createCMCActor();
+	const agent = await createAgent({});
 
-	const { data } = await actor.get_icp_xdr_conversion_rate();
-	const { xdr_permyriad_per_icp } = data;
+	const { getIcpToCyclesConversionRate } = CMCCanister.create({
+		agent,
+		canisterId: Principal.fromText(CMC_CANISTER_ID)
+	});
+
+	const xdr_permyriad_per_icp = await getIcpToCyclesConversionRate();
 
 	const CYCLES_PER_XDR = BigInt(1_000_000_000_000);
 

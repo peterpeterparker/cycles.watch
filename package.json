@@ -44,6 +44,7 @@
 	"type": "module",
 	"dependencies": {
 		"@dfinity/cmc": "^5.0.7",
+		"@dfinity/ic-management": "^6.2.1",
 		"@dfinity/ledger-icp": "^4.0.0",
 		"@dfinity/oisy-wallet-signer": "^0.3.0",
 		"@dfinity/utils": "^2.13.2",
