@@ -33,52 +33,54 @@
 	<small>in total</small>
 </p>
 
-<p>
-	{nonNullish(wasmMemorySize) ? formatBytes(Number(wasmMemorySize)) : '???'}
-	<small>on heap </small>
-</p>
-
-<p>
-	{nonNullish(stableMemorySize) ? formatBytes(Number(stableMemorySize)) : '???'}
-	<small>on stable</small>
-</p>
-
-{#if (globalMemorySize ?? 0n) > ONE_MB}
+{#if nonNullish(memoryMetrics)}
 	<p>
-		{nonNullish(globalMemorySize) ? formatBytes(Number(globalMemorySize)) : '???'}
-		<small>in global</small>
+		{nonNullish(wasmMemorySize) ? formatBytes(Number(wasmMemorySize)) : '???'}
+		<small>on heap </small>
 	</p>
-{/if}
 
-{#if (wasmChunkStoreSize ?? 0n) > 0n}
 	<p>
-		{nonNullish(wasmChunkStoreSize) ? formatBytes(Number(wasmChunkStoreSize)) : '???'}
-		<small>in chunks</small>
+		{nonNullish(stableMemorySize) ? formatBytes(Number(stableMemorySize)) : '???'}
+		<small>on stable</small>
 	</p>
-{/if}
 
-{#if (snapshotsSize ?? 0n) > 0n}
+	{#if (globalMemorySize ?? 0n) > ONE_MB}
+		<p>
+			{nonNullish(globalMemorySize) ? formatBytes(Number(globalMemorySize)) : '???'}
+			<small>in global</small>
+		</p>
+	{/if}
+
+	{#if (wasmChunkStoreSize ?? 0n) > 0n}
+		<p>
+			{nonNullish(wasmChunkStoreSize) ? formatBytes(Number(wasmChunkStoreSize)) : '???'}
+			<small>in chunks</small>
+		</p>
+	{/if}
+
+	{#if (snapshotsSize ?? 0n) > 0n}
+		<p>
+			{nonNullish(snapshotsSize) ? formatBytes(Number(snapshotsSize)) : '???'}
+			<small>on snapshot</small>
+		</p>
+	{/if}
+
 	<p>
-		{nonNullish(snapshotsSize) ? formatBytes(Number(snapshotsSize)) : '???'}
-		<small>on snapshot</small>
+		{nonNullish(customSectionsSize) ? formatBytes(Number(customSectionsSize)) : '???'}
+		<small>of custom sections</small>
 	</p>
-{/if}
 
-<p>
-	{nonNullish(customSectionsSize) ? formatBytes(Number(customSectionsSize)) : '???'}
-	<small>of custom sections</small>
-</p>
-
-<p>
-	{nonNullish(wasmBinarySize) ? formatBytes(Number(wasmBinarySize)) : '???'}
-	<small>of code</small>
-</p>
-
-{#if (canisterHistorySize ?? 0n) > ONE_KB}
 	<p>
-		{nonNullish(canisterHistorySize) ? formatBytes(Number(canisterHistorySize)) : '???'}
-		<small>in history</small>
+		{nonNullish(wasmBinarySize) ? formatBytes(Number(wasmBinarySize)) : '???'}
+		<small>of code</small>
 	</p>
+
+	{#if (canisterHistorySize ?? 0n) > ONE_KB}
+		<p>
+			{nonNullish(canisterHistorySize) ? formatBytes(Number(canisterHistorySize)) : '???'}
+			<small>in history</small>
+		</p>
+	{/if}
 {/if}
 
 <style lang="scss">
