@@ -16,6 +16,10 @@ jobs:
         with:
           node-version: 22
 
+      - name: Update npm
+        shell: bash
+        run: npm i -g npm
+
       - name: Install Dependencies
         run: npm ci
 
