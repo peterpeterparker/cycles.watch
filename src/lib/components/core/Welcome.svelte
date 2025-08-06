@@ -28,9 +28,8 @@
 	}
 
 	p {
-		text-align: center;
-		max-width: 580px;
-		margin: 0 auto;
-		padding: 0 0 0.45rem;
+		@media (min-width: 768px) {
+			margin: 0;
+		}
 	}
 </style>
