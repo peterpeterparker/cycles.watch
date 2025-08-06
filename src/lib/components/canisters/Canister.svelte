@@ -1,65 +1,45 @@
 <script lang="ts">
-	import type {
-		Canister,
-		CanisterCyclesStatus,
-		CanisterData,
-		CanisterGroup,
-		CanisterMeta,
-		CanisterType
-	} from '$lib/types/canister';
-	import type { CanisterStatus } from '$lib/types/canister';
+	import type { Canister } from '$lib/types/canister';
 	import { formatTCycles } from '$lib/utils/cycles.utils';
 	import { formatNumber } from '$lib/utils/number.utils';
-	import type { CanisterSyncStatus } from '$lib/types/canister';
 	import CanisterSkeleton from './CanisterSkeleton.svelte';
 	import CanisterInfo from './CanisterInfo.svelte';
 	import { highlightStore } from '$lib/stores/highlight.store';
 	import { fade } from 'svelte/transition';
 	import CanisterToolbar from '$lib/components/canisters/CanisterToolbar.svelte';
 
-	export let canister: Canister;
+	interface Props {
+		canister: Canister;
+	}
 
-	let id: string;
-	let data: CanisterData | undefined;
-	let syncStatus: CanisterSyncStatus = 'syncing';
-	let group: CanisterGroup | undefined;
-	let meta: CanisterMeta;
+	let { canister }: Props = $props();
 
-	$: ({ id, data, status: syncStatus, group, meta } = canister);
+	let { id, data, status: syncStatus, group, meta } = $derived(canister);
 
-	let name: string | undefined;
-	$: name = meta?.name;
+	let name = $derived(meta?.name);
 
-	let groupId: string;
-	let type: CanisterType;
-	let description: string | undefined;
-	$: ({ type, id: groupId } = group ?? { id: '', type: 'nns' });
-	$: description = group?.description ?? undefined;
+	let { type, id: groupId } = $derived(group ?? { id: '', type: 'nns' });
+	let description = $derived(group?.description);
 
-	let status: CanisterStatus | undefined;
-	let memory_size: bigint;
-	let cycles: bigint;
-	let cyclesStatus: CanisterCyclesStatus | undefined;
-
-	$: ({
+	let {
 		status,
 		memory_size,
 		cycles,
 		icp: _,
 		cyclesStatus
-	} = data ?? {
-		status: undefined,
-		cyclesStatus: undefined,
-		memory_size: BigInt(0),
-		cycles: BigInt(0),
-		icp: 0
-	});
+	} = $derived(
+		data ?? {
+			status: undefined,
+			cyclesStatus: undefined,
+			memory_size: BigInt(0),
+			cycles: BigInt(0),
+			icp: 0
+		}
+	);
 
-	let emoji: string;
-	$: emoji = cyclesStatus === 'warn' ? ' ⚠️' : cyclesStatus === 'error' ? ' 🔥' : '';
+	let emoji = $derived(cyclesStatus === 'warn' ? ' ⚠️' : cyclesStatus === 'error' ? ' 🔥' : '');
 
-	let hidden = false;
-	$: hidden = $highlightStore !== undefined && $highlightStore.id !== groupId;
+	let hidden = $derived($highlightStore !== undefined && $highlightStore.id !== groupId);
 </script>
 
 <div>
