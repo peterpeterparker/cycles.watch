@@ -16,13 +16,9 @@
 			: undefined
 	);
 
-	let displayTCycles: string | undefined = $state(undefined);
-
-	$effect(() => {
-		displayTCycles = nonNullish(convertedCycles)
-			? `${formatTCycles(BigInt(convertedCycles ?? 0))}`
-			: '';
-	});
+	let displayTCycles = $derived(
+		nonNullish(convertedCycles) ? `${formatTCycles(BigInt(convertedCycles ?? 0))}` : ''
+	);
 </script>
 
 <div>
