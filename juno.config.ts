@@ -12,6 +12,10 @@ export default defineConfig({
 			logVisibility: 'controllers'
 		},
 		predeploy: ['npm run build'],
+		precompress: {
+			mode: "replace",
+			algorithm: "brotli"
+		},
 		assertions: {
 			heapMemory: 800_000_000n
 		}
