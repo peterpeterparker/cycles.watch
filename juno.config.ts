@@ -13,7 +13,7 @@ export default defineConfig({
 		},
 		predeploy: ['npm run build'],
 		assertions: {
-			heapMemory: 8000000
+			heapMemory: 8000000n
 		}
 	}
 });
