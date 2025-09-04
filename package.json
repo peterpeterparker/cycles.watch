@@ -18,7 +18,7 @@
 		"upgrade": "node /Users/daviddalbusco/projects/juno/cli/dist/index.js upgrade -ns -t s -s target/deploy/satellite.wasm.gz -m development"
 	},
 	"devDependencies": {
-        "@dfinity/ledger-icrc": "^2.9.1",
+		"@dfinity/ledger-icrc": "^2.9.1",
 		"@junobuild/config": "^2.1.0",
 		"@junobuild/vite-plugin": "^4.1.4",
 		"@sveltejs/adapter-static": "^3.0.8",
@@ -47,8 +47,8 @@
 		"@dfinity/ic-management": "^6.2.1",
 		"@dfinity/ledger-icp": "^4.0.0",
 		"@dfinity/oisy-wallet-signer": "^0.3.0",
-        "@dfinity/utils": "^2.13.2",
-		"@junobuild/core": "^1.2.1",
+		"@dfinity/utils": "^2.13.2",
+		"@junobuild/core": "^2.0.0",
 		"@junobuild/functions": "^0.2.7",
 		"idb-keyval": "^6.2.2"
 	},
