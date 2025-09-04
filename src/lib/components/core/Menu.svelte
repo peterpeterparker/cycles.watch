@@ -36,6 +36,9 @@
 		signIn({
 			maxTimeToLive: BigInt(14 * 24 * 60 * 60 * 1000 * 1000 * 1000)
 		});
+
+	// eslint-disable-next-line svelte/no-navigation-without-resolve
+	const goToSettings = async () => await goto('/settings');
 </script>
 
 <button
@@ -62,13 +65,7 @@
 		</button>
 	{/if}
 
-	<button
-		type="button"
-		role="menuitem"
-		aria-haspopup="menu"
-		class="menu"
-		on:click={async () => await goto('/settings')}
-	>
+	<button type="button" role="menuitem" aria-haspopup="menu" class="menu" on:click={goToSettings}>
 		<IconSettings />
 		<span>Settings</span>
 	</button>

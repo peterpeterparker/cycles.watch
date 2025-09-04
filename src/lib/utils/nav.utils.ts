@@ -13,6 +13,7 @@ export const back = async () => {
 
 const goBack = async (defaultRoute = '/') => {
 	const { referrer } = document;
+	// eslint-disable-next-line svelte/no-navigation-without-resolve
 	return goto(referrer.length > 0 ? referrer : defaultRoute);
 };
 

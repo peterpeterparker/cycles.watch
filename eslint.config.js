@@ -27,7 +27,14 @@ export default tseslint.config(
 		}
 	},
 	{
-		ignores: ['build/', '.svelte-kit/', 'dist/', 'src/lib/canisters/**/*', 'target']
+		ignores: [
+			'build/',
+			'.svelte-kit/',
+			'dist/',
+			'src/lib/canisters/**/*',
+			'target',
+			'src/custom-events.d.ts'
+		]
 	},
 	{
 		rules: {

@@ -10,16 +10,3 @@ declare namespace App {
 }
 
 declare const VITE_APP_VERSION: string;
-
-/* eslint-disable */
-
-declare namespace svelteHTML {
-	interface HTMLAttributes {
-		onopenAddCanister?: (event: CustomEvent<any>) => void;
-		onaddCanister?: (event: CustomEvent<any>) => void;
-		onaddSnsCanister?: (event: CustomEvent<any>) => void;
-		onrestartTimer?: (event: CustomEvent<any>) => void;
-	}
-}
-
-/* eslint-enable */
