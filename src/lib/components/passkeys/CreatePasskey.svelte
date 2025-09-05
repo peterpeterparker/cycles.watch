@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/Button.svelte';
 	import {
 		type SignProgress,
 		type SignProgressFn,
@@ -39,7 +38,7 @@
 	};
 
 	const onsubmit = async ($event: SubmitEvent) => {
-        $event. preventDefault();
+		$event.preventDefault();
 
 		try {
 			await signUp({
@@ -72,15 +71,15 @@
 {#if progress.state === 'init'}
 	<p>First time here? Use your device (Face ID, Windows Hello, or screen lock) to get in.</p>
 
-	<Button display="inline" text="Create a new passkey" on:click={goToSetup} />
+	<button onclick={goToSetup}>Create a new passkey</button>
 {:else if progress.state === 'setup'}
 	<p>Want to give it a nickname so you'll spot it easily later?</p>
 
 	<form {onsubmit}>
-        <input id="passkeyName" bind:value={inputText} type="text" placeholder="A optional nickname" />
+		<input id="passkeyName" bind:value={inputText} type="text" placeholder="A optional nickname" />
 
-        <Button btnType="submit" display="inline" text="Create now" />
-    </form>
+		<button type="submit">Create now</button>
+	</form>
 {:else if progress.state === 'progress'}
 	<ProgressPasskey>
 		{#if progress?.detail.step === WebAuthnSignUpProgressStep.CreatingUserCredential}
@@ -110,11 +109,12 @@
 {/if}
 
 <style lang="scss">
-    p, form {
-      margin: 0;
-    }
+	p,
+	form {
+		margin: 0;
+	}
 
-    input {
-      width: 100%;
-    }
+	input {
+		width: 100%;
+	}
 </style>

@@ -26,6 +26,7 @@
 	import { isWebAuthnAvailable } from '@junobuild/core';
 	import Popover from '$lib/components/ui/Popover.svelte';
 	import CreatePasskey from '$lib/components/passkeys/CreatePasskey.svelte';
+	import UsePasskey from '$lib/components/passkeys/UsePasskey.svelte';
 
 	let withPasskey = $state(true);
 	let visible = $state(false);
@@ -55,6 +56,8 @@
 <Popover bind:visible center>
 	<div class="container">
 		<CreatePasskey {progress} {onProgress} />
+
+		<UsePasskey {progress} {onProgress} />
 	</div>
 </Popover>
 
@@ -69,6 +72,7 @@
 	.container {
 		display: flex;
 		flex-direction: column;
+
 		padding: 0 1.75rem;
 
 		width: 100%;
