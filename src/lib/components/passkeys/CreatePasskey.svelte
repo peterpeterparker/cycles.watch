@@ -38,7 +38,9 @@
 		wizardOnProgress({ setup: null });
 	};
 
-	const doSignUp = async () => {
+	const onsubmit = async ($event: SubmitEvent) => {
+        $event. preventDefault();
+
 		try {
 			await signUp({
 				webauthn: {
@@ -74,9 +76,11 @@
 {:else if progress.state === 'setup'}
 	<p>Want to give it a nickname so you'll spot it easily later?</p>
 
-	<input id="passkeyName" bind:value={inputText} type="text" placeholder="A optional nickname" />
+	<form {onsubmit}>
+        <input id="passkeyName" bind:value={inputText} type="text" placeholder="A optional nickname" />
 
-	<Button display="inline" text="Create now" on:click={doSignUp} />
+        <Button btnType="submit" display="inline" text="Create now" />
+    </form>
 {:else if progress.state === 'progress'}
 	<ProgressPasskey>
 		{#if progress?.detail.step === WebAuthnSignUpProgressStep.CreatingUserCredential}
@@ -106,7 +110,11 @@
 {/if}
 
 <style lang="scss">
-    p {
+    p, form {
       margin: 0;
+    }
+
+    input {
+      width: 100%;
     }
 </style>

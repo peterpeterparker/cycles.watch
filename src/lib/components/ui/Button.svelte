@@ -4,6 +4,7 @@
 
 	export let display: 'inline' | 'card' = 'card';
 	export let text: string;
+    export let btnType: "button" | "submit" = "button";
 
 	export let icon: Component | undefined = undefined;
 
@@ -12,7 +13,7 @@
 </script>
 
 <div class={card ? 'card' : 'inline'}>
-	<button type="button" class={card ? 'toolbar' : 'primary'} title={text} on:click>
+	<button type={btnType} class={card ? 'toolbar' : 'primary'} title={text} on:click>
 		{#if nonNullish(icon)}
 			<svelte:component this={icon} slot="icon" />
 		{/if}
