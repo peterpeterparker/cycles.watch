@@ -27,6 +27,7 @@
 	import Popover from '$lib/components/ui/Popover.svelte';
 	import CreatePasskey from '$lib/components/passkeys/CreatePasskey.svelte';
 	import UsePasskey from '$lib/components/passkeys/UsePasskey.svelte';
+	import { nonNullish } from '@dfinity/utils';
 
 	let withPasskey = $state(true);
 	let visible = $state(false);
@@ -53,7 +54,7 @@
 	</button>
 {/if}
 
-<Popover bind:visible center>
+<Popover bind:visible center closeDisabled={nonNullish(progress)}>
 	<div class="container">
 		<CreatePasskey {progress} {onProgress} />
 
