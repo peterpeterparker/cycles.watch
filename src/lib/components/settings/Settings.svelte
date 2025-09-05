@@ -1,10 +1,9 @@
 <script lang="ts">
-	import NoCanister from '../canisters/NoCanister.svelte';
 	import IconClose from '../icons/IconClose.svelte';
 	import AddCanister from '../canisters/AddCanister.svelte';
-	import { canistersUniqueGroups, canistersStore } from '../../stores/canisters.store';
-	import type { Canister } from '../../types/canister';
-	import { removeCanister } from '../../services/watch.services';
+	import { canistersUniqueGroups, canistersStore } from '$lib/stores/canisters.store';
+	import type { Canister } from '$lib/types/canister';
+	import { removeCanister } from '$lib/services/watch.services';
 	import Spinner from '../ui/Spinner.svelte';
 	import Options from './Options.svelte';
 
@@ -15,10 +14,6 @@
 	<Spinner />
 {:else if $canistersStore.canisters.length === 0}
 	<section>
-		<h2>Canisters</h2>
-
-		<NoCanister />
-
 		<Options />
 	</section>
 {:else}
