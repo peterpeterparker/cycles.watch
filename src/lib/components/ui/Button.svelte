@@ -4,7 +4,7 @@
 
 	export let display: 'inline' | 'card' = 'card';
 	export let text: string;
-    export let btnType: "button" | "submit" = "button";
+	export let btnType: 'button' | 'submit' = 'button';
 
 	export let icon: Component | undefined = undefined;
 

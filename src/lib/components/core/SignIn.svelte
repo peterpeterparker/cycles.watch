@@ -1,7 +1,7 @@
 <script lang="ts">
 	import IconInternetComputer from '$lib/components/icons/IconInternetComputer.svelte';
 	import { signInWithII } from '$lib/services/auth.services';
-    import SignInPasskey from "$lib/components/passkeys/SignInPasskey.svelte";
+	import SignInPasskey from '$lib/components/passkeys/SignInPasskey.svelte';
 </script>
 
 <div role="toolbar" class="container">

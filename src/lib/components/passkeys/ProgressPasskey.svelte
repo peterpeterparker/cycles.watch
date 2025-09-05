@@ -23,13 +23,13 @@
 		flex-direction: column;
 	}
 
-    .spinner {
-      position: relative;
+	.spinner {
+		position: relative;
 
-      min-height: 3.45rem;
-    }
+		min-height: 3.45rem;
+	}
 
-    span {
-      text-align: center;
-    }
+	span {
+		text-align: center;
+	}
 </style>
