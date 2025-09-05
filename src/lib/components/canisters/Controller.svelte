@@ -5,21 +5,7 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<p>
-	Add following principal ID to the controllers of the canister with <a
-		href="https://internetcomputer.org/docs/current/references/cli-reference/dfx-parent/"
-		rel="external noopener norefferer"
-		target="_blank"
-		aria-label="dfx command line tool">dfx</a
-	>
-	or
-	<a
-		href="https://nns.ic0.app/#/canisters"
-		rel="external noopener norefferer"
-		target="_blank"
-		aria-label="Open the Network Nervous System frontend dapp">NNS dapp</a
-	>.
-</p>
+<p>Add your signed-in principal ID as a controller of the canister.</p>
 
 <Principal bold />
 
