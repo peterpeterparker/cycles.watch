@@ -2,17 +2,14 @@
 	import IconMenu from '$lib/components/icons/IconMenu.svelte';
 	import Popover from '$lib/components/ui/Popover.svelte';
 	import IconSignOut from '$lib/components/icons/IconSignOut.svelte';
-	import IconSignIn from '$lib/components/icons/IconSignIn.svelte';
 	import { authSignedInStore } from '$lib/stores/auth.store';
 	import IconSettings from '$lib/components/icons/IconSettings.svelte';
 	import { goto } from '$app/navigation';
-	import { canistersStore } from '$lib/stores/canisters.store';
 	import { signOut } from '@junobuild/core';
 	import { clear } from 'idb-keyval';
 	import IconPlus from '$lib/components/icons/IconPlus.svelte';
 	import { emitAddCanister } from '$lib/utils/events.utils';
 	import GitHub from '$lib/components/core/GitHub.svelte';
-	import { signInWithII } from '$lib/services/auth.services';
 
 	let visible: boolean | undefined;
 	let button: HTMLButtonElement | undefined;
@@ -77,11 +74,6 @@
 		>
 			<IconSignOut />
 			<span>Sign out</span>
-		</button>
-	{:else if $canistersStore.initialized}
-		<button type="button" role="menuitem" aria-haspopup="menu" on:click={signInWithII} class="menu">
-			<IconSignIn />
-			<span>Sign in</span>
 		</button>
 	{/if}
 </Popover>
