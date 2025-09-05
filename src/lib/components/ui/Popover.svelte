@@ -8,6 +8,7 @@
 	export let direction: 'ltr' | 'rtl' = 'ltr';
 	export let center = false;
 	export let closeButton = false;
+	export let closeDisabled = false;
 
 	let bottom: number;
 	let left: number;
@@ -17,7 +18,13 @@
 
 	$: (anchor, initPosition());
 
-	const close = () => (visible = false);
+	const close = () => {
+		if (closeDisabled) {
+			return;
+		}
+
+		visible = false;
+	};
 </script>
 
 <svelte:window on:resize={initPosition} />
@@ -35,6 +42,7 @@
 			class="backdrop"
 			aria-label="Close"
 			tabindex="-1"
+			disabled={closeDisabled}
 			on:click|stopPropagation={() => (visible = false)}
 		></button>
 		<div

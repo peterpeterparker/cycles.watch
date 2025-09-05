@@ -4,10 +4,11 @@
 
 <section>
 	<p>
-		<strong>Cycles.watch</strong> monitors the cycles consumption of canisters on the
+		With <strong>Cycles.watch</strong> you can monitor the cycles consumption of your canisters on
+		the
 		<a href="https://internetcomputer.org/" rel="external noopener norefferer" target="_blank"
 			>Internet Computer</a
-		>. It periodically refreshes their state and provides information on their remaining resources.
+		>. It periodically refreshes their status and provides information on their remaining resources.
 	</p>
 
 	<div class="actions">
@@ -28,8 +29,8 @@
 	}
 
 	p {
-		@media (min-width: 768px) {
-			margin: 0;
-		}
+		text-align: center;
+		max-width: 700px;
+		margin: 0 auto;
 	}
 </style>
