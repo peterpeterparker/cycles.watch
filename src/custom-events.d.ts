@@ -4,6 +4,8 @@ declare module 'svelte/elements' {
 		onaddCanister?: (event: CustomEvent<any>) => void;
 		onaddSnsCanister?: (event: CustomEvent<any>) => void;
 		onrestartTimer?: (event: CustomEvent<any>) => void;
+		oncontinueWithPasskey?: (event: CustomEvent<any>) => void;
+		oncontinueWithII?: (event: CustomEvent<any>) => void;
 	}
 }
 

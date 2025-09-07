@@ -4,12 +4,16 @@
 	import IconSignOut from '$lib/components/icons/IconSignOut.svelte';
 	import { authSignedInStore } from '$lib/stores/auth.store';
 	import IconSettings from '$lib/components/icons/IconSettings.svelte';
-	import { goto } from '$app/navigation';
-	import { signOut } from '@junobuild/core';
-	import { clear } from 'idb-keyval';
 	import IconPlus from '$lib/components/icons/IconPlus.svelte';
-	import { emitAddCanister } from '$lib/utils/events.utils';
+	import { emit, emitAddCanister } from '$lib/utils/events.utils';
 	import GitHub from '$lib/components/core/GitHub.svelte';
+	import IconInternetComputer from '$lib/components/icons/IconInternetComputer.svelte';
+	import IconPasskey from '$lib/components/icons/IconPasskey.svelte';
+	import PasskeyGuard from '$lib/components/passkeys/PasskeyGuard.svelte';
+	import { signInWithII } from '$lib/services/auth.services';
+	import { goto } from '$app/navigation';
+	import { clear } from '$lib/services/idb.services';
+	import { signOut } from '@junobuild/core';
 
 	let visible: boolean | undefined;
 	let button: HTMLButtonElement | undefined;
@@ -22,11 +26,11 @@
 		await callback();
 	};
 
+	const loginWithPasskey = async () => emit({ message: 'continueWithPasskey' });
+
 	const logout = async () => {
 		await clear();
 		await signOut();
-
-		window.location.reload();
 	};
 
 	// eslint-disable-next-line svelte/no-navigation-without-resolve
@@ -43,7 +47,7 @@
 	<span class="visually-hidden">Menu</span>
 </button>
 
-<Popover bind:visible anchor={button} direction="rtl">
+<Popover bind:visible anchor={button}>
 	{#if $authSignedInStore}
 		<button
 			type="button"
@@ -62,7 +66,11 @@
 		<span>Settings</span>
 	</button>
 
+	<hr />
+
 	<GitHub />
+
+	<hr />
 
 	{#if $authSignedInStore}
 		<button
@@ -75,5 +83,39 @@
 			<IconSignOut />
 			<span>Sign out</span>
 		</button>
+	{:else}
+		<PasskeyGuard>
+			<button
+				type="button"
+				role="menuitem"
+				aria-haspopup="menu"
+				on:click={async () => await onAction(loginWithPasskey)}
+				class="menu"
+			>
+				<IconPasskey />
+				<span>Continue with Passkey</span>
+			</button>
+		</PasskeyGuard>
+
+		<button
+			type="button"
+			role="menuitem"
+			aria-haspopup="menu"
+			on:click={async () => await onAction(signInWithII)}
+			class="menu"
+		>
+			<IconInternetComputer />
+			<span>Continue with II</span>
+		</button>
 	{/if}
 </Popover>
+
+<style lang="scss">
+	hr {
+		border: 0;
+		height: 1px;
+		width: 100%;
+		background: black;
+		margin: 0.45rem auto;
+	}
+</style>

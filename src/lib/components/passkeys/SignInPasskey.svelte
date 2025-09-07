@@ -22,20 +22,14 @@
 
 <script lang="ts">
 	import IconPasskey from '$lib/components/icons/IconPasskey.svelte';
-	import { onMount } from 'svelte';
-	import { isWebAuthnAvailable } from '@junobuild/core';
 	import Popover from '$lib/components/ui/Popover.svelte';
 	import CreatePasskey from '$lib/components/passkeys/CreatePasskey.svelte';
 	import UsePasskey from '$lib/components/passkeys/UsePasskey.svelte';
 	import { nonNullish } from '@dfinity/utils';
+	import PasskeyGuard from '$lib/components/passkeys/PasskeyGuard.svelte';
 
-	let withPasskey = $state(true);
 	let visible = $state(false);
 	let progress = $state<PasskeyProgress | undefined>(undefined);
-
-	onMount(() => {
-		isWebAuthnAvailable().then((supported) => (withPasskey = supported));
-	});
 
 	const start = () => {
 		progress = undefined;
@@ -47,12 +41,14 @@
 	};
 </script>
 
-{#if withPasskey}
+<PasskeyGuard>
 	<button type="button" onclick={start} class="primary">
 		<IconPasskey />
 		Continue with Passkey
 	</button>
-{/if}
+</PasskeyGuard>
+
+<svelte:window oncontinueWithPasskey={start} />
 
 <Popover bind:visible center closeDisabled={nonNullish(progress)}>
 	<div class="container">

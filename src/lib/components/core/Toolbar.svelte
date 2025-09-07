@@ -5,10 +5,3 @@
 <nav>
 	<Menu />
 </nav>
-
-<style lang="scss">
-	nav {
-		display: flex;
-		justify-content: flex-end;
-	}
-</style>
