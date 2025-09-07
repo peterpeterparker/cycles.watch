@@ -15,13 +15,19 @@
 }
 
 @mixin posts {
-	display: grid;
-	grid-auto-flow: row dense;
-	grid-gap: 0.75rem;
-
-	grid-template-columns: repeat(2, calc((100% - (1 * 0.75rem)) / 2));
+	display: flex;
+	flex-direction: column;
+	row-gap: 2.75rem;
 
 	@media (min-width: 768px) {
+		display: grid;
+		grid-auto-flow: row dense;
+		grid-gap: 0.75rem;
+
+		grid-template-columns: repeat(2, calc((100% - (1 * 0.75rem)) / 2));
+	}
+
+	@media (min-width: 1024px) {
 		grid-template-columns: repeat(3, calc((100% - (2 * 0.75rem)) / 3));
 	}
 }
