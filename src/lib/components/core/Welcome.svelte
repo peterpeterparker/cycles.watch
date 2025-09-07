@@ -1,5 +1,5 @@
 <script>
-	import SignIn from '$lib/components/core/SignIn.svelte';
+	import SignInInternetIdentity from '$lib/components/core/SignInInternetIdentity.svelte';
 </script>
 
 <section>
@@ -12,7 +12,7 @@
 	</p>
 
 	<div class="actions">
-		<SignIn />
+		<SignInInternetIdentity />
 	</div>
 </section>
 
