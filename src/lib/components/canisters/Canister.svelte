@@ -7,6 +7,7 @@
 	import { fade } from 'svelte/transition';
 	import CanisterToolbar from '$lib/components/canisters/CanisterToolbar.svelte';
 	import CanisterMemory from '$lib/components/canisters/CanisterMemory.svelte';
+	import { authSignedInStore } from '$lib/stores/auth.store';
 
 	interface Props {
 		canister: Canister;
@@ -85,7 +86,7 @@
 		{/if}
 	</article>
 
-	{#if syncStatus !== 'syncing'}
+	{#if syncStatus !== 'syncing' && $authSignedInStore}
 		<CanisterToolbar {canister} {hidden} />
 	{/if}
 </div>
