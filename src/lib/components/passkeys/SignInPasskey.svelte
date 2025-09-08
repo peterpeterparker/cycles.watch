@@ -21,12 +21,10 @@
 </script>
 
 <script lang="ts">
-	import IconPasskey from '$lib/components/icons/IconPasskey.svelte';
 	import Popover from '$lib/components/ui/Popover.svelte';
 	import CreatePasskey from '$lib/components/passkeys/CreatePasskey.svelte';
 	import UsePasskey from '$lib/components/passkeys/UsePasskey.svelte';
 	import { nonNullish } from '@dfinity/utils';
-	import PasskeyGuard from '$lib/components/passkeys/PasskeyGuard.svelte';
 
 	let visible = $state(false);
 	let progress = $state<PasskeyProgress | undefined>(undefined);
@@ -40,13 +38,6 @@
 		progress = passkeyProgress;
 	};
 </script>
-
-<PasskeyGuard>
-	<button type="button" onclick={start} class="primary">
-		<IconPasskey />
-		Continue with Passkey
-	</button>
-</PasskeyGuard>
 
 <svelte:window oncontinueWithPasskey={start} />
 
