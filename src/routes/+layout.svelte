@@ -14,6 +14,7 @@
 	import Busy from '$lib/components/ui/Busy.svelte';
 	import { initSatellite } from '@junobuild/core';
 	import Toasts from '$lib/components/ui/Toasts.svelte';
+	import SignInPasskeyWizard from '$lib/components/overlays/SignInPasskeyWizard.svelte';
 
 	onMount(initSatellite);
 </script>
@@ -23,5 +24,6 @@
 </Worker>
 
 <Add />
+<SignInPasskeyWizard />
 <Busy />
 <Toasts />

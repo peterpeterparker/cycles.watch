@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { authSignedInStore } from '../../stores/auth.store';
 	import { createEventDispatcher } from 'svelte';
-	import SignInInternetIdentity from '../core/SignInInternetIdentity.svelte';
+	import SignIn from '../core/SignIn.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -22,7 +22,7 @@
 
 <p>That is why, to get started, you first need to sign-in anonymously.</p>
 
-<SignInInternetIdentity />
+<SignIn />
 
 <style lang="scss">
 	p:first-of-type {
