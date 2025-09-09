@@ -8,6 +8,7 @@
 	import type { PasskeyProps } from '$lib/components/passkeys/SignInPasskey.svelte';
 	import { toasts } from '$lib/stores/toasts.store';
 	import ProgressPasskey from '$lib/components/passkeys/ProgressPasskey.svelte';
+	import { AUTH_MAX_TIME_TO_LIVE_IN_MILLISECONDS } from '$lib/constants/constants';
 
 	let { progress: wizardProgress, onProgress: wizardOnProgress }: PasskeyProps = $props();
 
@@ -51,7 +52,8 @@
 									displayName: inputText
 								}
 							}
-						})
+						}),
+						maxTimeToLiveInMilliseconds: AUTH_MAX_TIME_TO_LIVE_IN_MILLISECONDS
 					}
 				}
 			});
