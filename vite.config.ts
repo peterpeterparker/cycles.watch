@@ -3,24 +3,17 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { readFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { defineConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 const file = fileURLToPath(new URL('package.json', import.meta.url));
 const json = readFileSync(file, 'utf8');
 const { version } = JSON.parse(json);
 
-/** @type {import('vite').UserConfig} */
-const config = {
+export default defineConfig({
 	plugins: [sveltekit(), nodePolyfills(), juno()],
 	define: {
 		VITE_APP_VERSION: JSON.stringify(version)
-	},
-	css: {
-		preprocessorOptions: {
-			scss: {
-				api: 'modern-compiler'
-			}
-		}
 	},
 	build: {
 		rollupOptions: {
@@ -46,6 +39,4 @@ const config = {
 	server: {
 		port: 5174
 	}
-};
-
-export default config;
+});
