@@ -17,10 +17,6 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Update npm
-        shell: bash
-        run: npm i -g npm
-
       - name: Install Dependencies
         run: npm ci
 
