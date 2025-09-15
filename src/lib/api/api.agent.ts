@@ -1,7 +1,7 @@
 import { CONTAINER } from '$lib/constants/constants';
 import { nonNullish } from '$lib/utils/utils';
 import type { Identity } from '@dfinity/agent';
-import { HttpAgent } from '@dfinity/agent/lib/cjs';
+import { HttpAgent } from '@dfinity/agent';
 
 // TODO: agent should be cached per principal / user id for best performance
 export const createAgent = async ({ identity }: { identity?: Identity }): Promise<HttpAgent> => {
