@@ -5,7 +5,7 @@ import {
 	type ActorMethod,
 	type ActorSubclass,
 	type Identity
-} from '@dfinity/agent/lib/cjs/index';
+} from '@dfinity/agent';
 import type { IDL } from '@dfinity/candid';
 
 export const createActor = async <T = Record<string, ActorMethod>>({
