@@ -8,6 +8,7 @@
 	} from '@junobuild/core';
 	import { toasts } from '$lib/stores/toasts.store';
 	import ProgressPasskey from '$lib/components/passkeys/ProgressPasskey.svelte';
+	import { AUTH_MAX_TIME_TO_LIVE_IN_MILLISECONDS } from '$lib/constants/constants';
 
 	let { progress: wizardProgress, onProgress: wizardOnProgress }: PasskeyProps = $props();
 
@@ -26,7 +27,10 @@
 		try {
 			await signIn({
 				webauthn: {
-					options: { onProgress }
+					options: {
+						onProgress,
+						maxTimeToLiveInMilliseconds: AUTH_MAX_TIME_TO_LIVE_IN_MILLISECONDS
+					}
 				}
 			});
 		} catch (err: unknown) {
