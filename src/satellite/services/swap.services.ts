@@ -1,6 +1,6 @@
 import { type RequestData, type RequestDataSwap } from '$lib/types/datastore';
+import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import { jsonReplacer } from '@dfinity/utils';
-import type { Account } from '@icp-sdk/canisters/ledger/icrc/dist/candid/icrc_ledger';
 import type { Principal } from '@icp-sdk/core/principal';
 import type { OnSetDocContext } from '@junobuild/functions';
 import { id } from '@junobuild/functions/ic-cdk';

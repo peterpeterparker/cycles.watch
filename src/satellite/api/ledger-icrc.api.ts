@@ -1,9 +1,9 @@
-import { toNullable } from '@dfinity/utils';
 import type {
 	Account,
 	TransferFromArgs as TransferFromArgsType,
 	TransferFromResult as TransferFromResultType
-} from '@icp-sdk/canisters/ledger/icrc/dist/candid/icrc_ledger';
+} from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
+import { toNullable } from '@dfinity/utils';
 import { IDL } from '@icp-sdk/core/candid';
 import { Principal } from '@icp-sdk/core/principal';
 import { call } from '@junobuild/functions/ic-cdk';

@@ -1,9 +1,9 @@
+import type { TransferResult as TransferResultType } from '@dfinity/ledger-icp/dist/candid/ledger';
 import {
 	AccountIdentifier as AccountIdentifierJs,
 	type SubAccount as SubAccountType,
 	toTransferRawRequest
 } from '@icp-sdk/canisters/ledger/icp';
-import type { TransferResult as TransferResultType } from '@icp-sdk/canisters/ledger/icp/dist/candid/ledger';
 import { IDL } from '@icp-sdk/core/candid';
 import { Principal } from '@icp-sdk/core/principal';
 import { call } from '@junobuild/functions/ic-cdk';

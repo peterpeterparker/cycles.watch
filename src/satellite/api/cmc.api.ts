@@ -1,7 +1,7 @@
 import type {
 	NotifyTopUpArg as NotifyTopUpArgType,
 	NotifyTopUpResult as NotifyTopUpResultType
-} from '@icp-sdk/canisters/cmc/dist/candid/cmc';
+} from '@dfinity/cmc/dist/candid/cmc';
 import { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 import { call } from '@junobuild/functions/ic-cdk';
