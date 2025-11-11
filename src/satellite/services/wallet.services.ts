@@ -1,7 +1,7 @@
-import { encodeIcrcAccount } from '@dfinity/ledger-icrc';
 import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
-import type { Principal } from '@dfinity/principal';
 import { fromNullable, jsonReplacer } from '@dfinity/utils';
+import { encodeIcrcAccount } from '@icp-sdk/canisters/ledger/icrc';
+import type { Principal } from '@icp-sdk/core/principal';
 import { icrcBalanceOf, icrcTransferFrom } from '../api/ledger-icrc.api';
 import { IC_TRANSACTION_FEE_ICP } from '../constants/functions.constants';
 

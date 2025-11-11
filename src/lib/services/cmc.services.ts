@@ -1,6 +1,6 @@
 import { createAgent } from '$lib/api/api.agent';
-import { CMCCanister } from '@dfinity/cmc';
-import { Principal } from '@dfinity/principal';
+import { CMCCanister } from '@icp-sdk/canisters/cmc';
+import { Principal } from '@icp-sdk/core/principal';
 
 const CMC_CANISTER_ID = import.meta.env.VITE_CMC_ID as string;
 

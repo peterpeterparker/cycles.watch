@@ -1,5 +1,5 @@
-import { Principal } from '@dfinity/principal';
 import { nonNullish } from '@dfinity/utils';
+import { Principal } from '@icp-sdk/core/principal';
 import { z } from 'zod';
 
 const PrincipalSchema = z.custom<Principal>((val) => val instanceof Principal, {

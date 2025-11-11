@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
-	import { type IcrcAccount as IcrcAccountLib } from '@dfinity/ledger-icrc';
-	import { Principal } from '@dfinity/principal';
+	import { type IcrcAccount as IcrcAccountLib } from '@icp-sdk/canisters/ledger/icrc';
+	import { Principal } from '@icp-sdk/core/principal';
 	import Button from '$lib/components/ui/Button.svelte';
 	import { isNullish } from '@dfinity/utils';
 	import WalletBalance from '$lib/components/wallets/WalletBalance.svelte';

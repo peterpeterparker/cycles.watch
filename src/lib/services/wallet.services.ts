@@ -3,12 +3,12 @@ import { IC_TRANSACTION_FEE_ICP, ICP_LEDGER_ID, SATELLITE_ID } from '$lib/consta
 import { toasts } from '$lib/stores/toasts.store';
 import type { RequestData } from '$lib/types/datastore';
 import { assertAndConvertAmountToICPToken } from '$lib/utils/token.utils';
-import { AnonymousIdentity } from '@dfinity/agent';
-import type { Icrc2ApproveRequest } from '@dfinity/ledger-icp';
-import { type IcrcAccount, IcrcLedgerCanister } from '@dfinity/ledger-icrc';
 import { IcpWallet } from '@dfinity/oisy-wallet-signer/icp-wallet';
-import { Principal } from '@dfinity/principal';
 import { isNullish, nowInBigIntNanoSeconds } from '@dfinity/utils';
+import type { Icrc2ApproveRequest } from '@icp-sdk/canisters/ledger/icp';
+import { type IcrcAccount, IcrcLedgerCanister } from '@icp-sdk/canisters/ledger/icrc';
+import { AnonymousIdentity } from '@icp-sdk/core/agent';
+import { Principal } from '@icp-sdk/core/principal';
 import { type Doc, setDoc } from '@junobuild/core';
 
 export const getBalance = async ({

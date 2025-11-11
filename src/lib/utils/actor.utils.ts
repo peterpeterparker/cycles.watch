@@ -5,8 +5,8 @@ import {
 	type ActorMethod,
 	type ActorSubclass,
 	type Identity
-} from '@dfinity/agent';
-import type { IDL } from '@dfinity/candid';
+} from '@icp-sdk/core/agent';
+import type { IDL } from '@icp-sdk/core/candid';
 
 export const createActor = async <T = Record<string, ActorMethod>>({
 	config,

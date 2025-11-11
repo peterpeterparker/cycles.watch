@@ -5,7 +5,7 @@
 	import { onDestroy } from 'svelte';
 	import { isNullish } from '$lib/utils/utils';
 	import WalletApprove from '$lib/components/wallets/WalletApprove.svelte';
-	import { Principal } from '@dfinity/principal';
+	import { Principal } from '@icp-sdk/core/principal';
 
 	interface Props {
 		targetCanisterId: Principal;

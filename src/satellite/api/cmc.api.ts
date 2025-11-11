@@ -1,9 +1,9 @@
-import { IDL } from '@dfinity/candid';
 import type {
 	NotifyTopUpArg as NotifyTopUpArgType,
 	NotifyTopUpResult as NotifyTopUpResultType
 } from '@dfinity/cmc/dist/candid/cmc';
-import type { Principal } from '@dfinity/principal';
+import { IDL } from '@icp-sdk/core/candid';
+import type { Principal } from '@icp-sdk/core/principal';
 import { call } from '@junobuild/functions/ic-cdk';
 import { CMC_ID } from '../constants/functions.constants';
 
