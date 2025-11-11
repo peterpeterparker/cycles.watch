@@ -1,6 +1,6 @@
-import { SubAccount } from '@dfinity/ledger-icp';
-import type { Principal } from '@dfinity/principal';
 import { jsonReplacer } from '@dfinity/utils';
+import { SubAccount } from '@icp-sdk/canisters/ledger/icp';
+import type { Principal } from '@icp-sdk/core/principal';
 import { cmcNotifyTopUp } from '../api/cmc.api';
 import { icpTransfer } from '../api/ledger-icp.api';
 import { CMC_ID, IC_TRANSACTION_FEE_ICP } from '../constants/functions.constants';

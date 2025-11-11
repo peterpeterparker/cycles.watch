@@ -3,7 +3,7 @@
 	import IconPublish from '$lib/components/icons/IconPublish.svelte';
 	import type { Canister } from '$lib/types/canister';
 	import Wallet from '$lib/components/wallets/Wallet.svelte';
-	import { Principal } from '@dfinity/principal';
+	import { Principal } from '@icp-sdk/core/principal';
 
 	interface Props {
 		canister: Canister;

@@ -1,7 +1,7 @@
 import { createAgent } from '$lib/api/api.agent';
-import type { Identity } from '@dfinity/agent';
-import { ICManagementCanister } from '@dfinity/ic-management';
-import { Principal } from '@dfinity/principal';
+import { ICManagementCanister } from '@icp-sdk/canisters/ic-management';
+import type { Identity } from '@icp-sdk/core/agent';
+import { Principal } from '@icp-sdk/core/principal';
 import type { CanisterInfo } from '../types/services';
 import { toStatus } from '../utils/canister.utils';
 

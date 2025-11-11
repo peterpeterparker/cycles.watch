@@ -9,7 +9,7 @@ import type { CanisterInfo, SnsCanisterInfo } from '$lib/types/services';
 import type { Settings } from '$lib/types/settings';
 import { cyclesToICP, formatTCycles } from '$lib/utils/cycles.utils';
 import { isNullish } from '$lib/utils/utils';
-import type { Identity } from '@dfinity/agent';
+import type { Identity } from '@icp-sdk/core/agent';
 import { unsafeIdentity } from '@junobuild/core';
 
 onmessage = async ({ data: dataMsg }: MessageEvent<PostMessageSync<PostMessageDataRequest>>) => {

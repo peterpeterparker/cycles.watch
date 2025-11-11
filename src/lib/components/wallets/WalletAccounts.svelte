@@ -2,9 +2,9 @@
 	import type { IcrcAccount } from '@dfinity/oisy-wallet-signer';
 	import { base64ToUint8Array, nonNullish } from '@dfinity/utils';
 	import Value from '$lib/components/ui/Value.svelte';
-	import type { IcrcAccount as IcrcAccountLib } from '@dfinity/ledger-icrc';
-	import { Principal } from '@dfinity/principal';
-	import { encodeIcrcAccount } from '@dfinity/ledger-icrc';
+	import type { IcrcAccount as IcrcAccountLib } from '@icp-sdk/canisters/ledger/icrc';
+	import { Principal } from '@icp-sdk/core/principal';
+	import { encodeIcrcAccount } from '@icp-sdk/canisters/ledger/icrc';
 	import { shortenWithMiddleEllipsis } from '$lib/utils/format.utils';
 
 	interface Props {

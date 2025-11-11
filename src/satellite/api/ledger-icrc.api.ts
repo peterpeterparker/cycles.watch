@@ -1,11 +1,11 @@
-import { IDL } from '@dfinity/candid';
+import { toNullable } from '@dfinity/utils';
 import type {
 	Account,
 	TransferFromArgs as TransferFromArgsType,
 	TransferFromResult as TransferFromResultType
-} from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
-import { Principal } from '@dfinity/principal';
-import { toNullable } from '@dfinity/utils';
+} from '@icp-sdk/canisters/ledger/icrc/dist/candid/icrc_ledger';
+import { IDL } from '@icp-sdk/core/candid';
+import { Principal } from '@icp-sdk/core/principal';
 import { call } from '@junobuild/functions/ic-cdk';
 
 const SubAccount = IDL.Vec(IDL.Nat8);
