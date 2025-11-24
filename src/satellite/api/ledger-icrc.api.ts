@@ -1,68 +1,17 @@
-import type {
-	Account,
-	TransferFromArgs as TransferFromArgsType,
-	TransferFromResult as TransferFromResultType
-} from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import { toNullable } from '@dfinity/utils';
-import { IDL } from '@icp-sdk/core/candid';
 import { Principal } from '@icp-sdk/core/principal';
-import { call } from '@junobuild/functions/ic-cdk';
+import { IcrcLedgerCanister, type IcrcLedgerDid } from '@junobuild/functions/canisters/ledger/icrc';
 
-const SubAccount = IDL.Vec(IDL.Nat8);
-
-const Account = IDL.Record({
-	owner: IDL.Principal,
-	subaccount: IDL.Opt(SubAccount)
-});
-
-const Tokens = IDL.Nat;
-const Timestamp = IDL.Nat64;
-
-const TransferFromArgs = IDL.Record({
-	to: Account,
-	fee: IDL.Opt(Tokens),
-	spender_subaccount: IDL.Opt(SubAccount),
-	from: Account,
-	memo: IDL.Opt(IDL.Vec(IDL.Nat8)),
-	created_at_time: IDL.Opt(Timestamp),
-	amount: Tokens
-});
-
-const BlockIndex = IDL.Nat;
-
-const TransferFromError = IDL.Variant({
-	GenericError: IDL.Record({
-		message: IDL.Text,
-		error_code: IDL.Nat
-	}),
-	TemporarilyUnavailable: IDL.Null,
-	InsufficientAllowance: IDL.Record({ allowance: Tokens }),
-	BadBurn: IDL.Record({ min_burn_amount: Tokens }),
-	Duplicate: IDL.Record({ duplicate_of: BlockIndex }),
-	BadFee: IDL.Record({ expected_fee: Tokens }),
-	CreatedInFuture: IDL.Record({ ledger_time: Timestamp }),
-	TooOld: IDL.Null,
-	InsufficientFunds: IDL.Record({ balance: Tokens })
-});
-
-const TransferFromResult = IDL.Variant({
-	Ok: BlockIndex,
-	Err: TransferFromError
-});
-
-export const icrcBalanceOf = ({
+export const icrcBalanceOf = async ({
 	ledgerId,
 	account
 }: {
 	ledgerId: Principal;
-	account: Account;
-}): Promise<bigint> =>
-	call<bigint>({
-		canisterId: ledgerId,
-		method: 'icrc1_balance_of',
-		args: [[Account, account]],
-		result: Tokens
-	});
+	account: IcrcLedgerDid.Account;
+}): Promise<bigint> => {
+	const { icrc1BalanceOf } = new IcrcLedgerCanister({ canisterId: ledgerId });
+	return await icrc1BalanceOf({ account });
+};
 
 export const icrcTransferFrom = async ({
 	ledgerId,
@@ -72,12 +21,12 @@ export const icrcTransferFrom = async ({
 	fee
 }: {
 	ledgerId: Principal;
-	fromAccount: Account;
-	toAccount: Account;
+	fromAccount: IcrcLedgerDid.Account;
+	toAccount: IcrcLedgerDid.Account;
 	amount: bigint;
 	fee: bigint | undefined;
-}): Promise<TransferFromResultType> => {
-	const args: TransferFromArgsType = {
+}): Promise<IcrcLedgerDid.TransferFromResult> => {
+	const args: IcrcLedgerDid.TransferFromArgs = {
 		amount,
 		from: fromAccount,
 		to: toAccount,
@@ -87,10 +36,6 @@ export const icrcTransferFrom = async ({
 		spender_subaccount: toNullable()
 	};
 
-	return await call<TransferFromResultType>({
-		canisterId: ledgerId,
-		method: 'icrc2_transfer_from',
-		args: [[TransferFromArgs, args]],
-		result: TransferFromResult
-	});
+	const { icrc2TransferFrom } = new IcrcLedgerCanister({ canisterId: ledgerId });
+	return await icrc2TransferFrom({ args });
 };
