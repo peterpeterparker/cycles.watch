@@ -20,9 +20,9 @@ export const canisterStatus = async ({
 		agent
 	});
 
-	const { cycles, status, memory_size, memory_metrics } = await canisterStatus(
-		Principal.fromText(canisterId)
-	);
+	const { cycles, status, memory_size, memory_metrics } = await canisterStatus({
+		canisterId: Principal.fromText(canisterId)
+	});
 
 	return { cycles, status: toStatus(status), memory_size, memory_metrics, canisterId };
 };
