@@ -1,9 +1,45 @@
-import { defineConfig } from '@junobuild/config';
+import { type Collections, defineConfig } from '@junobuild/config';
+
+const collections: Collections = {
+	storage: [],
+	datastore: [
+		{
+			collection: 'bookkeeping',
+			memory: 'stable',
+			read: 'managed',
+			write: 'managed'
+		},
+		{
+			collection: 'request',
+			memory: 'stable',
+			read: 'managed',
+			write: 'managed'
+		},
+		{
+			collection: 'nns_canister_ids',
+			memory: 'heap',
+			read: 'managed',
+			write: 'managed'
+		},
+		{
+			collection: 'settings',
+			memory: 'heap',
+			read: 'managed',
+			write: 'managed'
+		},
+		{
+			collection: 'sns_canister_ids',
+			memory: 'heap',
+			read: 'managed',
+			write: 'managed'
+		}
+	]
+};
 
 export default defineConfig({
 	satellite: {
 		ids: {
-			development: 'uxrrr-q7777-77774-qaaaq-cai',
+			development: 'atbka-rp777-77775-aaaaq-cai',
 			production: 'ck4tp-3iaaa-aaaal-ab7da-cai'
 		},
 		source: 'build',
@@ -26,6 +62,7 @@ export default defineConfig({
 		],
 		assertions: {
 			heapMemory: 800_000_000n
-		}
+		},
+		collections
 	}
 });
