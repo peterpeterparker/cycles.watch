@@ -8,7 +8,7 @@ export const icrcBalanceOf = async ({
 }: {
 	ledgerId: Principal;
 	account: IcrcLedgerDid.Account;
-}): Promise<bigint> => {
+}): Promise<IcrcLedgerDid.Tokens> => {
 	const { icrc1BalanceOf } = new IcrcLedgerCanister({ canisterId: ledgerId });
 	return await icrc1BalanceOf({ account });
 };
