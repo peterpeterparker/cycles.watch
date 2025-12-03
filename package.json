@@ -18,7 +18,7 @@
 		"upgrade": "node /Users/daviddalbusco/projects/juno/cli/dist/index.js upgrade -ns -t s -s target/deploy/satellite.wasm.gz -m development"
 	},
 	"devDependencies": {
-		"@junobuild/config": "^2.6.0",
+		"@junobuild/config": "^2.7.0",
 		"@junobuild/vite-plugin": "^4.4.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.49.0",
@@ -45,8 +45,8 @@
 		"@dfinity/oisy-wallet-signer": "^3.0.0",
 		"@dfinity/utils": "^4.0.1",
 		"@icp-sdk/canisters": "^2.0.1",
-		"@junobuild/core": "^3.2.0",
-		"@junobuild/functions": "^0.5.0",
+		"@junobuild/core": "^3.3.0",
+		"@junobuild/functions": "^0.5.2",
 		"idb-keyval": "^6.2.2"
 	},
 	"overrides": {
