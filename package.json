@@ -18,6 +18,7 @@
 		"upgrade": "node /Users/daviddalbusco/projects/juno/cli/dist/index.js upgrade -ns -t s -s target/deploy/satellite.wasm.gz -m development"
 	},
 	"devDependencies": {
+		"@eslint/js": "^10.0.1",
 		"@junobuild/config": "^2.11.0",
 		"@junobuild/vite-plugin": "^4.7.0",
 		"@sveltejs/adapter-static": "^3.0.10",
