@@ -2,10 +2,13 @@
 	import { authStore } from '$lib/stores/auth.store';
 	import Copy from '$lib/components/ui/Copy.svelte';
 
-	export let bold = false;
+	interface Props {
+		bold?: boolean;
+	}
 
-	let principalId = '';
-	$: principalId = $authStore.user?.key ?? '';
+	let { bold = false }: Props = $props();
+
+	let principalId = $derived($authStore.user?.key ?? '');
 </script>
 
 <p>
