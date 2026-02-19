@@ -1,8 +1,8 @@
 import { type RequestData, type RequestDataSwap } from '$lib/types/datastore';
-import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import { jsonReplacer } from '@dfinity/utils';
 import type { Principal } from '@icp-sdk/core/principal';
 import type { OnSetDocContext } from '@junobuild/functions';
+import type { IcrcLedgerDid } from '@junobuild/functions/canisters/ledger/icrc';
 import { id } from '@junobuild/functions/ic-cdk';
 import { decodeDocData } from '@junobuild/functions/sdk';
 import { ICP_LEDGER_ID } from '../constants/functions.constants';
@@ -24,7 +24,7 @@ export const swapIcpToCycles = async ({ caller, data: contextData }: OnSetDocCon
 
 	const data = decodeDocData<RequestData>(contextData.data.after.data);
 
-	const fromAccount: Account = {
+	const fromAccount: IcrcLedgerDid.Account = {
 		owner: data.wallet_owner,
 		subaccount: []
 	};
@@ -83,7 +83,7 @@ export const swapIcpToCycles = async ({ caller, data: contextData }: OnSetDocCon
 type ExecuteSwapParams = {
 	targetCanisterId: Principal;
 	ledgerId: Principal;
-	fromAccount: Account;
+	fromAccount: IcrcLedgerDid.Account;
 	requestKey: string;
 } & RequestDataSwap &
 	Pick<OnSetDocContext, 'caller'>;
@@ -120,7 +120,7 @@ const tryExecuteSwap = async ({
 	// Transfer from wallet to satellite.
 	// ###############
 
-	const toAccount: Account = {
+	const toAccount: IcrcLedgerDid.Account = {
 		owner: id(),
 		subaccount: []
 	};

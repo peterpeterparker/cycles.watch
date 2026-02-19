@@ -1,5 +1,5 @@
 import { createAgent } from '$lib/api/api.agent';
-import { CMCCanister } from '@icp-sdk/canisters/cmc';
+import { CmcCanister } from '@icp-sdk/canisters/cmc';
 import { Principal } from '@icp-sdk/core/principal';
 
 const CMC_CANISTER_ID = import.meta.env.VITE_CMC_ID as string;
@@ -9,7 +9,7 @@ const NUMBER_XDR_PER_ONE_ICP = 10_000;
 export const icpXdrConversionRate = async (): Promise<bigint> => {
 	const agent = await createAgent({});
 
-	const { getIcpToCyclesConversionRate } = CMCCanister.create({
+	const { getIcpToCyclesConversionRate } = CmcCanister.create({
 		agent,
 		canisterId: Principal.fromText(CMC_CANISTER_ID)
 	});

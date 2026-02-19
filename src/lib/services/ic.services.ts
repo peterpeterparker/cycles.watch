@@ -1,5 +1,5 @@
 import { createAgent } from '$lib/api/api.agent';
-import { ICManagementCanister } from '@icp-sdk/canisters/ic-management';
+import { IcManagementCanister } from '@icp-sdk/canisters/ic-management';
 import type { Identity } from '@icp-sdk/core/agent';
 import { Principal } from '@icp-sdk/core/principal';
 import type { CanisterInfo } from '../types/services';
@@ -16,7 +16,7 @@ export const canisterStatus = async ({
 		identity
 	});
 
-	const { canisterStatus } = ICManagementCanister.create({
+	const { canisterStatus } = IcManagementCanister.create({
 		agent
 	});
 

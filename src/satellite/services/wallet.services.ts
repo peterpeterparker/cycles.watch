@@ -1,7 +1,7 @@
-import type { Account } from '@dfinity/ledger-icrc/dist/candid/icrc_ledger';
 import { fromNullable, jsonReplacer } from '@dfinity/utils';
 import { encodeIcrcAccount } from '@icp-sdk/canisters/ledger/icrc';
 import type { Principal } from '@icp-sdk/core/principal';
+import type { IcrcLedgerDid } from '@junobuild/functions/canisters/ledger/icrc';
 import { icrcBalanceOf, icrcTransferFrom } from '../api/ledger-icrc.api';
 import { IC_TRANSACTION_FEE_ICP } from '../constants/functions.constants';
 
@@ -12,7 +12,7 @@ export const assertWalletBalance = async ({
 	fee
 }: {
 	ledgerId: Principal;
-	fromAccount: Account;
+	fromAccount: IcrcLedgerDid.Account;
 	amount: bigint;
 	fee: bigint | undefined;
 }) => {
@@ -37,8 +37,8 @@ export const assertWalletBalance = async ({
 
 export const transferIcpFromWallet = async (params: {
 	ledgerId: Principal;
-	fromAccount: Account;
-	toAccount: Account;
+	fromAccount: IcrcLedgerDid.Account;
+	toAccount: IcrcLedgerDid.Account;
 	amount: bigint;
 	fee: bigint | undefined;
 }): Promise<bigint> => {
