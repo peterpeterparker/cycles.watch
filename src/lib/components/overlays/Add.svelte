@@ -3,14 +3,14 @@
 	import { fly } from 'svelte/transition';
 	import Modal from '../ui/Modal.svelte';
 	import CanisterType from '../canisters/CanisterType.svelte';
-	import { authSignedInStore } from '../../stores/auth.store';
+	import { authSignedInStore } from '$lib/stores/auth.store';
 	import CanisterSignIn from '../canisters/CanisterSignIn.svelte';
 	import NnsCanisterId from '../canisters/NnsCanisterId.svelte';
 	import SnsCanisterId from '../canisters/SnsCanisterId.svelte';
 
-	let open = false;
+	let open = $state(false);
 
-	let step: 'type' | 'auth' | 'controller' | 'canister_id' | 'canister_root_id' = 'type';
+	let step = $state<'type' | 'auth' | 'controller' | 'canister_id' | 'canister_root_id'>('type');
 
 	const onClose = () => {
 		open = false;
@@ -28,8 +28,7 @@
 		}
 	};
 
-	let back = false;
-	$: back = step !== 'type';
+	let back = $derived(step !== 'type');
 </script>
 
 <svelte:window onopenAddCanister={() => (open = true)} />
