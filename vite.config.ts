@@ -4,14 +4,13 @@ import { readFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 const file = fileURLToPath(new URL('package.json', import.meta.url));
 const json = readFileSync(file, 'utf8');
 const { version } = JSON.parse(json);
 
 export default defineConfig({
-	plugins: [sveltekit(), nodePolyfills(), juno()],
+	plugins: [sveltekit(), juno()],
 	define: {
 		VITE_APP_VERSION: JSON.stringify(version)
 	},
