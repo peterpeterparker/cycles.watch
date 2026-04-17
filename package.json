@@ -1,9 +1,9 @@
 {
 	"name": "cycles-watch",
-	"version": "2.6.3",
+	"version": "2.7.0",
 	"juno": {
 		"functions": {
-			"version": "0.1.10"
+			"version": "0.2.0"
 		}
 	},
 	"scripts": {
