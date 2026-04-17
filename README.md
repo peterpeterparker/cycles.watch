@@ -48,7 +48,7 @@ Start local development
 In one terminal, start the Juno emulator:
 
 ```bash
-juno dev start
+juno emulator start
 ```
 
 In another terminal, start the frontend:
