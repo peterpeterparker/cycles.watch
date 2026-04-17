@@ -39,7 +39,7 @@ const collections: Collections = {
 export default defineConfig({
 	satellite: {
 		ids: {
-			development: 'atbka-rp777-77775-aaaaq-cai',
+			development: 'auamu-4x777-77775-aaaaa-cai',
 			production: 'ck4tp-3iaaa-aaaal-ab7da-cai'
 		},
 		hosting: {
