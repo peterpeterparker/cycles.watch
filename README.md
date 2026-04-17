@@ -17,8 +17,8 @@ It also offers an **ICP-to-cycles swap** feature to top up your canister using a
 
 The dapp is built with [Juno](https://juno.build) 👨‍💻.
 
-[!NOTE]
-Notifications are shown only while the app is open — even if it's running in the background. These are not push notifications.
+> [!NOTE]  
+> Notifications are shown only while the app is open — even if it's running in the background. These are not push notifications.
 
 ## Hacking
 
