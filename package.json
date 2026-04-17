@@ -47,7 +47,7 @@
 		"@dfinity/utils": "^4.2.1",
 		"@icp-sdk/canisters": "^3.5.2",
 		"@junobuild/core": "^5.4.0",
-		"@junobuild/functions": "^0.8.4",
+		"@junobuild/functions": "^0.9.0",
 		"idb-keyval": "^6.2.2"
 	},
 	"overrides": {

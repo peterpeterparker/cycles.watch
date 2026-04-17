@@ -1,7 +1,7 @@
-import { fromNullable, jsonReplacer } from '@dfinity/utils';
+import { jsonReplacer } from '@dfinity/utils';
 import { encodeIcrcAccount } from '@icp-sdk/canisters/ledger/icrc';
 import type { Principal } from '@icp-sdk/core/principal';
-import type { IcrcLedgerDid } from '@junobuild/functions/canisters/ledger/icrc';
+import type { Account } from '@junobuild/functions/canisters/ledger/icrc';
 import { icrcBalanceOf, icrcTransferFrom } from '../api/ledger-icrc.api';
 import { IC_TRANSACTION_FEE_ICP } from '../constants/functions.constants';
 
@@ -12,7 +12,7 @@ export const assertWalletBalance = async ({
 	fee
 }: {
 	ledgerId: Principal;
-	fromAccount: IcrcLedgerDid.Account;
+	fromAccount: Account;
 	amount: bigint;
 	fee: bigint | undefined;
 }) => {
@@ -24,10 +24,7 @@ export const assertWalletBalance = async ({
 	const total = amount + (fee ?? IC_TRANSACTION_FEE_ICP);
 
 	if (balance < total) {
-		const encodedAccountText = encodeIcrcAccount({
-			owner: fromAccount.owner,
-			subaccount: fromNullable(fromAccount.subaccount)
-		});
+		const encodedAccountText = encodeIcrcAccount(fromAccount);
 
 		throw new Error(
 			`Balance ${balance} is smaller than ${total} for account ${encodedAccountText}.`
@@ -37,8 +34,8 @@ export const assertWalletBalance = async ({
 
 export const transferIcpFromWallet = async (params: {
 	ledgerId: Principal;
-	fromAccount: IcrcLedgerDid.Account;
-	toAccount: IcrcLedgerDid.Account;
+	fromAccount: Account;
+	toAccount: Account;
 	amount: bigint;
 	fee: bigint | undefined;
 }): Promise<bigint> => {

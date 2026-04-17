@@ -1,5 +1,9 @@
 import type { Principal } from '@icp-sdk/core/principal';
-import { type CmcDid, CMCCanister } from '@junobuild/functions/canisters/cmc';
+import {
+	CMCCanister,
+	type NotifyTopUpArgs,
+	type NotifyTopUpResult
+} from '@junobuild/functions/canisters/cmc';
 
 export const cmcNotifyTopUp = async ({
 	blockIndex,
@@ -7,8 +11,8 @@ export const cmcNotifyTopUp = async ({
 }: {
 	blockIndex: bigint;
 	targetCanisterId: Principal;
-}): Promise<CmcDid.NotifyTopUpResult> => {
-	const args: CmcDid.NotifyTopUpArg = {
+}): Promise<NotifyTopUpResult> => {
+	const args: NotifyTopUpArgs = {
 		block_index: blockIndex,
 		canister_id: targetCanisterId
 	};
